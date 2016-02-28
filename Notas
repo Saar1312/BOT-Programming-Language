@@ -1,0 +1,6 @@
+- Arreglar las impresiones que faltan 
+- Hacer un buen testing de todo
+- Crear clase para la tabla de simbolos
+- Hacer que imprima el primer error sintactico
+- Debe imprimir el primer error sintactico o de contexto que consiga
+- Se puede volver a dividir en la gramatica  las expresiones booleanas de las aritmeticas para que de error

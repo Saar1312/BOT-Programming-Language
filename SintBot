@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+#---------------------------------------------------------------------
+# Universidad Simón Bolívar                                                          
+#    Dpto. de Computación y Tecnología de la Información                                
+#    CI3725 - Traductores e Interpretadores                                                                                 	                                 
+#                                                                                       
+#    Integrantes:                                                                       
+#        Sergio Teran, 11-11020                                                       
+#        Samuel Arleo R, 10-10969                             
+#---------------------------------------------------------------------
+
+from Parser import *
+
+# Creando una instancia de clase Tokenizer
+tokenizer = Tokenizer.Tokenizer()
+
+# Cargando archivo
+if len(sys.argv) > 1:
+	tokenizer.data = tokenizer.cargarArchivo(sys.argv[1])
+	
+	# Construyendo analizador lexicografico dentro de la clase
+	tokenizer.build()
+
+	# Borrando los tokens innecesarios para el parser
+	tokens = tokenizer.tokens
+	tokens.remove('TkCommentL')
+	tokens.remove('TkCommentC')
+	tokens.remove('TkMe')
+
+	# Construyendo el parser con la gramatica definida en Parser.py
+	parser = yacc.yacc(errorlog = yacc.NullLogger())
+
+	# result es la raiz del arbol creado a partir de la gramatica de atributos
+	result = parser.parse(tokenizer.data)
+
+	# Si hay un error de sintaxis y el arbol no se logra crear correctamente, result
+	# sera None y dara error al aplicar imprimirArbol()
+	if result:
+		result.imprimirArbol(0)
+	else:
+		print("No ha podido generarse el arbol sintactico")
