@@ -89,7 +89,7 @@ def p_create(p):
 	'CREATE : TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE'
 	
 	if p[8] != None: # Si la produccion DECLARE se volvio lambda, deberia haber 
-					 #almacenado
+					 # almacenado
 		p[0] = instContr('INSTRUCCIONES_ROBOT',\
 			   [instContr('DECLARACION_ROBOT',[p[2],p[4],p[5],p[6],p[8],p[9]])])
 	else:
@@ -193,6 +193,7 @@ def p_exp(p):
 		   | IDENT
 		   | LITERAL_BOOL
 		   | TkParAbre EXP TkParCierra
+		   | TkNegacion EXP
 		   | TkResta EXP %prec TkNegativo
 		   | EXP TkMenor EXP
 		   | EXP TkMenorIgual EXP
@@ -483,7 +484,5 @@ def p_inst_controlador_a(p):
 # Regla para errores de sintaxis
 #-------------------------------------------------------------------------------
 def p_error(p):
-	global errorSint
-	if p and errorSint:
-		print("Error de sintaxis en la linea %d del archivo %s"%(p.lineno,sys.argv[1]))
-		errorSint = False
+	print("Error de sintaxis en la linea %d del archivo %s"%(p.lineno,sys.argv[1]))
+	exit()
