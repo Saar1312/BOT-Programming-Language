@@ -88,7 +88,7 @@ class arbol(object):
 		
 		# Operaciones logicas	
 		elif self.type == 'DISYUNCION':
-			print('’Dinyuncion’')
+			print('’Disyuncion’')
 		elif self.type == 'CONJUNCION':
 			print('’Conjuncion’')
 		
