@@ -12,7 +12,7 @@
 from Parser import *
 
 # Creando una instancia de clase Tokenizer
-tokenizer = Tokenizer.Tokenizer()
+tokenizer = Tokenizer()
 
 # Cargando archivo
 if len(sys.argv) > 1:

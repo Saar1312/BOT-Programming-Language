@@ -4,7 +4,7 @@
 
 class arbol(object):
 	def __init__(self,tipo,hijos):
-		self.type = tipo 				# Almacena el tipo de instruccion en el arbol
+		self.nombre = tipo 				# Almacena el tipo de instruccion en el arbol
 		if hijos:						
 			self.hijos = hijos			# Almacena la lista de instruccion que 
 										# componen a la expresion/instruccion
@@ -18,12 +18,12 @@ class arbol(object):
 	#---------------------------------------------------------------------------
 	def Es_bin_relacional(self):		
 		binario_rel = False
-		if self.type == "MENOR_QUE"\
-		or self.type == "MENOR_IGUAL"\
-		or self.type == "MAYOR"\
-		or self.type == "MAYOR_IGUAL"\
-		or self.type == "IGUALDAD"\
-		or self.type == "DISTINTO":
+		if self.nombre == "MENOR_QUE"\
+		or self.nombre == "MENOR_IGUAL"\
+		or self.nombre == "MAYOR"\
+		or self.nombre == "MAYOR_IGUAL"\
+		or self.nombre == "IGUALDAD"\
+		or self.nombre == "DISTINTO":
 			binario_rel = True
 		return binario_rel
 	
@@ -34,8 +34,8 @@ class arbol(object):
 	#---------------------------------------------------------------------------
 	def Es_bin_logica(self):
 		binario_log = False
-		if self.type == "CONJUNCION"\
-		or self.type == "DISYUNCION":
+		if self.nombre == "CONJUNCION"\
+		or self.nombre == "DISYUNCION":
 			binario_log = True
 		return binario_log
 	
@@ -46,11 +46,11 @@ class arbol(object):
 	#---------------------------------------------------------------------------
 	def Es_bin_aritmetica(self):
 		binario_ari = False
-		if self.type == "SUMA"\
-		or self.type == "RESTA"\
-		or self.type == "DIVISION"\
-		or self.type == "MULTIPLICACION"\
-		or self.type == "MODULO":
+		if self.nombre == "SUMA"\
+		or self.nombre == "RESTA"\
+		or self.nombre == "DIVISION"\
+		or self.nombre == "MULTIPLICACION"\
+		or self.nombre == "MODULO":
 			binario_ari = True
 		return binario_ari
 
@@ -61,8 +61,8 @@ class arbol(object):
 	#---------------------------------------------------------------------------
 	def es_unario(self):
 		unario = False
-		if self.type == "NEGACION"\
-		or self.type == "NEGATIVO":
+		if self.nombre == "NEGACION"\
+		or self.nombre == "NEGATIVO":
 			unario = True
 		return unario
 
@@ -73,35 +73,35 @@ class arbol(object):
 	#---------------------------------------------------------------------------
 	def imprimir_tipo_OP(self):
 		# Operaciones relacionales
-		if self.type == "MENOR_QUE":
+		if self.nombre == "MENOR_QUE":
 			print("'Menor que'")
-		elif self.type == "MENOR_IGUAL":
+		elif self.nombre == "MENOR_IGUAL":
 			print("'Menor o igual que'")
-		elif self.type == "MAYOR":
+		elif self.nombre == "MAYOR":
 			print("'Mayor que'")
-		elif self.type == "MAYOR_IGUAL":
+		elif self.nombre == "MAYOR_IGUAL":
 			print("'Mayor o igual que'")
-		elif self.type == "IGUALDAD":
+		elif self.nombre == "IGUALDAD":
 			print("'Igual a'")
-		elif self.type == "DISTINTO":
+		elif self.nombre == "DISTINTO":
 			print("'Distinto a'")
 		
 		# Operaciones logicas	
-		elif self.type == "DISYUNCION":
+		elif self.nombre == "DISYUNCION":
 			print("'Disyuncion'")
-		elif self.type == "CONJUNCION":
+		elif self.nombre == "CONJUNCION":
 			print("'Conjuncion'")
 		
 		# Operaciones aritmeticas
-		elif self.type == "SUMA":
+		elif self.nombre == "SUMA":
 			print("'Suma'")
-		elif self.type == "RESTA":
+		elif self.nombre == "RESTA":
 			print("'Resta'")
-		elif self.type == "MULTIPLICACION":
+		elif self.nombre == "MULTIPLICACION":
 			print("'Multiplicacion'")
-		elif self.type == "DIVISION":
+		elif self.nombre == "DIVISION":
 			print("'Division'")
-		elif self.type == "MODULO":
+		elif self.nombre == "MODULO":
 			print("'Modulo'")
 
 	#---------------------------------------------------------------------------
@@ -131,7 +131,7 @@ class arbol(object):
 	def Imprimir_variables_OP(self,nivel):
 		for h in self.hijos:
 			if self.es_arbol(h):
-				if h.type == "- var: ":
+				if h.nombre == "- var: ":
 					for i in h.hijos:
 						if not h.es_arbol(i): 
 							print(i)
@@ -143,16 +143,16 @@ class arbol(object):
 	def Imprimir_variables(self,nivel):
 		for h in self.hijos:
 			if self.es_arbol(h):
-				if h.type == "- var: ":
-					print("\t"*(nivel+1)+str(h.type),end="")
+				if h.nombre == "- var: ":
+					print("\t"*(nivel+1)+str(h.nombre),end="")
 					for i in h.hijos:
 						print(i)
 				
-				elif h.type == "- lis_var: ":
+				elif h.nombre == "- lis_var: ":
 					h.Imprimir_variables(nivel)
 				
-				elif h.type == "TRUE" or h.type == "FALSE":
-					print(h.type)
+				elif h.nombre == "TRUE" or h.nombre == "FALSE":
+					print(h.nombre)
 			else:
 				print("",h)
 
@@ -175,27 +175,27 @@ class arbol(object):
 	# Imprime la estructura de arbol
 	#---------------------------------------------------------------------------
 	def imprimirArbol(self,nivel,imprimir=None,secuenciado=False):
-		if self.type == "INSTRUCCIONES_ROBOT": 		# Si el nodo es una intruccion
+		if self.nombre == "INSTRUCCIONES_ROBOT": 		# Si el nodo es una intruccion
 			imprimir = False 						# robot se ignora
-		elif self.type == "EXECUTE":				# Si el nodo es del tipo execute 
+		elif self.nombre == "EXECUTE":				# Si el nodo es del tipo execute 
 			imprimir = True 						# comienza a imprimir
 		
 		if imprimir:
 			# Si es EXECUTE no lo imprime
-			if self.type == "EXECUTE":
+			if self.nombre == "EXECUTE":
 				 pass
 			# Si es un literal booleano imprime su valor
-			elif self.type == "TRUE" or self.type == "FALSE":
-				print("",self.type)
+			elif self.nombre == "TRUE" or self.nombre == "FALSE":
+				print("",self.nombre)
 			# Si es ACTIVATE:
 			# > imprime el tipo y la lista de variables que se activen
 			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
 			#   considera una secuenciacion y si no se ha impreso aun, 
 			#   imprime SECUENCIACION
-			elif self.type == "ACTIVATE":
+			elif self.nombre == "ACTIVATE":
 				for i in self.hijos:					
 					if  (self.es_arbol(i))\
-					and (i.type == "INST_CONT")\
+					and (i.nombre == "INST_CONT")\
 					and (not (secuenciado)):		
 						print("\t"*(nivel-1)+"SECUENCIACION")
 						secuenciado = True
@@ -206,10 +206,10 @@ class arbol(object):
 			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
 			#   considera una secuenciacion y si no se ha impreso aun, 
 			#   imprime SECUENCIACION
-			elif self.type == "DEACTIVATE":
+			elif self.nombre == "DEACTIVATE":
 				for i in self.hijos:				
 					if  ( self.es_arbol(i) )\
-					and ( i.type == "INST_CONT" )\
+					and ( i.nombre == "INST_CONT" )\
 					and ( not (secuenciado) ):		
 						print("\t"*(nivel-1)+"SECUENCIACION")
 						secuenciado = True
@@ -221,10 +221,10 @@ class arbol(object):
 			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
 			#   considera una secuenciacion y si no se ha impreso aun, 
 			#   imprime SECUENCIACION
-			elif self.type == "ADVANCE":
+			elif self.nombre == "ADVANCE":
 				for i in self.hijos:
 					if  ( self.es_arbol(i) )\
-					and ( i.type == "INST_CONT" )\
+					and ( i.nombre == "INST_CONT" )\
 					and ( not (secuenciado) ):
 						print("\t"*(nivel-1)+"SECUENCIACION")
 						secuenciado = True
@@ -236,14 +236,14 @@ class arbol(object):
 			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
 			#   considera una secuenciacion y si no se ha impreso aun, 
 			#   imprime SECUENCIACION			
-			elif self.type == "CONDICIONAL":
+			elif self.nombre == "CONDICIONAL":
 				for i in self.hijos:
 					if  ( self.es_arbol(i) )\
-					and ( i.type == "INST_CONT" )\
+					and ( i.nombre == "INST_CONT" )\
 					and ( not (secuenciado) ):
 						print("\t"*(nivel-1)+"SECUENCIACION")
 						secuenciado = True
-				print("\t"*nivel+self.type)
+				print("\t"*nivel+self.nombre)
 				print("\t"*(nivel+1)+"- guardia:",end="")
 			# Si es CICLO:
 			# > imprime el tipo y "- guardia: " esperando que lo proxima iteracion 
@@ -251,19 +251,19 @@ class arbol(object):
 			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
 			#   considera una secuenciacion y si no se ha impreso aun, 
 			#   imprime SECUENCIACION				
-			elif self.type == "CICLO":
+			elif self.nombre == "CICLO":
 				for i in self.hijos:
 					if  ( self.es_arbol(i) )\
-					and ( i.type == "INST_CONT" )\
+					and ( i.nombre == "INST_CONT" )\
 					and ( not (secuenciado) ):
 						print("\t"*(nivel-1)+"SECUENCIACION")
 						secuenciado = True
-				print("\t"*nivel+self.type)
+				print("\t"*nivel+self.nombre)
 				print("\t"*(nivel+1)+"- guardia:",end="")
 
 			# Si la expresion tiene un operador unario primero imprime el operador
 			elif self.es_unario():
-				if self.type == "NEGACION":
+				if self.nombre == "NEGACION":
 					print("~",end="")
 				else:
 					print("-",end="")
@@ -284,10 +284,10 @@ class arbol(object):
 				imprimir = False
 				nivel = self.Imprimir_operacion(nivel,imprimir)
 			# Si es un entero booleano expresion o caracter imprime la variable
-			elif self.type == "ENTERO"\
-			or   self.type == "BOOLEANO"\
-			or   self.type == "EXPRESION"\
-			or   self.type == "CARACTER"\
+			elif self.nombre == "ENTERO"\
+			or   self.nombre == "BOOLEANO"\
+			or   self.nombre == "EXPRESION"\
+			or   self.nombre == "CARACTER"\
 			or 	 type(self) == chr:
 				imprimir = False				
 				self.Imprimir_variables(nivel)
@@ -303,15 +303,21 @@ class arbol(object):
 
 # Expresiones
 class expresion(arbol):
-	def __init__(self,type,hijos):
-		arbol.__init__(self,type,hijos)
+	def __init__(self,nombre,hijos,tipo):
+		arbol.__init__(self,nombre,hijos)
+		self.tipo = tipo
 
 # INstrouccion del robot
 class instContr(arbol):
-	def __init__(self,type,hijos):
-		arbol.__init__(self,type,hijos)
+	def __init__(self,nombre,hijos):
+		arbol.__init__(self,nombre,hijos)
 
 # Controlador
 class instRobot(arbol):
-	def __init__(self,type,hijos):
-		arbol.__init__(self,type,hijos)
+	def __init__(self,nombre,hijos):
+		arbol.__init__(self,nombre,hijos)
+
+class defTipo(arbol):
+	def __init__(self,nombre,hijos,tipo):
+		arbol.__init__(self,nombre,hijos)
+		self.tipo = tipo

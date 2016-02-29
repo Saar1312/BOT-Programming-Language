@@ -4,8 +4,9 @@
 
 import ply.lex as lex
 import ply.yacc as yacc
-import Tokenizer
+from Tokenizer import *
 from Arbol import *
+from Tabla import *
 import sys
 
 #-------------------------------------------------------------------------------
@@ -41,6 +42,12 @@ import sys
 # Definiendo la precedencia de operadores. La precedencia fue especificada con 
 # mayor precedencia para los operadores al final de la lista y la misma para 
 # aquellos en la misma línea.
+
+# Declarando tabla de simbolos globalmente
+Tabla = Tabla(None):
+pointer = Tabla
+
+
 errorSint = True
 
 precedence = (
@@ -68,7 +75,7 @@ def p_inicio(p):
 	'''INICIO : CREATE
 			  | EXECUTE
 	'''
-	p[0] = arbol('INICIO',[p[1]]) 
+	p[0] = arbol('INICIO',[p[1]])
 
 #-------------------------------------------------------------------------------
 # Esta produccion genera la seccion de las instrucciones de robot, la cual esta
@@ -90,6 +97,7 @@ def p_create(p):
 	
 	if p[8] != None: # Si la produccion DECLARE se volvio lambda, deberia haber 
 					 # almacenado
+		Tabla.agregar(p[4].hijos[0],None,p[2].tipo) #Hacer que el arbol que sale de TYPE almacene el tipo 
 		p[0] = instContr('INSTRUCCIONES_ROBOT',\
 			   [instContr('DECLARACION_ROBOT',[p[2],p[4],p[5],p[6],p[8],p[9]])])
 	else:
@@ -121,13 +129,12 @@ def p_tipo(p):
 			| TkBool
 			| TkChar
 	'''
-	
 	if type(p[1]) == int:
-		p[0] = instContr('TIPO_ENTERO',[])
+		p[0] = defTipo('TIPO_ENTERO',[],'int')
 	elif type(p[1]) == bool:
-		p[0] = instContr('TIPO_BOOL',[])
+		p[0] = defTipo('TIPO_BOOL',[]'bool')
 	elif type(p[1]) == str:
-		p[0] = instContr('TIPO_CHAR',[])
+		p[0] = defTipo('TIPO_CHAR',[]'char')
 
 #-------------------------------------------------------------------------------
 # Permite generar una lista de identificadores.
@@ -210,46 +217,65 @@ def p_exp(p):
 	# operador, p[0] = 4 elementos en el arreglo)
 
 	if len(p) == 4:
-		if p[2] == '/\\':
-			p[0] = expresion('CONJUNCION',[p[1],p[3]])
-		elif p[2] == '\/':
-			p[0] = expresion('DISYUNCION',[p[1],p[3]])
-		elif p[2] == '=':
-			p[0] = expresion('IGUALDAD',[p[1],p[3]])
-		elif p[2] == '/=':
-			p[0] = expresion('DISTINTO',[p[1],p[3]])
-		elif (p[1] == '(') and (p[3] == ')'):
-			p[0] = expresion('PARENTESIS',[p[2]])
-		elif p[2] == '<':
-			p[0] = expresion('MENOR_QUE',[p[1],p[3]])
-		elif p[2] == '<=':
-			p[0] = expresion('MENOR_IGUAL',[p[1],p[3]])
-		elif p[2] == '>':
-			p[0] = expresion('MAYOR',[p[1],p[3]])
-		elif p[2] == '>=':
-			p[0] = expresion('MAYOR_IGUAL',[p[1],p[3]])
-		elif p[2] == '+':
-			p[0] = expresion('SUMA',[p[1],p[3]])
-		elif p[2] == '-':
-			p[0] = expresion('RESTA',[p[1],p[3]])
-		elif p[2] == '*':
-			p[0] = expresion('MULTIPLICACION',[p[1],p[3]])
-		elif p[2] == '/':
-			p[0] = expresion('DIVISION',[p[1],p[3]])
-		elif p[2] == '%':
-			p[0] = expresion('MODULO',[p[1],p[3]])
-	elif len(p) == 3:
-		if p[1] == '~':
-			p[0] = expresion('NEGACION',[p[2]])
-		elif p[1] == '-':
-			p[0] = expresion('NEGATIVO',[p[2]])
-	elif len(p) == 2:
-		if type(p[1]) == int: 
-			p[0] = expresion('ENTERO',[p[1]])
-		elif (p[1] == True) or (p[1] == False):
-			p[0] = expresion('BOOLEANO',[p[1]])
+		if p[1] != '(': # Si no es parentesis entonces se tienen expresiones binarias
+			if (p[1].tipo == p[3].tipo: # Como son expresiones binarias, el tipo de los operandos tiene que ser el mismo
+				if (p[2] == '/\\' and p[1].tipo == 'bool': # Ademas el tipo de los operandos debe corresponderse con el
+					p[0] = expresion('CONJUNCION',[p[1],p[3]],'bool') # del resultado de la operacion
+
+				elif (p[2] == '\/' and p[1].tipo == 'bool':
+					p[0] = expresion('DISYUNCION',[p[1],p[3]],'bool')
+
+				elif (p[2] == '=' and p[1].tipo == 'int':
+					p[0] = expresion('IGUALDAD',[p[1],p[3]],'bool')
+
+				elif (p[2] == '/=' and p[1].tipo == 'int':
+					p[0] = expresion('DISTINTO',[p[1],p[3]],'bool')
+
+				elif (p[2] == '<' and p[1].tipo == 'int':
+					p[0] = expresion('MENOR_QUE',[p[1],p[3]],'bool')
+
+				elif (p[2] == '<=' and p[1].tipo == 'int':
+					p[0] = expresion('MENOR_IGUAL',[p[1],p[3]],'bool')
+
+				elif (p[2] == '>' and p[1].tipo == 'int':
+					p[0] = expresion('MAYOR',[p[1],p[3]],'bool')
+
+				elif (p[2] == '>=' and p[1].tipo == 'int':
+					p[0] = expresion('MAYOR_IGUAL',[p[1],p[3]],'bool')
+
+				elif (p[2] == '+' and p[1].tipo == 'int':
+					p[0] = expresion('SUMA',[p[1],p[3]],'int')
+
+				elif (p[2] == '-' and p[1].tipo == 'int':
+					p[0] = expresion('RESTA',[p[1],p[3]],'int')
+
+				elif (p[2] == '*' and p[1].tipo == 'int':
+					p[0] = expresion('MULTIPLICACION',[p[1],p[3]],'int')
+
+				elif (p[2] == '/' and p[1].tipo == 'int':
+					p[0] = expresion('DIVISION',[p[1],p[3]],'int')
+
+				elif (p[2] == '%' and p[1].tipo == 'int':
+					p[0] = expresion('MODULO',[p[1],p[3]],'int')
+				else:
+					errorTipos(p.lineno,p.lexpos)
+			else:
+				errorTipos(p.lineno,p.lexpos)
 		else:
-			p[0] = expresion('- var: ',[p[1]])
+			p[0] = expresion('PARENTESIS',[p[2]],p[2].tipo)
+
+	elif len(p) == 3:
+		if p[1] == '~' and p[2].tipo == 'bool':
+			p[0] = expresion('NEGACION',[p[2]],'bool')
+		elif p[1] == '-' and p[2].tipo == 'int':
+			p[0] = expresion('NEGATIVO',[p[2]],'int')
+	elif len(p) == 2:
+		if type(p[1]) == int:
+			p[0] = expresion('ENTERO',[p[1]],'int')
+		elif (p[1] == True) or (p[1] == False):
+			p[0] = expresion('BOOLEANO',[p[1]],'bool')
+		else:
+			p[0] = expresion('- var: ',[p[1]],pointer.buscarEnTodos(p[1],'getTipo'))
 
 #-------------------------------------------------------------------------------
 # Genera los booleanos True y False
@@ -262,7 +288,7 @@ def p_literal_bool(p):
 		p[0] = expresion('TRUE',[])
 	elif p[1] == 'false':
 		p[0] = expresion('FALSE',[])
-	
+
 
 #-------------------------------------------------------------------------------
 # Genera las instrucciones del robot "store", "collect", "drop", "read", "send",
@@ -477,7 +503,7 @@ def p_inst_controlador_a(p):
 	'''INST_CONTROLADOR_A : INST_CONTROLADOR
 						  | 
 	'''
-	if len(p)>1: 
+	if len(p)>1:
 		p[0] = instRobot('INST_CONT',[p[1]])
 
 #-------------------------------------------------------------------------------
@@ -486,3 +512,6 @@ def p_inst_controlador_a(p):
 def p_error(p):
 	print("Error de sintaxis en la linea %d del archivo %s"%(p.lineno,sys.argv[1]))
 	exit()
+
+def errorTipos(linea,columna):
+	print("Error de tipos en la linea %d, columna %d" % (linea,columna))
