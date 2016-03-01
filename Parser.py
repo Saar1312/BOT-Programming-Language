@@ -285,9 +285,9 @@ def p_literal_bool(p):
 					| TkFalse
 	'''
 	if p[1] == 'true':
-		p[0] = expresion('TRUE',[])
+		p[0] = expresion('TRUE',[],'bool')
 	elif p[1] == 'false':
-		p[0] = expresion('FALSE',[])
+		p[0] = expresion('FALSE',[],'bool')
 
 
 #-------------------------------------------------------------------------------
@@ -370,9 +370,9 @@ def p_expresion(p):
 	'''
 
 	if type(p[1]) == chr:
-		p[0] = expresion('CARACTER',p[1])
+		p[0] = expresion('CARACTER',p[1],'char')
 	else:
-		p[0] = expresion('EXPRESION',[p[1]])
+		p[0] = expresion('EXPRESION',[p[1]],p[1].tipo)
 
 #-------------------------------------------------------------------------------
 # Genera las direcciones a las que se puede mover un robot
@@ -401,7 +401,8 @@ def p_collect(p):
 			   |
 	'''
 	if len(p)>1:
-		p[0] = instContr('COLLECT_AS',[p[2]])
+		pointer.agregar(p[2].hijos[0],None,pointer.tipoRobot()) # tipoRobot() retorna el tipo del robot del
+		p[0] = instContr('COLLECT_AS',[p[2]])					# bloque de instrucciones de robot actual
 
 #-------------------------------------------------------------------------------
 # Permite generar el tipo de instruccion "read" cuando se puede almacenar el 

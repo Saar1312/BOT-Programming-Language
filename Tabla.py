@@ -10,7 +10,7 @@ class Tabla:
 	def __init__(self,exterior):
 		self.tablaExterna = exterior
 		self.tabla = {}
-		self.hijos = []
+		self.hijos = [] # Quiza no haga falta
 	def estaAqui(self,simbolo):
 		if simbolo in self.tabla:
 			return True
@@ -34,12 +34,21 @@ class Tabla:
 					return False
 				else:
 					return None
+	def tipoRobot(self):
+		for simbolo,datos in self.tabla.items(): 
+			if datos.robot: 			# Si no es none el atributo robot, entonces se esta en una tabla 
+				return datos.tipo		# de inst de robot
+										# Se esta ciclando en el diccionario y despues se esta buscando
+										# en cada iteracion un elemento (O(n^2)). Cambiar si da tiempo
+										# sacando for item()
+
 
 class datos:
 	def __init__(self,valor,tipo):
 		self.valor = valor
 		self.tipo = tipo
 		self.declarada = False # Para ahorrar tiempo y no buscar una variable en todas las tablas
+		self.robot = None
 	def getValor(self):
 		return self.valor
 	def getTipo(self):
