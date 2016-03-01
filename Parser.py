@@ -44,9 +44,9 @@ import sys
 # aquellos en la misma línea.
 
 # Declarando tabla de simbolos globalmente
-Tabla = Tabla(None):
+Tabla = Tabla(None)
 pointer = Tabla
-
+# HACER QUE CUANDO SE CREE UN ARBOL PADRE, ASIGNARLE A LA TABLA PADRE EL HIJO QUE LA ESTA CREANDO
 
 errorSint = True
 
@@ -94,16 +94,24 @@ def p_inicio(p):
 #-------------------------------------------------------------------------------
 def p_create(p):
 	'CREATE : TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE'
-	
-	if p[8] != None: # Si la produccion DECLARE se volvio lambda, deberia haber 
+	lista = p[5]
+	if p[8] != None: # Si la produccion DECLARE se volvio lambda, deberia haber
 					 # almacenado
-		Tabla.agregar(p[4].hijos[0],None,p[2].tipo) #Hacer que el arbol que sale de TYPE almacene el tipo 
 		p[0] = instContr('INSTRUCCIONES_ROBOT',\
 			   [instContr('DECLARACION_ROBOT',[p[2],p[4],p[5],p[6],p[8],p[9]])])
+		pointer.agregar(p[4].hijos[0],None,p[2].tipo) # El arbol que sale de TYPE almacene el tipo 
 	else:
+		pointer.agregar(p[4].hijos[0],None,p[2].tipo) # El arbol que sale de TYPE almacene el tipo 
 		p[0] = instContr('INSTRUCCIONES_ROBOT',\
 			   [instContr('DECLARACION_ROBOT',[p[2],p[4],p[5],p[6],p[9]])])
-
+	while lista: 										# Va a agregar las variables de la lista a la tabla. 
+														# La lista es una rama donde cada hoja
+						# variable    valor   tipo      # tiene de hija otra variable declarada
+		pointer.agregar(lista.hijos[0],None,p[2].tipo)
+		if len(lista.hijos) == 2:
+			lista = lista.hijos[1]
+		else:
+			lista = None
 #-------------------------------------------------------------------------------
 # Define las instrucciones de declaracion de robots. Notese que podria ser lambda
 # ya que el simbolo no terminal DECLARE ha sido definido para general mas de
@@ -132,9 +140,9 @@ def p_tipo(p):
 	if type(p[1]) == int:
 		p[0] = defTipo('TIPO_ENTERO',[],'int')
 	elif type(p[1]) == bool:
-		p[0] = defTipo('TIPO_BOOL',[]'bool')
+		p[0] = defTipo('TIPO_BOOL',[],'bool')
 	elif type(p[1]) == str:
-		p[0] = defTipo('TIPO_CHAR',[]'char')
+		p[0] = defTipo('TIPO_CHAR',[],'char')
 
 #-------------------------------------------------------------------------------
 # Permite generar una lista de identificadores.
@@ -144,17 +152,18 @@ def p_identificador(p):
 			 |
 	'''
 	if len(p) > 1:
+		tipo = pointer.buscarEnTodos(p[1],'getTipo')
 		if p[3] != None: # Si no se volvio a encontrar otro identificador
-			p[0] = expresion('- lis_var: ',[p[2],p[3]]) 
+			p[0] = expresion('- lis_var: ',[p[2],p[3]],tipo) 
 		else:
-			p[0] = expresion('- lis_var: ',[p[2]])
+			p[0] = expresion('- lis_var: ',[p[2]],tipo)
 
 #-------------------------------------------------------------------------------
-# Permite generar identificadores (nombres de robots o variables) 
+# Permite generar identificadores (nombres de robots o variables)
 #-------------------------------------------------------------------------------
 def p_ident(p):
 	'IDENT : TkIdent'
-	p[0] = expresion('- var: ',[p[1]])
+	p[0] = expresion('- var: ',[p[1]],None) # No conocemos el tipo, por lo que se le coloca None
 
 #-------------------------------------------------------------------------------
 # COMPORTAMIENTO genera un comportamiento de un robot, delimitado por las palabras
@@ -218,49 +227,51 @@ def p_exp(p):
 
 	if len(p) == 4:
 		if p[1] != '(': # Si no es parentesis entonces se tienen expresiones binarias
-			if (p[1].tipo == p[3].tipo: # Como son expresiones binarias, el tipo de los operandos tiene que ser el mismo
-				if (p[2] == '/\\' and p[1].tipo == 'bool': # Ademas el tipo de los operandos debe corresponderse con el
+			print(p[1])
+			print(p[3])
+			if p[1].tipo == p[3].tipo: # Como son expresiones binarias, el tipo de los operandos tiene que ser el mismo
+				if p[2] == '/\\' and p[1].tipo == 'bool': # Ademas el tipo de los operandos debe corresponderse con el
 					p[0] = expresion('CONJUNCION',[p[1],p[3]],'bool') # del resultado de la operacion
 
-				elif (p[2] == '\/' and p[1].tipo == 'bool':
+				elif p[2] == '\/' and p[1].tipo == 'bool':
 					p[0] = expresion('DISYUNCION',[p[1],p[3]],'bool')
 
-				elif (p[2] == '=' and p[1].tipo == 'int':
+				elif p[2] == '=' and p[1].tipo == 'int':
 					p[0] = expresion('IGUALDAD',[p[1],p[3]],'bool')
 
-				elif (p[2] == '/=' and p[1].tipo == 'int':
+				elif p[2] == '/=' and p[1].tipo == 'int':
 					p[0] = expresion('DISTINTO',[p[1],p[3]],'bool')
 
-				elif (p[2] == '<' and p[1].tipo == 'int':
+				elif p[2] == '<' and p[1].tipo == 'int':
 					p[0] = expresion('MENOR_QUE',[p[1],p[3]],'bool')
 
-				elif (p[2] == '<=' and p[1].tipo == 'int':
+				elif p[2] == '<=' and p[1].tipo == 'int':
 					p[0] = expresion('MENOR_IGUAL',[p[1],p[3]],'bool')
 
-				elif (p[2] == '>' and p[1].tipo == 'int':
+				elif p[2] == '>' and p[1].tipo == 'int':
 					p[0] = expresion('MAYOR',[p[1],p[3]],'bool')
 
-				elif (p[2] == '>=' and p[1].tipo == 'int':
+				elif p[2] == '>=' and p[1].tipo == 'int':
 					p[0] = expresion('MAYOR_IGUAL',[p[1],p[3]],'bool')
 
-				elif (p[2] == '+' and p[1].tipo == 'int':
+				elif p[2] == '+' and p[1].tipo == 'int':
 					p[0] = expresion('SUMA',[p[1],p[3]],'int')
 
-				elif (p[2] == '-' and p[1].tipo == 'int':
+				elif p[2] == '-' and p[1].tipo == 'int':
 					p[0] = expresion('RESTA',[p[1],p[3]],'int')
 
-				elif (p[2] == '*' and p[1].tipo == 'int':
+				elif p[2] == '*' and p[1].tipo == 'int':
 					p[0] = expresion('MULTIPLICACION',[p[1],p[3]],'int')
 
-				elif (p[2] == '/' and p[1].tipo == 'int':
+				elif p[2] == '/' and p[1].tipo == 'int':
 					p[0] = expresion('DIVISION',[p[1],p[3]],'int')
 
-				elif (p[2] == '%' and p[1].tipo == 'int':
+				elif p[2] == '%' and p[1].tipo == 'int':
 					p[0] = expresion('MODULO',[p[1],p[3]],'int')
 				else:
-					errorTipos(p.lineno,p.lexpos)
+					errorTipos()
 			else:
-				errorTipos(p.lineno,p.lexpos)
+				errorTipos()
 		else:
 			p[0] = expresion('PARENTESIS',[p[2]],p[2].tipo)
 
@@ -275,7 +286,11 @@ def p_exp(p):
 		elif (p[1] == True) or (p[1] == False):
 			p[0] = expresion('BOOLEANO',[p[1]],'bool')
 		else:
-			p[0] = expresion('- var: ',[p[1]],pointer.buscarEnTodos(p[1],'getTipo'))
+			tipo = pointer.buscarEnTodos(p[1],'getTipo')
+			if tipo:
+				p[0] = expresion('- var: ',[p[1]],pointer.buscarEnTodos(p[1],'getTipo'))
+			else:
+				error_tipos()
 
 #-------------------------------------------------------------------------------
 # Genera los booleanos True y False
@@ -368,7 +383,6 @@ def p_expresion(p):
 	'''EXPRESION : EXP
 				 | TkCaracter
 	'''
-
 	if type(p[1]) == chr:
 		p[0] = expresion('CARACTER',p[1],'char')
 	else:
@@ -511,8 +525,15 @@ def p_inst_controlador_a(p):
 # Regla para errores de sintaxis
 #-------------------------------------------------------------------------------
 def p_error(p):
+	print(p.lineno)
 	print("Error de sintaxis en la linea %d del archivo %s"%(p.lineno,sys.argv[1]))
 	exit()
 
-def errorTipos(linea,columna):
-	print("Error de tipos en la linea %d, columna %d" % (linea,columna))
+def errorTipos():
+#def p_errorTipos(p,tipo):
+	#if tipo == 'redeclaracion':
+	#if tipo == 'no_declarado':
+	#if tipo == 'error_tipos':
+	#print("Error de tipos en la linea %d, columna %d" % (p.lineno,p.lexpos))
+	print("Error TIPOS")
+	exit()

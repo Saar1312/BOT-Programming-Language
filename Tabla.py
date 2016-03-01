@@ -19,7 +19,7 @@ class Tabla:
 	def agregar(self,simbolo,valor,tipo):
 		self.tabla[simbolo] = datos(valor,tipo,True) # El True es de datos.declarada (quiza no hace falta)
 	def buscarEnTodos(self,simbolo,opcion): # Opcion para saber si se quiere buscar el tipo/valor de un elemento
-		if estaAqui(simbolo):				# de la tabla o si se quiere saber si esta o no declarada
+		if self.estaAqui(simbolo):				# de la tabla o si se quiere saber si esta o no declarada
 			if opcion == 'buscar':
 				return True
 			elif opcion == 'getTipo':
@@ -44,7 +44,7 @@ class Tabla:
 
 
 class datos:
-	def __init__(self,valor,tipo):
+	def __init__(self,valor,tipo,declarada):
 		self.valor = valor
 		self.tipo = tipo
 		self.declarada = False # Para ahorrar tiempo y no buscar una variable en todas las tablas
@@ -53,7 +53,7 @@ class datos:
 		return self.valor
 	def getTipo(self):
 		return self.tipo
-
+"""
 a = 3
 b = 4
 
@@ -61,3 +61,4 @@ T=Tabla(None)
 T.agregar('a',a,type(a))
 print(T.buscar('a').getTipo())
 print(T.buscar('a').getValor())
+"""
