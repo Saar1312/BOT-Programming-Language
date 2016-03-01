@@ -1,5 +1,8 @@
 create 
   bool bot a
+    on activation:
+      store false.
+    end
   end
 execute
 	advance a,v,b.

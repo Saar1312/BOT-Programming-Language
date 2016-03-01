@@ -47,7 +47,7 @@ import sys
 Tabla = Tabla(None)
 pointer = Tabla
 # HACER QUE CUANDO SE CREE UN ARBOL PADRE, ASIGNARLE A LA TABLA PADRE EL HIJO QUE LA ESTA CREANDO
-
+# QUE PASA SI SE DECLARA me COMO UN ROBOT?
 errorSint = True
 
 precedence = (
@@ -227,8 +227,6 @@ def p_exp(p):
 
 	if len(p) == 4:
 		if p[1] != '(': # Si no es parentesis entonces se tienen expresiones binarias
-			print(p[1])
-			print(p[3])
 			if p[1].tipo == p[3].tipo: # Como son expresiones binarias, el tipo de los operandos tiene que ser el mismo
 				if p[2] == '/\\' and p[1].tipo == 'bool': # Ademas el tipo de los operandos debe corresponderse con el
 					p[0] = expresion('CONJUNCION',[p[1],p[3]],'bool') # del resultado de la operacion
@@ -269,8 +267,10 @@ def p_exp(p):
 				elif p[2] == '%' and p[1].tipo == 'int':
 					p[0] = expresion('MODULO',[p[1],p[3]],'int')
 				else:
+					print("Interno",p[1],p[3])
 					errorTipos()
 			else:
+				print("Externo",p[1],p[3])
 				errorTipos()
 		else:
 			p[0] = expresion('PARENTESIS',[p[2]],p[2].tipo)
@@ -288,9 +288,10 @@ def p_exp(p):
 		else:
 			tipo = pointer.buscarEnTodos(p[1],'getTipo')
 			if tipo:
-				p[0] = expresion('- var: ',[p[1]],pointer.buscarEnTodos(p[1],'getTipo'))
+				p[0] = expresion('- var: ',[p[1]],tipo)
 			else:
-				error_tipos()
+				print("Tercero",p[1])
+				errorTipos()
 
 #-------------------------------------------------------------------------------
 # Genera los booleanos True y False
