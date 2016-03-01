@@ -57,6 +57,7 @@ class datos:
 	def getTipo(self):
 		return self.tipo
 
+"""
 T = Tabla(None)
 T2 = Tabla(T)
 T3 = Tabla(T2)
@@ -70,4 +71,5 @@ T3.agregar('g',2,'int')
 T3.agregar('h',3,'int')
 T3.agregar('i',5,'int')
 print(T.buscarAqui('a'))
-print(T3.buscarEnTodos('a','getTipo'))
+print(T3.buscarEnTodos('a','getValor'))
+"""
