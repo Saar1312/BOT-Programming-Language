@@ -5,6 +5,7 @@
 class arbol(object):
 	def __init__(self,tipo,hijos):
 		self.nombre = tipo 				# Almacena el tipo de instruccion en el arbol
+		self.tipo = None
 		if hijos:						
 			self.hijos = hijos			# Almacena la lista de instruccion que 
 										# componen a la expresion/instruccion
@@ -175,7 +176,7 @@ class arbol(object):
 	# Imprime la estructura de arbol
 	#---------------------------------------------------------------------------
 	def imprimirArbol(self,nivel,imprimir=None,secuenciado=False):
-		if self.nombre == "INSTRUCCIONES_ROBOT": 		# Si el nodo es una intruccion
+		if self.nombre in ["INSTRUCCIONES_ROBOT","DECLARACION_ROBOT"]: 		# Si el nodo es una intruccion
 			imprimir = False 						# robot se ignora
 		elif self.nombre == "EXECUTE":				# Si el nodo es del tipo execute 
 			imprimir = True 						# comienza a imprimir
@@ -300,10 +301,26 @@ class arbol(object):
 				else:
 					hijo.imprimirArbol(nivel,imprimir,secuenciado)
 
+	
+
+
+
+
+			
+
+"""class arbol(object):
+	def __init__(self,tipo,hijos):
+		self.nombre = tipo 				# Almacena el tipo de instruccion en el arbol
+		if hijos:						
+			self.hijos = hijos			# Almacena la lista de instruccion que 
+										# componen a la expresion/instruccion
+		else:
+			self.hijos = []
+"""
 
 # Expresiones
 class expresion(arbol):
-	def __init__(self,nombre,hijos,tipo):
+	def __init__(self,nombre,hijos,tipo=None):
 		arbol.__init__(self,nombre,hijos)
 		self.tipo = tipo
 
@@ -318,6 +335,6 @@ class instRobot(arbol):
 		arbol.__init__(self,nombre,hijos)
 
 class defTipo(arbol):
-	def __init__(self,nombre,hijos,tipo):
+	def __init__(self,nombre,hijos,tipo=None):
 		arbol.__init__(self,nombre,hijos)
 		self.tipo = tipo

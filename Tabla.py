@@ -1,24 +1,16 @@
-A='''- Si se declara una variable me da error? ()
-- La instruccion collect es como si se declarara una nueva variable
-- El me es el mismo para todos los robots de un bloque de instrucciones de robot o hay que diferenciarlo?
-- Hay que diferenciar entre los me de los bloques anidados?
-- Las variables que aparecen en collect pueden ser usadas en seccion de instrucciones de controlador?.
-Si no es asi, entonces hay que crearle una tabla a cada seccion de 
-- Como hacer para almacenar el me en la tabla pero que de error si aparece en la seccion de controlador? 
-'''
-
 class Tabla:
 	def __init__(self,exterior):
 		self.tablaExterna = exterior
 		self.tabla = {}
-		self.hijos = [] # Quiza no haga falta
+	def agregar(self,simbolo,valor,tipo,tabla=None):
+		self.tabla[simbolo] = datos(valor,tipo,tabla) # El True es de datos.declarada (quiza no hace falta)
+	def agregarTablaRobot(self,simbolo,tabla): # Para agregar 
+		self.robot[simbolo] = tabla
 	def buscarAqui(self,simbolo):
 		if simbolo in self.tabla:
 			return True
 		else:
 			return False
-	def agregar(self,simbolo,valor,tipo):
-		self.tabla[simbolo] = datos(valor,tipo,True) # El True es de datos.declarada (quiza no hace falta)
 	def buscarEnTodos(self,simbolo,opcion): # Opcion para saber si se quiere buscar el tipo/valor de un elemento
 		if self.buscarAqui(simbolo):				# de la tabla o si se quiere saber si esta o no declarada
 			if opcion == 'buscar':
@@ -45,13 +37,13 @@ class Tabla:
 
 
 
-
 class datos:
-	def __init__(self,valor,tipo,declarada):
+	def __init__(self,valor,tipo,tabla):
 		self.valor = valor
 		self.tipo = tipo
-		self.declarada = False # Para ahorrar tiempo y no buscar una variable en todas las tablas
-		self.robot = None
+		#self.declarada = False # Para ahorrar tiempo y no buscar una variable en todas las tablas
+		#self.robot = None
+		self.tabla = tabla
 	def getValor(self):
 		return self.valor
 	def getTipo(self):
