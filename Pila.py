@@ -16,7 +16,7 @@ class pila:
 		posTope = self.getPosTope()
 		if posTope == -1:
 			return None
-		else:
+		else:	
 			return self.pila[posTope]
 """
 p = pila()
