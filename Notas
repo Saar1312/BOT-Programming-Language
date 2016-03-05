@@ -1,4 +1,5 @@
-- Arreglar las impresiones que faltan 
+SAMUEL:
+- Arreglar las impresiones que faltan (LISTO EN TEORIA)
 - Hacer un buen testing de todo
 - Crear clase para la tabla de simbolos
 - Hacer que imprima el primer error sintactico
@@ -42,3 +43,21 @@ T.agregar('a',a,type(a))
 print(T.tabla['a'].getTipo())
 print(T.tabla['a'].getValor())
 """
+
+SERGIO:
+ 	- Hay un problema cuando declaras variables que no son un solo caracter, en la 	funcion
+
+		(367)def p_expresion(p):
+		(368)	'''EXPRESION : EXP
+		(369)				 | TkCaracter
+		(370)	'''
+		(371)	if type(p[1]) == chr:
+		(372)		p[0] = expresion('CARACTER',p[1],'char')
+		(373)	else:
+		(374)		p[0] = expresion('EXPRESION',[p[1]],p[1].tipo)
+
+	en la linea 374 le pides .tipo a p[1] pero si es un string, explota
+
+	- en crearTabla, en las condiciones que tienen "arbol.nombre" a veces explota por que la variable "arbol" no siempre tiene ese atributo, pero no se si poniendole la condicion de que sea un arbol dano la formacion de las tablas
+
+
