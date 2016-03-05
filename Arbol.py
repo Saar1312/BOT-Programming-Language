@@ -179,7 +179,7 @@ class arbol(object):
 	# Imprime la estructura de arbol
 	#---------------------------------------------------------------------------
 	def imprimirArbol(self,nivel,imprimir=None,secuenciado=False):
-		if self.nombre in ["INSTRUCCIONES_ROBOT"]: 		# Si el nodo es una intruccion
+		if self.nombre in ["INSTRUCCIONES_ROBOT","DECLARACION_ROBOT"]: 		# Si el nodo es una intruccion
 			imprimir = False 						# robot se ignora
 		elif self.nombre == "EXECUTE":				# Si el nodo es del tipo execute 
 			imprimir = True 						# comienza a imprimir

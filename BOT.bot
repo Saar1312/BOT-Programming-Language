@@ -14,16 +14,16 @@ execute
 	$- Asignar al contador
 	el valor 35, si bar > 2 -$
 	
-	if hello:
+	if condicion1:
 		advance CONDICION1.
 	end
-	if -hola:
+	if -condicion2:
 		advance CONDICION2.
 	end
-	if chao > 2:
+	if condicion3 > 2:
 		advance CONDICION3.
 	end
-	if 2 > -ciao:
+	if 2 > - condicion4:
 		advance CONDICION4.
 	end
 end
