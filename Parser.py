@@ -370,6 +370,8 @@ def p_expresion(p):
 	'''
 	if type(p[1]) == chr:
 		p[0] = expresion('CARACTER',p[1],'char')
+	elif type(p[1]) == str:
+		p[0] = expresion('STRING',p[1],'str')
 	else:
 		p[0] = expresion('EXPRESION',[p[1]],p[1].tipo)
 

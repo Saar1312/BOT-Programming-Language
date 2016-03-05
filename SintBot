@@ -12,6 +12,7 @@
 from Parser import *
 from Tabla import *
 from Pila import *
+from Arbol import *
 # Creando una instancia de clase Tokenizer
 tokenizer = Tokenizer()
 
@@ -39,6 +40,11 @@ if len(sys.argv) > 1:
 	# Asumiendo que:
 	# - No se puede usar un robot anteriormente declarado dentro de las instrucciones del mismo robot o de otros
 	# - El tipo del me y las demas variables declaradas con Collect o read sera el mismo que el del robot
+	def es_arbol(h):
+		if type(h) in [arbol,expresion,instContr,\
+					instRobot]:
+			return True
+		return False
 
 	tabla = Tabla(None)
 	pointer = tabla
@@ -47,6 +53,13 @@ if len(sys.argv) > 1:
 	p = pila()
 	def crearTabla(arbol,almacenar):
 		global tipo,pointer,p,incAlcance
+		
+		if es_arbol(arbol):
+			print(arbol," ES UN ARBOL")
+		else:
+			print(arbol," NO ES UN ARBOL")
+
+
 		if arbol.nombre == 'INC_ALCANCE':
 			incAlcance = True
 		if arbol.nombre == 'INSTRUCCIONES_ROBOT': # Crea la tabla para la inc de alcance solo si hay una inc de 

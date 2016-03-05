@@ -1,8 +1,33 @@
-				-exito: AVANCE
-					- var: a
-					- var: v
-					- var: b
-									-exito: AVANCE
-										- var: a
-										- var: v
-										- var: b
+<Arbol.arbol object at 0xb6d1674c>  ES UN ARBOL
+
+ {}
+INICIO
+<Arbol.instContr object at 0xb6e1336c>  ES UN ARBOL
+
+ {}
+INSTRUCCIONES_ROBOT
+<Arbol.instContr object at 0xb6d2560c>  ES UN ARBOL
+
+ {}
+DECLARACION_ROBOT
+<Arbol.instRobot object at 0xb6d2406c>  ES UN ARBOL
+
+ {'v_1': <Tabla.datos object at 0xb6d1f6cc>}
+LISTA
+<Arbol.instRobot object at 0xb6d24dec>  ES UN ARBOL
+
+ {'v_2': <Tabla.datos object at 0xb6d102ec>, 'v_1': <Tabla.datos object at 0xb6d1f6cc>}
+LISTA
+<Arbol.instRobot object at 0xb6d1f34c>  ES UN ARBOL
+
+ {'v_2': <Tabla.datos object at 0xb6d102ec>, 'v_1': <Tabla.datos object at 0xb6d1f6cc>, 'v_3': <Tabla.datos object at 0xb6d39f4c>}
+CONDICION
+<Arbol.instContr object at 0xb6d1d18c>  ES UN ARBOL
+
+ {'v_2': <Tabla.datos object at 0xb6d102ec>, 'v_1': <Tabla.datos object at 0xb6d1f6cc>, 'v_3': <Tabla.datos object at 0xb6d39f4c>}
+ACTIVACION
+<Arbol.instContr object at 0xb6d2530c>  ES UN ARBOL
+
+ {'v_2': <Tabla.datos object at 0xb6d102ec>, 'v_1': <Tabla.datos object at 0xb6d1f6cc>, 'v_3': <Tabla.datos object at 0xb6d39f4c>}
+RECIEVE
+recieve  NO ES UN ARBOL
