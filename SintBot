@@ -60,10 +60,10 @@ if len(sys.argv) > 1:
 			almacenar = True
 		elif arbol.nombre == 'EXECUTE':
 			almacenar = False
-		# print('\n',pointer.tabla)
-		#print(arbol.nombre)
-		# if pointer.tablaExterna:
-			# print('PADRE:',pointer.tablaExterna.tabla,'\n')
+		print('\n',pointer.tabla)
+		print(arbol.nombre)
+		if pointer.tablaExterna:
+			print('PADRE:',pointer.tablaExterna.tabla,'\n')
 		if almacenar:
 			if arbol.nombre == 'DECLARACION_ROBOT':
 				tipo = arbol.hijos[0].tipo
