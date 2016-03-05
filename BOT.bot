@@ -1,32 +1,19 @@
-create 
-  bool bot a,b,c
-  	on activation:
-  		collect as a.
-  		read as b.
-  		store x+5.
-  		left x+5.
-  		right.
-  		up.
-  		down.
-  	end
-
-  end
 execute
-	advance a,v,b.
 	create 
-	  bool bot a,b,c
-	  	on activation:
-	  		collect as a.
-	  		read as b.
-	  		store x+5.
-	  		left x+5.
-	  		right.
-	  		up.
-	  		down.
-	  	end
-
+	  bool bot x,y,z
 	  end
 	execute
 		advance a,v,b.
+	end
+	create 
+	  bool bot a,b,c
+	  end
+	execute
+		create 
+		  bool bot h,i,j
+		  end
+		execute
+			advance a,v,b.
+		end
 	end
 end

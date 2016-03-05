@@ -431,9 +431,9 @@ def p_inst_controlador(p):
 						| TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
 						| TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
 						| TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
-						| TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A 
-						| INICIO
-	'''
+						| TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+						| INICIO INST_CONTROLADOR_A
+	''' # INICIO INST_CONTROLADOR_A ES NUEVO
 	if p[1] == 'activate':
 		if p[3] == None:
 			if p[5] == None:
@@ -478,8 +478,10 @@ def p_inst_controlador(p):
 		else:
 			p[0] = instRobot('CICLO',[p[1],p[2],p[3],p[4],p[5],p[6]])
 	else:
-		p[0] = arbol('INC_ALCANCE',[p[1]])
-
+		if p[2] == None:
+			p[0] = arbol('INC_ALCANCE',[p[1],'incAlcance'])
+		else:
+			p[0] = arbol('INC_ALCANCE',[p[1],'incAlcance',p[2]])
 
 #-------------------------------------------------------------------------------
 # Permite generar el contenido de un condicional, dependiendo de si este posee
