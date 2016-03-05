@@ -130,15 +130,16 @@ class arbol(object):
 	#---------------------------------------------------------------------------
 	# Imprimir_variables_OP()
 	#
-	# Si es una variable la imprime sin el prefijo "- var: "
+	# Si es una variable la imprime sin el prefijo "VAR"
 	#---------------------------------------------------------------------------
 	def Imprimir_variables_OP(self,nivel):
 		for h in self.hijos:
 			if self.es_arbol(h):
-				if h.nombre == "- var: ":
+				if h.nombre == "VAR":
 					for i in h.hijos:
 						if not h.es_arbol(i): 
 							print(i)
+	
 	#---------------------------------------------------------------------------
 	# Imprimir_variables()
 	#
@@ -147,12 +148,12 @@ class arbol(object):
 	def Imprimir_variables(self,nivel):
 		for h in self.hijos:
 			if self.es_arbol(h):
-				if h.nombre == "- var: ":
-					print("\t"*(nivel+1)+str(h.nombre),end="")
+				if h.nombre == "VAR":
+					print("\t"*(nivel+1)+"- var: ",end="")
 					for i in h.hijos:
 						print(i)
 				
-				elif h.nombre == "- lis_var: ":
+				elif h.nombre == "LISTA":
 					h.Imprimir_variables(nivel)
 				
 				elif h.nombre in ["TRUE","FALSE"]:

@@ -1,29 +1,19 @@
-create
-	int bot bar
-		on activation:
-			store 3.
-		end
-	end
-	int bot contador
-	on default:
-	store 35.
-	end
-end
 execute
-	activate contador,b,c,d.
-	$- Asignar al contador
-	el valor 35, si bar > 2 -$
-	
-	if condicion1:
-		advance CONDICION1.
+	create 
+	  bool bot x,y,z
+	  end
+	execute
+		advance a,v,b.
 	end
-	if -condicion2:
-		advance CONDICION2.
-	end
-	if condicion3 > 2:
-		advance CONDICION3.
-	end
-	if 2 > - condicion4:
-		advance CONDICION4.
+	create 
+	  bool bot a,b,c
+	  end
+	execute
+		create 
+		  bool bot h,i,j
+		  end
+		execute
+			advance a,v,b.
+		end
 	end
 end

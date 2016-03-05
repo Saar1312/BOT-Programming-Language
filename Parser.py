@@ -150,16 +150,16 @@ def p_identificador(p):
 	'''
 	if len(p) > 1:
 		if p[3] != None: # Si no se volvio a encontrar otro identificador
-			p[0] = instRobot('- lis_var: ',[p[2],p[3]])
+			p[0] = instRobot('LISTA',[p[2],p[3]])
 		else:
-			p[0] = instRobot('- lis_var: ',[p[2]])
+			p[0] = instRobot('LISTA',[p[2]])
 
 #-------------------------------------------------------------------------------
 # Permite generar identificadores (nombres de robots o variables)
 #-------------------------------------------------------------------------------
 def p_ident(p):
 	'IDENT : TkIdent'
-	p[0] = expresion('- var: ',[p[1]])
+	p[0] = expresion('VAR',[p[1]])
 
 #-------------------------------------------------------------------------------
 # COMPORTAMIENTO genera un comportamiento de un robot, delimitado por las palabras
@@ -275,7 +275,7 @@ def p_exp(p):
 		elif (p[1] == True) or (p[1] == False):
 			p[0] = expresion('BOOLEANO',[p[1]],'bool')
 		else:
-			p[0] = expresion('- var: ',[p[1]])
+			p[0] = expresion('VAR',[p[1]])
 
 #-------------------------------------------------------------------------------
 # Genera los booleanos True y False

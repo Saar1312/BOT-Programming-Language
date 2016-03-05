@@ -60,10 +60,10 @@ if len(sys.argv) > 1:
 			almacenar = True
 		elif arbol.nombre == 'EXECUTE':
 			almacenar = False
-		print('\n',pointer.tabla)
-		print(arbol.nombre)
-		if pointer.tablaExterna:
-			print('PADRE:',pointer.tablaExterna.tabla,'\n')
+		# print('\n',pointer.tabla)
+		#print(arbol.nombre)
+		# if pointer.tablaExterna:
+			# print('PADRE:',pointer.tablaExterna.tabla,'\n')
 		if almacenar:
 			if arbol.nombre == 'DECLARACION_ROBOT':
 				tipo = arbol.hijos[0].tipo
@@ -72,7 +72,7 @@ if len(sys.argv) > 1:
 				t.agregar('me',None,tipo)				# No tiene padre porque la idea es que las instrucciones de robot no 
 				pointer.agregar(simbolo,None,tipo,t)	# usen a los robots declarados.
 														# t no recibe ninguna tabla, por lo que tiene 3 argumentos
-			elif arbol.nombre == '- lis_var: ':
+			elif arbol.nombre == 'LISTA':
 				simbolo = arbol.hijos[0].hijos[0]
 				t = Tabla(None)
 				t.agregar('me',None,tipo)
