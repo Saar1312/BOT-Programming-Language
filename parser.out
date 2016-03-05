@@ -1,4 +1,4 @@
-Created by PLY version 3.6 (http://www.dabeaz.com/ply)
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
 
 Grammar
 
@@ -162,42 +162,14 @@ state 0
     (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
     (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
 
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
 
-    EXECUTE                        shift and go to state 2
     INICIO                         shift and go to state 3
-    CREATE                         shift and go to state 5
+    EXECUTE                        shift and go to state 4
+    CREATE                         shift and go to state 2
 
 state 1
-
-    (3) CREATE -> TkCreate . TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (6) TYPE -> . TkInt
-    (7) TYPE -> . TkBool
-    (8) TYPE -> . TkChar
-
-    TkInt           shift and go to state 9
-    TkBool          shift and go to state 7
-    TkChar          shift and go to state 6
-
-    TYPE                           shift and go to state 8
-
-state 2
-
-    (2) INICIO -> EXECUTE .
-
-    TkEnd           reduce using rule 2 (INICIO -> EXECUTE .)
-    TkElse          reduce using rule 2 (INICIO -> EXECUTE .)
-    $end            reduce using rule 2 (INICIO -> EXECUTE .)
-
-
-state 3
-
-    (0) S' -> INICIO .
-
-
-
-state 4
 
     (59) EXECUTE -> TkExecute . INST_CONTROLADOR TkEnd
     (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
@@ -211,20 +183,20 @@ state 4
     (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
     (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
 
-    TkActivate      shift and go to state 16
-    TkAdvance       shift and go to state 10
-    TkDeactivate    shift and go to state 12
-    TkIf            shift and go to state 15
-    TkWhile         shift and go to state 13
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
+    TkActivate      shift and go to state 12
+    TkAdvance       shift and go to state 8
+    TkDeactivate    shift and go to state 10
+    TkIf            shift and go to state 6
+    TkWhile         shift and go to state 11
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
 
-    INST_CONTROLADOR               shift and go to state 14
-    INICIO                         shift and go to state 11
-    EXECUTE                        shift and go to state 2
-    CREATE                         shift and go to state 5
+    CREATE                         shift and go to state 2
+    EXECUTE                        shift and go to state 4
+    INICIO                         shift and go to state 9
+    INST_CONTROLADOR               shift and go to state 7
 
-state 5
+state 2
 
     (1) INICIO -> CREATE .
 
@@ -233,106 +205,35 @@ state 5
     $end            reduce using rule 1 (INICIO -> CREATE .)
 
 
+state 3
+
+    (0) S' -> INICIO .
+
+
+
+state 4
+
+    (2) INICIO -> EXECUTE .
+
+    TkEnd           reduce using rule 2 (INICIO -> EXECUTE .)
+    TkElse          reduce using rule 2 (INICIO -> EXECUTE .)
+    $end            reduce using rule 2 (INICIO -> EXECUTE .)
+
+
+state 5
+
+    (3) CREATE -> TkCreate . TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (6) TYPE -> . TkInt
+    (7) TYPE -> . TkBool
+    (8) TYPE -> . TkChar
+
+    TkInt           shift and go to state 16
+    TkBool          shift and go to state 14
+    TkChar          shift and go to state 15
+
+    TYPE                           shift and go to state 13
+
 state 6
-
-    (8) TYPE -> TkChar .
-
-    TkBot           reduce using rule 8 (TYPE -> TkChar .)
-
-
-state 7
-
-    (7) TYPE -> TkBool .
-
-    TkBot           reduce using rule 7 (TYPE -> TkBool .)
-
-
-state 8
-
-    (3) CREATE -> TkCreate TYPE . TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-
-    TkBot           shift and go to state 17
-
-
-state 9
-
-    (6) TYPE -> TkInt .
-
-    TkBot           reduce using rule 6 (TYPE -> TkInt .)
-
-
-state 10
-
-    (61) INST_CONTROLADOR -> TkAdvance . IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (11) IDENT -> . TkIdent
-
-    TkIdent         shift and go to state 19
-
-    IDENT                          shift and go to state 18
-
-state 11
-
-    (65) INST_CONTROLADOR -> INICIO .
-
-    TkEnd           reduce using rule 65 (INST_CONTROLADOR -> INICIO .)
-    TkElse          reduce using rule 65 (INST_CONTROLADOR -> INICIO .)
-
-
-state 12
-
-    (62) INST_CONTROLADOR -> TkDeactivate . IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (11) IDENT -> . TkIdent
-
-    TkIdent         shift and go to state 19
-
-    IDENT                          shift and go to state 20
-
-state 13
-
-    (64) INST_CONTROLADOR -> TkWhile . EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 25
-    LITERAL_BOOL                   shift and go to state 22
-
-state 14
-
-    (59) EXECUTE -> TkExecute INST_CONTROLADOR . TkEnd
-
-    TkEnd           shift and go to state 30
-
-
-state 15
 
     (63) INST_CONTROLADOR -> TkIf . EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
     (18) EXP -> . EXP TkConjuncion EXP
@@ -358,259 +259,127 @@ state 15
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 31
-    LITERAL_BOOL                   shift and go to state 22
+    IDENT                          shift and go to state 20
+    EXP                            shift and go to state 23
+    LITERAL_BOOL                   shift and go to state 19
 
-state 16
+state 7
+
+    (59) EXECUTE -> TkExecute INST_CONTROLADOR . TkEnd
+
+    TkEnd           shift and go to state 27
+
+
+state 8
+
+    (61) INST_CONTROLADOR -> TkAdvance . IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (11) IDENT -> . TkIdent
+
+    TkIdent         shift and go to state 18
+
+    IDENT                          shift and go to state 28
+
+state 9
+
+    (65) INST_CONTROLADOR -> INICIO .
+
+    TkElse          reduce using rule 65 (INST_CONTROLADOR -> INICIO .)
+    TkEnd           reduce using rule 65 (INST_CONTROLADOR -> INICIO .)
+
+
+state 10
+
+    (62) INST_CONTROLADOR -> TkDeactivate . IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (11) IDENT -> . TkIdent
+
+    TkIdent         shift and go to state 18
+
+    IDENT                          shift and go to state 29
+
+state 11
+
+    (64) INST_CONTROLADOR -> TkWhile . EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 30
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 12
 
     (60) INST_CONTROLADOR -> TkActivate . IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
     (11) IDENT -> . TkIdent
 
-    TkIdent         shift and go to state 19
+    TkIdent         shift and go to state 18
 
-    IDENT                          shift and go to state 32
+    IDENT                          shift and go to state 31
+
+state 13
+
+    (3) CREATE -> TkCreate TYPE . TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+
+    TkBot           shift and go to state 32
+
+
+state 14
+
+    (7) TYPE -> TkBool .
+
+    TkBot           reduce using rule 7 (TYPE -> TkBool .)
+
+
+state 15
+
+    (8) TYPE -> TkChar .
+
+    TkBot           reduce using rule 8 (TYPE -> TkChar .)
+
+
+state 16
+
+    (6) TYPE -> TkInt .
+
+    TkBot           reduce using rule 6 (TYPE -> TkInt .)
+
 
 state 17
-
-    (3) CREATE -> TkCreate TYPE TkBot . IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (11) IDENT -> . TkIdent
-
-    TkIdent         shift and go to state 19
-
-    IDENT                          shift and go to state 33
-
-state 18
-
-    (61) INST_CONTROLADOR -> TkAdvance IDENT . LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (9) LISTA_IDENT -> . TkComa IDENT LISTA_IDENT
-    (10) LISTA_IDENT -> .
-
-    TkComa          shift and go to state 35
-    TkPunto         reduce using rule 10 (LISTA_IDENT -> .)
-
-    LISTA_IDENT                    shift and go to state 34
-
-state 19
-
-    (11) IDENT -> TkIdent .
-
-    TkConjuncion    reduce using rule 11 (IDENT -> TkIdent .)
-    TkDisyuncion    reduce using rule 11 (IDENT -> TkIdent .)
-    TkIgual         reduce using rule 11 (IDENT -> TkIdent .)
-    TkDistinto      reduce using rule 11 (IDENT -> TkIdent .)
-    TkMenor         reduce using rule 11 (IDENT -> TkIdent .)
-    TkMenorIgual    reduce using rule 11 (IDENT -> TkIdent .)
-    TkMayor         reduce using rule 11 (IDENT -> TkIdent .)
-    TkMayorIgual    reduce using rule 11 (IDENT -> TkIdent .)
-    TkSuma          reduce using rule 11 (IDENT -> TkIdent .)
-    TkResta         reduce using rule 11 (IDENT -> TkIdent .)
-    TkMult          reduce using rule 11 (IDENT -> TkIdent .)
-    TkDiv           reduce using rule 11 (IDENT -> TkIdent .)
-    TkMod           reduce using rule 11 (IDENT -> TkIdent .)
-    TkPunto         reduce using rule 11 (IDENT -> TkIdent .)
-    TkComa          reduce using rule 11 (IDENT -> TkIdent .)
-    TkDosPuntos     reduce using rule 11 (IDENT -> TkIdent .)
-    TkParCierra     reduce using rule 11 (IDENT -> TkIdent .)
-    TkOn            reduce using rule 11 (IDENT -> TkIdent .)
-    TkEnd           reduce using rule 11 (IDENT -> TkIdent .)
-
-
-state 20
-
-    (62) INST_CONTROLADOR -> TkDeactivate IDENT . LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (9) LISTA_IDENT -> . TkComa IDENT LISTA_IDENT
-    (10) LISTA_IDENT -> .
-
-    TkComa          shift and go to state 35
-    TkPunto         reduce using rule 10 (LISTA_IDENT -> .)
-
-    LISTA_IDENT                    shift and go to state 36
-
-state 21
-
-    (25) EXP -> TkNegacion . EXP
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 37
-    LITERAL_BOOL                   shift and go to state 22
-
-state 22
-
-    (23) EXP -> LITERAL_BOOL .
-
-    TkDosPuntos     reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkConjuncion    reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkDisyuncion    reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkIgual         reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkDistinto      reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkMenor         reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkMenorIgual    reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkMayor         reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkMayorIgual    reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkSuma          reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkResta         reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkMult          reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkDiv           reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkMod           reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkParCierra     reduce using rule 23 (EXP -> LITERAL_BOOL .)
-    TkPunto         reduce using rule 23 (EXP -> LITERAL_BOOL .)
-
-
-state 23
-
-    (36) EXP -> TkNum .
-
-    TkDosPuntos     reduce using rule 36 (EXP -> TkNum .)
-    TkConjuncion    reduce using rule 36 (EXP -> TkNum .)
-    TkDisyuncion    reduce using rule 36 (EXP -> TkNum .)
-    TkIgual         reduce using rule 36 (EXP -> TkNum .)
-    TkDistinto      reduce using rule 36 (EXP -> TkNum .)
-    TkMenor         reduce using rule 36 (EXP -> TkNum .)
-    TkMenorIgual    reduce using rule 36 (EXP -> TkNum .)
-    TkMayor         reduce using rule 36 (EXP -> TkNum .)
-    TkMayorIgual    reduce using rule 36 (EXP -> TkNum .)
-    TkSuma          reduce using rule 36 (EXP -> TkNum .)
-    TkResta         reduce using rule 36 (EXP -> TkNum .)
-    TkMult          reduce using rule 36 (EXP -> TkNum .)
-    TkDiv           reduce using rule 36 (EXP -> TkNum .)
-    TkMod           reduce using rule 36 (EXP -> TkNum .)
-    TkParCierra     reduce using rule 36 (EXP -> TkNum .)
-    TkPunto         reduce using rule 36 (EXP -> TkNum .)
-
-
-state 24
-
-    (22) EXP -> IDENT .
-
-    TkDosPuntos     reduce using rule 22 (EXP -> IDENT .)
-    TkConjuncion    reduce using rule 22 (EXP -> IDENT .)
-    TkDisyuncion    reduce using rule 22 (EXP -> IDENT .)
-    TkIgual         reduce using rule 22 (EXP -> IDENT .)
-    TkDistinto      reduce using rule 22 (EXP -> IDENT .)
-    TkMenor         reduce using rule 22 (EXP -> IDENT .)
-    TkMenorIgual    reduce using rule 22 (EXP -> IDENT .)
-    TkMayor         reduce using rule 22 (EXP -> IDENT .)
-    TkMayorIgual    reduce using rule 22 (EXP -> IDENT .)
-    TkSuma          reduce using rule 22 (EXP -> IDENT .)
-    TkResta         reduce using rule 22 (EXP -> IDENT .)
-    TkMult          reduce using rule 22 (EXP -> IDENT .)
-    TkDiv           reduce using rule 22 (EXP -> IDENT .)
-    TkMod           reduce using rule 22 (EXP -> IDENT .)
-    TkParCierra     reduce using rule 22 (EXP -> IDENT .)
-    TkPunto         reduce using rule 22 (EXP -> IDENT .)
-
-
-state 25
-
-    (64) INST_CONTROLADOR -> TkWhile EXP . TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (18) EXP -> EXP . TkConjuncion EXP
-    (19) EXP -> EXP . TkDisyuncion EXP
-    (20) EXP -> EXP . TkIgual EXP
-    (21) EXP -> EXP . TkDistinto EXP
-    (27) EXP -> EXP . TkMenor EXP
-    (28) EXP -> EXP . TkMenorIgual EXP
-    (29) EXP -> EXP . TkMayor EXP
-    (30) EXP -> EXP . TkMayorIgual EXP
-    (31) EXP -> EXP . TkSuma EXP
-    (32) EXP -> EXP . TkResta EXP
-    (33) EXP -> EXP . TkMult EXP
-    (34) EXP -> EXP . TkDiv EXP
-    (35) EXP -> EXP . TkMod EXP
-
-    TkDosPuntos     shift and go to state 45
-    TkConjuncion    shift and go to state 38
-    TkDisyuncion    shift and go to state 47
-    TkIgual         shift and go to state 41
-    TkDistinto      shift and go to state 44
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
-
-
-state 26
-
-    (24) EXP -> TkParAbre . EXP TkParCierra
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 52
-    LITERAL_BOOL                   shift and go to state 22
-
-state 27
 
     (37) LITERAL_BOOL -> TkTrue .
 
@@ -632,29 +401,76 @@ state 27
     TkPunto         reduce using rule 37 (LITERAL_BOOL -> TkTrue .)
 
 
-state 28
+state 18
 
-    (38) LITERAL_BOOL -> TkFalse .
+    (11) IDENT -> TkIdent .
 
-    TkConjuncion    reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkDisyuncion    reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkIgual         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkDistinto      reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkMenor         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkMenorIgual    reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkMayor         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkMayorIgual    reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkSuma          reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkResta         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkMult          reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkDiv           reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkMod           reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkDosPuntos     reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkParCierra     reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
-    TkPunto         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkPunto         reduce using rule 11 (IDENT -> TkIdent .)
+    TkConjuncion    reduce using rule 11 (IDENT -> TkIdent .)
+    TkDisyuncion    reduce using rule 11 (IDENT -> TkIdent .)
+    TkIgual         reduce using rule 11 (IDENT -> TkIdent .)
+    TkDistinto      reduce using rule 11 (IDENT -> TkIdent .)
+    TkMenor         reduce using rule 11 (IDENT -> TkIdent .)
+    TkMenorIgual    reduce using rule 11 (IDENT -> TkIdent .)
+    TkMayor         reduce using rule 11 (IDENT -> TkIdent .)
+    TkMayorIgual    reduce using rule 11 (IDENT -> TkIdent .)
+    TkSuma          reduce using rule 11 (IDENT -> TkIdent .)
+    TkResta         reduce using rule 11 (IDENT -> TkIdent .)
+    TkMult          reduce using rule 11 (IDENT -> TkIdent .)
+    TkDiv           reduce using rule 11 (IDENT -> TkIdent .)
+    TkMod           reduce using rule 11 (IDENT -> TkIdent .)
+    TkComa          reduce using rule 11 (IDENT -> TkIdent .)
+    TkOn            reduce using rule 11 (IDENT -> TkIdent .)
+    TkEnd           reduce using rule 11 (IDENT -> TkIdent .)
+    TkDosPuntos     reduce using rule 11 (IDENT -> TkIdent .)
+    TkParCierra     reduce using rule 11 (IDENT -> TkIdent .)
 
 
-state 29
+state 19
+
+    (23) EXP -> LITERAL_BOOL .
+
+    TkConjuncion    reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkDisyuncion    reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkIgual         reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkDistinto      reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkMenor         reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkMenorIgual    reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkMayor         reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkMayorIgual    reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkSuma          reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkResta         reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkMult          reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkDiv           reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkMod           reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkDosPuntos     reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkParCierra     reduce using rule 23 (EXP -> LITERAL_BOOL .)
+    TkPunto         reduce using rule 23 (EXP -> LITERAL_BOOL .)
+
+
+state 20
+
+    (22) EXP -> IDENT .
+
+    TkConjuncion    reduce using rule 22 (EXP -> IDENT .)
+    TkDisyuncion    reduce using rule 22 (EXP -> IDENT .)
+    TkIgual         reduce using rule 22 (EXP -> IDENT .)
+    TkDistinto      reduce using rule 22 (EXP -> IDENT .)
+    TkMenor         reduce using rule 22 (EXP -> IDENT .)
+    TkMenorIgual    reduce using rule 22 (EXP -> IDENT .)
+    TkMayor         reduce using rule 22 (EXP -> IDENT .)
+    TkMayorIgual    reduce using rule 22 (EXP -> IDENT .)
+    TkSuma          reduce using rule 22 (EXP -> IDENT .)
+    TkResta         reduce using rule 22 (EXP -> IDENT .)
+    TkMult          reduce using rule 22 (EXP -> IDENT .)
+    TkDiv           reduce using rule 22 (EXP -> IDENT .)
+    TkMod           reduce using rule 22 (EXP -> IDENT .)
+    TkDosPuntos     reduce using rule 22 (EXP -> IDENT .)
+    TkParCierra     reduce using rule 22 (EXP -> IDENT .)
+    TkPunto         reduce using rule 22 (EXP -> IDENT .)
+
+
+state 21
 
     (26) EXP -> TkResta . EXP
     (18) EXP -> . EXP TkConjuncion EXP
@@ -680,28 +496,41 @@ state 29
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 53
-    LITERAL_BOOL                   shift and go to state 22
+    EXP                            shift and go to state 33
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
-state 30
+state 22
 
-    (59) EXECUTE -> TkExecute INST_CONTROLADOR TkEnd .
+    (36) EXP -> TkNum .
 
-    TkEnd           reduce using rule 59 (EXECUTE -> TkExecute INST_CONTROLADOR TkEnd .)
-    TkElse          reduce using rule 59 (EXECUTE -> TkExecute INST_CONTROLADOR TkEnd .)
-    $end            reduce using rule 59 (EXECUTE -> TkExecute INST_CONTROLADOR TkEnd .)
+    TkConjuncion    reduce using rule 36 (EXP -> TkNum .)
+    TkDisyuncion    reduce using rule 36 (EXP -> TkNum .)
+    TkIgual         reduce using rule 36 (EXP -> TkNum .)
+    TkDistinto      reduce using rule 36 (EXP -> TkNum .)
+    TkMenor         reduce using rule 36 (EXP -> TkNum .)
+    TkMenorIgual    reduce using rule 36 (EXP -> TkNum .)
+    TkMayor         reduce using rule 36 (EXP -> TkNum .)
+    TkMayorIgual    reduce using rule 36 (EXP -> TkNum .)
+    TkSuma          reduce using rule 36 (EXP -> TkNum .)
+    TkResta         reduce using rule 36 (EXP -> TkNum .)
+    TkMult          reduce using rule 36 (EXP -> TkNum .)
+    TkDiv           reduce using rule 36 (EXP -> TkNum .)
+    TkMod           reduce using rule 36 (EXP -> TkNum .)
+    TkDosPuntos     reduce using rule 36 (EXP -> TkNum .)
+    TkParCierra     reduce using rule 36 (EXP -> TkNum .)
+    TkPunto         reduce using rule 36 (EXP -> TkNum .)
 
 
-state 31
+state 23
 
     (63) INST_CONTROLADOR -> TkIf EXP . TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
     (18) EXP -> EXP . TkConjuncion EXP
@@ -718,71 +547,154 @@ state 31
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     shift and go to state 54
-    TkConjuncion    shift and go to state 38
-    TkDisyuncion    shift and go to state 47
+    TkDosPuntos     shift and go to state 37
+    TkConjuncion    shift and go to state 34
+    TkDisyuncion    shift and go to state 46
     TkIgual         shift and go to state 41
-    TkDistinto      shift and go to state 44
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkDistinto      shift and go to state 45
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
 
-state 32
+state 24
 
-    (60) INST_CONTROLADOR -> TkActivate IDENT . LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (25) EXP -> TkNegacion . EXP
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 48
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 25
+
+    (24) EXP -> TkParAbre . EXP TkParCierra
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 49
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 26
+
+    (38) LITERAL_BOOL -> TkFalse .
+
+    TkConjuncion    reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkDisyuncion    reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkIgual         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkDistinto      reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkMenor         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkMenorIgual    reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkMayor         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkMayorIgual    reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkSuma          reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkResta         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkMult          reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkDiv           reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkMod           reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkDosPuntos     reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkParCierra     reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+    TkPunto         reduce using rule 38 (LITERAL_BOOL -> TkFalse .)
+
+
+state 27
+
+    (59) EXECUTE -> TkExecute INST_CONTROLADOR TkEnd .
+
+    TkEnd           reduce using rule 59 (EXECUTE -> TkExecute INST_CONTROLADOR TkEnd .)
+    TkElse          reduce using rule 59 (EXECUTE -> TkExecute INST_CONTROLADOR TkEnd .)
+    $end            reduce using rule 59 (EXECUTE -> TkExecute INST_CONTROLADOR TkEnd .)
+
+
+state 28
+
+    (61) INST_CONTROLADOR -> TkAdvance IDENT . LISTA_IDENT TkPunto INST_CONTROLADOR_A
     (9) LISTA_IDENT -> . TkComa IDENT LISTA_IDENT
     (10) LISTA_IDENT -> .
 
-    TkComa          shift and go to state 35
+    TkComa          shift and go to state 51
     TkPunto         reduce using rule 10 (LISTA_IDENT -> .)
 
-    LISTA_IDENT                    shift and go to state 55
+    LISTA_IDENT                    shift and go to state 50
 
-state 33
+state 29
 
-    (3) CREATE -> TkCreate TYPE TkBot IDENT . LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (62) INST_CONTROLADOR -> TkDeactivate IDENT . LISTA_IDENT TkPunto INST_CONTROLADOR_A
     (9) LISTA_IDENT -> . TkComa IDENT LISTA_IDENT
     (10) LISTA_IDENT -> .
 
-    TkComa          shift and go to state 35
-    TkOn            reduce using rule 10 (LISTA_IDENT -> .)
-    TkEnd           reduce using rule 10 (LISTA_IDENT -> .)
+    TkComa          shift and go to state 51
+    TkPunto         reduce using rule 10 (LISTA_IDENT -> .)
 
-    LISTA_IDENT                    shift and go to state 56
+    LISTA_IDENT                    shift and go to state 52
 
-state 34
+state 30
 
-    (61) INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT . TkPunto INST_CONTROLADOR_A
-
-    TkPunto         shift and go to state 57
-
-
-state 35
-
-    (9) LISTA_IDENT -> TkComa . IDENT LISTA_IDENT
-    (11) IDENT -> . TkIdent
-
-    TkIdent         shift and go to state 19
-
-    IDENT                          shift and go to state 58
-
-state 36
-
-    (62) INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT . TkPunto INST_CONTROLADOR_A
-
-    TkPunto         shift and go to state 59
-
-
-state 37
-
-    (25) EXP -> TkNegacion EXP .
+    (64) INST_CONTROLADOR -> TkWhile EXP . TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
     (18) EXP -> EXP . TkConjuncion EXP
     (19) EXP -> EXP . TkDisyuncion EXP
     (20) EXP -> EXP . TkIgual EXP
@@ -797,39 +709,92 @@ state 37
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkConjuncion    reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkDisyuncion    reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkIgual         reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkDistinto      reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkMenor         reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkMenorIgual    reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkMayor         reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkMayorIgual    reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkParCierra     reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkPunto         reduce using rule 25 (EXP -> TkNegacion EXP .)
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkDosPuntos     shift and go to state 53
+    TkConjuncion    shift and go to state 34
+    TkDisyuncion    shift and go to state 46
+    TkIgual         shift and go to state 41
+    TkDistinto      shift and go to state 45
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
-  ! TkSuma          [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
-  ! TkResta         [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
-  ! TkMult          [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
-  ! TkDiv           [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
-  ! TkMod           [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+
+state 31
+
+    (60) INST_CONTROLADOR -> TkActivate IDENT . LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (9) LISTA_IDENT -> . TkComa IDENT LISTA_IDENT
+    (10) LISTA_IDENT -> .
+
+    TkComa          shift and go to state 51
+    TkPunto         reduce using rule 10 (LISTA_IDENT -> .)
+
+    LISTA_IDENT                    shift and go to state 54
+
+state 32
+
+    (3) CREATE -> TkCreate TYPE TkBot . IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (11) IDENT -> . TkIdent
+
+    TkIdent         shift and go to state 18
+
+    IDENT                          shift and go to state 55
+
+state 33
+
+    (26) EXP -> TkResta EXP .
+    (18) EXP -> EXP . TkConjuncion EXP
+    (19) EXP -> EXP . TkDisyuncion EXP
+    (20) EXP -> EXP . TkIgual EXP
+    (21) EXP -> EXP . TkDistinto EXP
+    (27) EXP -> EXP . TkMenor EXP
+    (28) EXP -> EXP . TkMenorIgual EXP
+    (29) EXP -> EXP . TkMayor EXP
+    (30) EXP -> EXP . TkMayorIgual EXP
+    (31) EXP -> EXP . TkSuma EXP
+    (32) EXP -> EXP . TkResta EXP
+    (33) EXP -> EXP . TkMult EXP
+    (34) EXP -> EXP . TkDiv EXP
+    (35) EXP -> EXP . TkMod EXP
+
+    TkConjuncion    reduce using rule 26 (EXP -> TkResta EXP .)
+    TkDisyuncion    reduce using rule 26 (EXP -> TkResta EXP .)
+    TkIgual         reduce using rule 26 (EXP -> TkResta EXP .)
+    TkDistinto      reduce using rule 26 (EXP -> TkResta EXP .)
+    TkMenor         reduce using rule 26 (EXP -> TkResta EXP .)
+    TkMenorIgual    reduce using rule 26 (EXP -> TkResta EXP .)
+    TkMayor         reduce using rule 26 (EXP -> TkResta EXP .)
+    TkMayorIgual    reduce using rule 26 (EXP -> TkResta EXP .)
+    TkSuma          reduce using rule 26 (EXP -> TkResta EXP .)
+    TkResta         reduce using rule 26 (EXP -> TkResta EXP .)
+    TkMult          reduce using rule 26 (EXP -> TkResta EXP .)
+    TkDiv           reduce using rule 26 (EXP -> TkResta EXP .)
+    TkMod           reduce using rule 26 (EXP -> TkResta EXP .)
+    TkDosPuntos     reduce using rule 26 (EXP -> TkResta EXP .)
+    TkParCierra     reduce using rule 26 (EXP -> TkResta EXP .)
+    TkPunto         reduce using rule 26 (EXP -> TkResta EXP .)
+
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
   ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenor         [ shift and go to state 39 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayor         [ shift and go to state 43 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenor         [ shift and go to state 35 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayor         [ shift and go to state 44 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
+  ! TkSuma          [ shift and go to state 42 ]
+  ! TkResta         [ shift and go to state 39 ]
+  ! TkMult          [ shift and go to state 43 ]
+  ! TkDiv           [ shift and go to state 40 ]
+  ! TkMod           [ shift and go to state 36 ]
 
 
-state 38
+state 34
 
     (18) EXP -> EXP TkConjuncion . EXP
     (18) EXP -> . EXP TkConjuncion EXP
@@ -855,19 +820,19 @@ state 38
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 60
-    LITERAL_BOOL                   shift and go to state 22
+    EXP                            shift and go to state 56
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
-state 39
+state 35
 
     (27) EXP -> EXP TkMenor . EXP
     (18) EXP -> . EXP TkConjuncion EXP
@@ -893,19 +858,19 @@ state 39
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 61
-    LITERAL_BOOL                   shift and go to state 22
+    EXP                            shift and go to state 57
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
-state 40
+state 36
 
     (35) EXP -> EXP TkMod . EXP
     (18) EXP -> . EXP TkConjuncion EXP
@@ -931,17 +896,161 @@ state 40
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
+    EXP                            shift and go to state 58
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 37
+
+    (63) INST_CONTROLADOR -> TkIf EXP TkDosPuntos . CONTENIDO TkEnd INST_CONTROLADOR_A
+    (66) CONTENIDO -> . INST_CONTROLADOR
+    (67) CONTENIDO -> . INST_CONTROLADOR TkElse TkDosPuntos INST_CONTROLADOR
+    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
+    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+    (65) INST_CONTROLADOR -> . INICIO
+    (1) INICIO -> . CREATE
+    (2) INICIO -> . EXECUTE
+    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
+
+    TkActivate      shift and go to state 12
+    TkAdvance       shift and go to state 8
+    TkDeactivate    shift and go to state 10
+    TkIf            shift and go to state 6
+    TkWhile         shift and go to state 11
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
+
+    CONTENIDO                      shift and go to state 60
+    CREATE                         shift and go to state 2
+    EXECUTE                        shift and go to state 4
+    INICIO                         shift and go to state 9
+    INST_CONTROLADOR               shift and go to state 59
+
+state 38
+
+    (30) EXP -> EXP TkMayorIgual . EXP
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 61
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 39
+
+    (32) EXP -> EXP TkResta . EXP
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
     EXP                            shift and go to state 62
-    LITERAL_BOOL                   shift and go to state 22
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 40
+
+    (34) EXP -> EXP TkDiv . EXP
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 63
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
 state 41
 
@@ -969,274 +1078,19 @@ state 41
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 63
-    LITERAL_BOOL                   shift and go to state 22
+    EXP                            shift and go to state 64
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
 state 42
-
-    (34) EXP -> EXP TkDiv . EXP
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 64
-    LITERAL_BOOL                   shift and go to state 22
-
-state 43
-
-    (29) EXP -> EXP TkMayor . EXP
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 65
-    LITERAL_BOOL                   shift and go to state 22
-
-state 44
-
-    (21) EXP -> EXP TkDistinto . EXP
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 66
-    LITERAL_BOOL                   shift and go to state 22
-
-state 45
-
-    (64) INST_CONTROLADOR -> TkWhile EXP TkDosPuntos . INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
-    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (65) INST_CONTROLADOR -> . INICIO
-    (1) INICIO -> . CREATE
-    (2) INICIO -> . EXECUTE
-    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
-
-    TkActivate      shift and go to state 16
-    TkAdvance       shift and go to state 10
-    TkDeactivate    shift and go to state 12
-    TkIf            shift and go to state 15
-    TkWhile         shift and go to state 13
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
-
-    INST_CONTROLADOR               shift and go to state 67
-    INICIO                         shift and go to state 11
-    EXECUTE                        shift and go to state 2
-    CREATE                         shift and go to state 5
-
-state 46
-
-    (33) EXP -> EXP TkMult . EXP
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 68
-    LITERAL_BOOL                   shift and go to state 22
-
-state 47
-
-    (19) EXP -> EXP TkDisyuncion . EXP
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 69
-    LITERAL_BOOL                   shift and go to state 22
-
-state 48
-
-    (30) EXP -> EXP TkMayorIgual . EXP
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 70
-    LITERAL_BOOL                   shift and go to state 22
-
-state 49
 
     (31) EXP -> EXP TkSuma . EXP
     (18) EXP -> . EXP TkConjuncion EXP
@@ -1262,19 +1116,171 @@ state 49
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 71
-    LITERAL_BOOL                   shift and go to state 22
+    EXP                            shift and go to state 65
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
-state 50
+state 43
+
+    (33) EXP -> EXP TkMult . EXP
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 66
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 44
+
+    (29) EXP -> EXP TkMayor . EXP
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 67
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 45
+
+    (21) EXP -> EXP TkDistinto . EXP
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 68
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 46
+
+    (19) EXP -> EXP TkDisyuncion . EXP
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 69
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 47
 
     (28) EXP -> EXP TkMenorIgual . EXP
     (18) EXP -> . EXP TkConjuncion EXP
@@ -1300,57 +1306,68 @@ state 50
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 72
-    LITERAL_BOOL                   shift and go to state 22
+    EXP                            shift and go to state 70
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
-state 51
+state 48
 
-    (32) EXP -> EXP TkResta . EXP
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
+    (25) EXP -> TkNegacion EXP .
+    (18) EXP -> EXP . TkConjuncion EXP
+    (19) EXP -> EXP . TkDisyuncion EXP
+    (20) EXP -> EXP . TkIgual EXP
+    (21) EXP -> EXP . TkDistinto EXP
+    (27) EXP -> EXP . TkMenor EXP
+    (28) EXP -> EXP . TkMenorIgual EXP
+    (29) EXP -> EXP . TkMayor EXP
+    (30) EXP -> EXP . TkMayorIgual EXP
+    (31) EXP -> EXP . TkSuma EXP
+    (32) EXP -> EXP . TkResta EXP
+    (33) EXP -> EXP . TkMult EXP
+    (34) EXP -> EXP . TkDiv EXP
+    (35) EXP -> EXP . TkMod EXP
 
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkConjuncion    reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkDisyuncion    reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkIgual         reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkDistinto      reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkMenor         reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkMenorIgual    reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkMayor         reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkMayorIgual    reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkDosPuntos     reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkParCierra     reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkPunto         reduce using rule 25 (EXP -> TkNegacion EXP .)
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 73
-    LITERAL_BOOL                   shift and go to state 22
+  ! TkSuma          [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
+  ! TkResta         [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
+  ! TkMult          [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
+  ! TkDiv           [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
+  ! TkMod           [ reduce using rule 25 (EXP -> TkNegacion EXP .) ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
+  ! TkIgual         [ shift and go to state 41 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenor         [ shift and go to state 35 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayor         [ shift and go to state 44 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
 
-state 52
+
+state 49
 
     (24) EXP -> TkParAbre EXP . TkParCierra
     (18) EXP -> EXP . TkConjuncion EXP
@@ -1367,197 +1384,92 @@ state 52
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkParCierra     shift and go to state 74
-    TkConjuncion    shift and go to state 38
-    TkDisyuncion    shift and go to state 47
+    TkParCierra     shift and go to state 71
+    TkConjuncion    shift and go to state 34
+    TkDisyuncion    shift and go to state 46
     TkIgual         shift and go to state 41
-    TkDistinto      shift and go to state 44
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkDistinto      shift and go to state 45
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
+
+
+state 50
+
+    (61) INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT . TkPunto INST_CONTROLADOR_A
+
+    TkPunto         shift and go to state 72
+
+
+state 51
+
+    (9) LISTA_IDENT -> TkComa . IDENT LISTA_IDENT
+    (11) IDENT -> . TkIdent
+
+    TkIdent         shift and go to state 18
+
+    IDENT                          shift and go to state 73
+
+state 52
+
+    (62) INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT . TkPunto INST_CONTROLADOR_A
+
+    TkPunto         shift and go to state 74
 
 
 state 53
 
-    (26) EXP -> TkResta EXP .
-    (18) EXP -> EXP . TkConjuncion EXP
-    (19) EXP -> EXP . TkDisyuncion EXP
-    (20) EXP -> EXP . TkIgual EXP
-    (21) EXP -> EXP . TkDistinto EXP
-    (27) EXP -> EXP . TkMenor EXP
-    (28) EXP -> EXP . TkMenorIgual EXP
-    (29) EXP -> EXP . TkMayor EXP
-    (30) EXP -> EXP . TkMayorIgual EXP
-    (31) EXP -> EXP . TkSuma EXP
-    (32) EXP -> EXP . TkResta EXP
-    (33) EXP -> EXP . TkMult EXP
-    (34) EXP -> EXP . TkDiv EXP
-    (35) EXP -> EXP . TkMod EXP
+    (64) INST_CONTROLADOR -> TkWhile EXP TkDosPuntos . INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
+    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+    (65) INST_CONTROLADOR -> . INICIO
+    (1) INICIO -> . CREATE
+    (2) INICIO -> . EXECUTE
+    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
 
-    TkDosPuntos     reduce using rule 26 (EXP -> TkResta EXP .)
-    TkConjuncion    reduce using rule 26 (EXP -> TkResta EXP .)
-    TkDisyuncion    reduce using rule 26 (EXP -> TkResta EXP .)
-    TkIgual         reduce using rule 26 (EXP -> TkResta EXP .)
-    TkDistinto      reduce using rule 26 (EXP -> TkResta EXP .)
-    TkMenor         reduce using rule 26 (EXP -> TkResta EXP .)
-    TkMenorIgual    reduce using rule 26 (EXP -> TkResta EXP .)
-    TkMayor         reduce using rule 26 (EXP -> TkResta EXP .)
-    TkMayorIgual    reduce using rule 26 (EXP -> TkResta EXP .)
-    TkSuma          reduce using rule 26 (EXP -> TkResta EXP .)
-    TkResta         reduce using rule 26 (EXP -> TkResta EXP .)
-    TkMult          reduce using rule 26 (EXP -> TkResta EXP .)
-    TkDiv           reduce using rule 26 (EXP -> TkResta EXP .)
-    TkMod           reduce using rule 26 (EXP -> TkResta EXP .)
-    TkParCierra     reduce using rule 26 (EXP -> TkResta EXP .)
-    TkPunto         reduce using rule 26 (EXP -> TkResta EXP .)
+    TkActivate      shift and go to state 12
+    TkAdvance       shift and go to state 8
+    TkDeactivate    shift and go to state 10
+    TkIf            shift and go to state 6
+    TkWhile         shift and go to state 11
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
 
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
-  ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenor         [ shift and go to state 39 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayor         [ shift and go to state 43 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
-  ! TkSuma          [ shift and go to state 49 ]
-  ! TkResta         [ shift and go to state 51 ]
-  ! TkMult          [ shift and go to state 46 ]
-  ! TkDiv           [ shift and go to state 42 ]
-  ! TkMod           [ shift and go to state 40 ]
-
+    CREATE                         shift and go to state 2
+    EXECUTE                        shift and go to state 4
+    INICIO                         shift and go to state 9
+    INST_CONTROLADOR               shift and go to state 75
 
 state 54
 
-    (63) INST_CONTROLADOR -> TkIf EXP TkDosPuntos . CONTENIDO TkEnd INST_CONTROLADOR_A
-    (66) CONTENIDO -> . INST_CONTROLADOR
-    (67) CONTENIDO -> . INST_CONTROLADOR TkElse TkDosPuntos INST_CONTROLADOR
-    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
-    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (65) INST_CONTROLADOR -> . INICIO
-    (1) INICIO -> . CREATE
-    (2) INICIO -> . EXECUTE
-    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
+    (60) INST_CONTROLADOR -> TkActivate IDENT LISTA_IDENT . TkPunto INST_CONTROLADOR_A
 
-    TkActivate      shift and go to state 16
-    TkAdvance       shift and go to state 10
-    TkDeactivate    shift and go to state 12
-    TkIf            shift and go to state 15
-    TkWhile         shift and go to state 13
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
+    TkPunto         shift and go to state 76
 
-    INST_CONTROLADOR               shift and go to state 76
-    CONTENIDO                      shift and go to state 75
-    INICIO                         shift and go to state 11
-    EXECUTE                        shift and go to state 2
-    CREATE                         shift and go to state 5
 
 state 55
 
-    (60) INST_CONTROLADOR -> TkActivate IDENT LISTA_IDENT . TkPunto INST_CONTROLADOR_A
-
-    TkPunto         shift and go to state 77
-
-
-state 56
-
-    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT . COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (12) COMPORTAMIENTO -> . TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO
-    (13) COMPORTAMIENTO -> .
-
-    TkOn            shift and go to state 78
-    TkEnd           reduce using rule 13 (COMPORTAMIENTO -> .)
-
-    COMPORTAMIENTO                 shift and go to state 79
-
-state 57
-
-    (61) INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT TkPunto . INST_CONTROLADOR_A
-    (68) INST_CONTROLADOR_A -> . INST_CONTROLADOR
-    (69) INST_CONTROLADOR_A -> .
-    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
-    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (65) INST_CONTROLADOR -> . INICIO
-    (1) INICIO -> . CREATE
-    (2) INICIO -> . EXECUTE
-    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
-
-    TkEnd           reduce using rule 69 (INST_CONTROLADOR_A -> .)
-    TkElse          reduce using rule 69 (INST_CONTROLADOR_A -> .)
-    TkActivate      shift and go to state 16
-    TkAdvance       shift and go to state 10
-    TkDeactivate    shift and go to state 12
-    TkIf            shift and go to state 15
-    TkWhile         shift and go to state 13
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
-
-    INST_CONTROLADOR_A             shift and go to state 80
-    INST_CONTROLADOR               shift and go to state 81
-    INICIO                         shift and go to state 11
-    EXECUTE                        shift and go to state 2
-    CREATE                         shift and go to state 5
-
-state 58
-
-    (9) LISTA_IDENT -> TkComa IDENT . LISTA_IDENT
+    (3) CREATE -> TkCreate TYPE TkBot IDENT . LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
     (9) LISTA_IDENT -> . TkComa IDENT LISTA_IDENT
     (10) LISTA_IDENT -> .
 
-    TkComa          shift and go to state 35
-    TkPunto         reduce using rule 10 (LISTA_IDENT -> .)
+    TkComa          shift and go to state 51
     TkOn            reduce using rule 10 (LISTA_IDENT -> .)
     TkEnd           reduce using rule 10 (LISTA_IDENT -> .)
 
-    LISTA_IDENT                    shift and go to state 82
+    LISTA_IDENT                    shift and go to state 77
 
-state 59
-
-    (62) INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT TkPunto . INST_CONTROLADOR_A
-    (68) INST_CONTROLADOR_A -> . INST_CONTROLADOR
-    (69) INST_CONTROLADOR_A -> .
-    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
-    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (65) INST_CONTROLADOR -> . INICIO
-    (1) INICIO -> . CREATE
-    (2) INICIO -> . EXECUTE
-    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
-
-    TkEnd           reduce using rule 69 (INST_CONTROLADOR_A -> .)
-    TkElse          reduce using rule 69 (INST_CONTROLADOR_A -> .)
-    TkActivate      shift and go to state 16
-    TkAdvance       shift and go to state 10
-    TkDeactivate    shift and go to state 12
-    TkIf            shift and go to state 15
-    TkWhile         shift and go to state 13
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
-
-    INST_CONTROLADOR_A             shift and go to state 83
-    INST_CONTROLADOR               shift and go to state 81
-    INICIO                         shift and go to state 11
-    EXECUTE                        shift and go to state 2
-    CREATE                         shift and go to state 5
-
-state 60
+state 56
 
     (18) EXP -> EXP TkConjuncion EXP .
     (18) EXP -> EXP . TkConjuncion EXP
@@ -1574,22 +1486,22 @@ state 60
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 18 (EXP -> EXP TkConjuncion EXP .)
     TkConjuncion    reduce using rule 18 (EXP -> EXP TkConjuncion EXP .)
     TkDisyuncion    reduce using rule 18 (EXP -> EXP TkConjuncion EXP .)
+    TkDosPuntos     reduce using rule 18 (EXP -> EXP TkConjuncion EXP .)
     TkParCierra     reduce using rule 18 (EXP -> EXP TkConjuncion EXP .)
     TkPunto         reduce using rule 18 (EXP -> EXP TkConjuncion EXP .)
     TkIgual         shift and go to state 41
-    TkDistinto      shift and go to state 44
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkDistinto      shift and go to state 45
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
   ! TkIgual         [ reduce using rule 18 (EXP -> EXP TkConjuncion EXP .) ]
   ! TkDistinto      [ reduce using rule 18 (EXP -> EXP TkConjuncion EXP .) ]
@@ -1602,11 +1514,11 @@ state 60
   ! TkMult          [ reduce using rule 18 (EXP -> EXP TkConjuncion EXP .) ]
   ! TkDiv           [ reduce using rule 18 (EXP -> EXP TkConjuncion EXP .) ]
   ! TkMod           [ reduce using rule 18 (EXP -> EXP TkConjuncion EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
 
 
-state 61
+state 57
 
     (27) EXP -> EXP TkMenor EXP .
     (18) EXP -> EXP . TkConjuncion EXP
@@ -1623,7 +1535,6 @@ state 61
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 27 (EXP -> EXP TkMenor EXP .)
     TkConjuncion    reduce using rule 27 (EXP -> EXP TkMenor EXP .)
     TkDisyuncion    reduce using rule 27 (EXP -> EXP TkMenor EXP .)
     TkIgual         reduce using rule 27 (EXP -> EXP TkMenor EXP .)
@@ -1631,14 +1542,15 @@ state 61
     TkMenor         reduce using rule 27 (EXP -> EXP TkMenor EXP .)
     TkMenorIgual    reduce using rule 27 (EXP -> EXP TkMenor EXP .)
     TkMayorIgual    reduce using rule 27 (EXP -> EXP TkMenor EXP .)
+    TkDosPuntos     reduce using rule 27 (EXP -> EXP TkMenor EXP .)
     TkParCierra     reduce using rule 27 (EXP -> EXP TkMenor EXP .)
     TkPunto         reduce using rule 27 (EXP -> EXP TkMenor EXP .)
-    TkMayor         shift and go to state 43
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkMayor         shift and go to state 44
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
   ! TkMayor         [ reduce using rule 27 (EXP -> EXP TkMenor EXP .) ]
   ! TkSuma          [ reduce using rule 27 (EXP -> EXP TkMenor EXP .) ]
@@ -1646,16 +1558,16 @@ state 61
   ! TkMult          [ reduce using rule 27 (EXP -> EXP TkMenor EXP .) ]
   ! TkDiv           [ reduce using rule 27 (EXP -> EXP TkMenor EXP .) ]
   ! TkMod           [ reduce using rule 27 (EXP -> EXP TkMenor EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
   ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenor         [ shift and go to state 39 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenor         [ shift and go to state 35 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
 
 
-state 62
+state 58
 
     (35) EXP -> EXP TkMod EXP .
     (18) EXP -> EXP . TkConjuncion EXP
@@ -1672,7 +1584,6 @@ state 62
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 35 (EXP -> EXP TkMod EXP .)
     TkConjuncion    reduce using rule 35 (EXP -> EXP TkMod EXP .)
     TkDisyuncion    reduce using rule 35 (EXP -> EXP TkMod EXP .)
     TkIgual         reduce using rule 35 (EXP -> EXP TkMod EXP .)
@@ -1686,27 +1597,44 @@ state 62
     TkMult          reduce using rule 35 (EXP -> EXP TkMod EXP .)
     TkDiv           reduce using rule 35 (EXP -> EXP TkMod EXP .)
     TkMod           reduce using rule 35 (EXP -> EXP TkMod EXP .)
+    TkDosPuntos     reduce using rule 35 (EXP -> EXP TkMod EXP .)
     TkParCierra     reduce using rule 35 (EXP -> EXP TkMod EXP .)
     TkPunto         reduce using rule 35 (EXP -> EXP TkMod EXP .)
 
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
   ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenor         [ shift and go to state 39 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayor         [ shift and go to state 43 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
-  ! TkSuma          [ shift and go to state 49 ]
-  ! TkResta         [ shift and go to state 51 ]
-  ! TkMult          [ shift and go to state 46 ]
-  ! TkDiv           [ shift and go to state 42 ]
-  ! TkMod           [ shift and go to state 40 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenor         [ shift and go to state 35 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayor         [ shift and go to state 44 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
+  ! TkSuma          [ shift and go to state 42 ]
+  ! TkResta         [ shift and go to state 39 ]
+  ! TkMult          [ shift and go to state 43 ]
+  ! TkDiv           [ shift and go to state 40 ]
+  ! TkMod           [ shift and go to state 36 ]
 
 
-state 63
+state 59
 
-    (20) EXP -> EXP TkIgual EXP .
+    (66) CONTENIDO -> INST_CONTROLADOR .
+    (67) CONTENIDO -> INST_CONTROLADOR . TkElse TkDosPuntos INST_CONTROLADOR
+
+    TkEnd           reduce using rule 66 (CONTENIDO -> INST_CONTROLADOR .)
+    TkElse          shift and go to state 78
+
+
+state 60
+
+    (63) INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO . TkEnd INST_CONTROLADOR_A
+
+    TkEnd           shift and go to state 79
+
+
+state 61
+
+    (30) EXP -> EXP TkMayorIgual EXP .
     (18) EXP -> EXP . TkConjuncion EXP
     (19) EXP -> EXP . TkDisyuncion EXP
     (20) EXP -> EXP . TkIgual EXP
@@ -1721,39 +1649,88 @@ state 63
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 20 (EXP -> EXP TkIgual EXP .)
-    TkConjuncion    reduce using rule 20 (EXP -> EXP TkIgual EXP .)
-    TkDisyuncion    reduce using rule 20 (EXP -> EXP TkIgual EXP .)
-    TkIgual         reduce using rule 20 (EXP -> EXP TkIgual EXP .)
-    TkDistinto      reduce using rule 20 (EXP -> EXP TkIgual EXP .)
-    TkParCierra     reduce using rule 20 (EXP -> EXP TkIgual EXP .)
-    TkPunto         reduce using rule 20 (EXP -> EXP TkIgual EXP .)
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkConjuncion    reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
+    TkDisyuncion    reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
+    TkIgual         reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
+    TkDistinto      reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
+    TkMenorIgual    reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
+    TkMayorIgual    reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
+    TkDosPuntos     reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
+    TkParCierra     reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
+    TkPunto         reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
+    TkMenor         shift and go to state 35
+    TkMayor         shift and go to state 44
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
-  ! TkMenor         [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
-  ! TkMenorIgual    [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
-  ! TkMayor         [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
-  ! TkMayorIgual    [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
-  ! TkSuma          [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
-  ! TkResta         [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
-  ! TkMult          [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
-  ! TkDiv           [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
-  ! TkMod           [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+  ! TkMenor         [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
+  ! TkMayor         [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
+  ! TkSuma          [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
+  ! TkResta         [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
+  ! TkMult          [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
+  ! TkDiv           [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
+  ! TkMod           [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
   ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
 
 
-state 64
+state 62
+
+    (32) EXP -> EXP TkResta EXP .
+    (18) EXP -> EXP . TkConjuncion EXP
+    (19) EXP -> EXP . TkDisyuncion EXP
+    (20) EXP -> EXP . TkIgual EXP
+    (21) EXP -> EXP . TkDistinto EXP
+    (27) EXP -> EXP . TkMenor EXP
+    (28) EXP -> EXP . TkMenorIgual EXP
+    (29) EXP -> EXP . TkMayor EXP
+    (30) EXP -> EXP . TkMayorIgual EXP
+    (31) EXP -> EXP . TkSuma EXP
+    (32) EXP -> EXP . TkResta EXP
+    (33) EXP -> EXP . TkMult EXP
+    (34) EXP -> EXP . TkDiv EXP
+    (35) EXP -> EXP . TkMod EXP
+
+    TkConjuncion    reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkDisyuncion    reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkIgual         reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkDistinto      reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkMenor         reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkMenorIgual    reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkMayor         reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkMayorIgual    reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkSuma          reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkResta         reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkDosPuntos     reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkParCierra     reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkPunto         reduce using rule 32 (EXP -> EXP TkResta EXP .)
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
+
+  ! TkMult          [ reduce using rule 32 (EXP -> EXP TkResta EXP .) ]
+  ! TkDiv           [ reduce using rule 32 (EXP -> EXP TkResta EXP .) ]
+  ! TkMod           [ reduce using rule 32 (EXP -> EXP TkResta EXP .) ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
+  ! TkIgual         [ shift and go to state 41 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenor         [ shift and go to state 35 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayor         [ shift and go to state 44 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
+  ! TkSuma          [ shift and go to state 42 ]
+  ! TkResta         [ shift and go to state 39 ]
+
+
+state 63
 
     (34) EXP -> EXP TkDiv EXP .
     (18) EXP -> EXP . TkConjuncion EXP
@@ -1770,7 +1747,6 @@ state 64
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 34 (EXP -> EXP TkDiv EXP .)
     TkConjuncion    reduce using rule 34 (EXP -> EXP TkDiv EXP .)
     TkDisyuncion    reduce using rule 34 (EXP -> EXP TkDiv EXP .)
     TkIgual         reduce using rule 34 (EXP -> EXP TkDiv EXP .)
@@ -1784,27 +1760,77 @@ state 64
     TkMult          reduce using rule 34 (EXP -> EXP TkDiv EXP .)
     TkDiv           reduce using rule 34 (EXP -> EXP TkDiv EXP .)
     TkMod           reduce using rule 34 (EXP -> EXP TkDiv EXP .)
+    TkDosPuntos     reduce using rule 34 (EXP -> EXP TkDiv EXP .)
     TkParCierra     reduce using rule 34 (EXP -> EXP TkDiv EXP .)
     TkPunto         reduce using rule 34 (EXP -> EXP TkDiv EXP .)
 
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
   ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenor         [ shift and go to state 39 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayor         [ shift and go to state 43 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
-  ! TkSuma          [ shift and go to state 49 ]
-  ! TkResta         [ shift and go to state 51 ]
-  ! TkMult          [ shift and go to state 46 ]
-  ! TkDiv           [ shift and go to state 42 ]
-  ! TkMod           [ shift and go to state 40 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenor         [ shift and go to state 35 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayor         [ shift and go to state 44 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
+  ! TkSuma          [ shift and go to state 42 ]
+  ! TkResta         [ shift and go to state 39 ]
+  ! TkMult          [ shift and go to state 43 ]
+  ! TkDiv           [ shift and go to state 40 ]
+  ! TkMod           [ shift and go to state 36 ]
+
+
+state 64
+
+    (20) EXP -> EXP TkIgual EXP .
+    (18) EXP -> EXP . TkConjuncion EXP
+    (19) EXP -> EXP . TkDisyuncion EXP
+    (20) EXP -> EXP . TkIgual EXP
+    (21) EXP -> EXP . TkDistinto EXP
+    (27) EXP -> EXP . TkMenor EXP
+    (28) EXP -> EXP . TkMenorIgual EXP
+    (29) EXP -> EXP . TkMayor EXP
+    (30) EXP -> EXP . TkMayorIgual EXP
+    (31) EXP -> EXP . TkSuma EXP
+    (32) EXP -> EXP . TkResta EXP
+    (33) EXP -> EXP . TkMult EXP
+    (34) EXP -> EXP . TkDiv EXP
+    (35) EXP -> EXP . TkMod EXP
+
+    TkConjuncion    reduce using rule 20 (EXP -> EXP TkIgual EXP .)
+    TkDisyuncion    reduce using rule 20 (EXP -> EXP TkIgual EXP .)
+    TkIgual         reduce using rule 20 (EXP -> EXP TkIgual EXP .)
+    TkDistinto      reduce using rule 20 (EXP -> EXP TkIgual EXP .)
+    TkDosPuntos     reduce using rule 20 (EXP -> EXP TkIgual EXP .)
+    TkParCierra     reduce using rule 20 (EXP -> EXP TkIgual EXP .)
+    TkPunto         reduce using rule 20 (EXP -> EXP TkIgual EXP .)
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
+
+  ! TkMenor         [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
+  ! TkMenorIgual    [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
+  ! TkMayor         [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
+  ! TkMayorIgual    [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
+  ! TkSuma          [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
+  ! TkResta         [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
+  ! TkMult          [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
+  ! TkDiv           [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
+  ! TkMod           [ reduce using rule 20 (EXP -> EXP TkIgual EXP .) ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
+  ! TkIgual         [ shift and go to state 41 ]
+  ! TkDistinto      [ shift and go to state 45 ]
 
 
 state 65
 
-    (29) EXP -> EXP TkMayor EXP .
+    (31) EXP -> EXP TkSuma EXP .
     (18) EXP -> EXP . TkConjuncion EXP
     (19) EXP -> EXP . TkDisyuncion EXP
     (20) EXP -> EXP . TkIgual EXP
@@ -1819,95 +1845,39 @@ state 65
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkConjuncion    reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkDisyuncion    reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkIgual         reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkDistinto      reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkMenor         reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkMenorIgual    reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkMayor         reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkMayorIgual    reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkParCierra     reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkPunto         reduce using rule 29 (EXP -> EXP TkMayor EXP .)
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkConjuncion    reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkDisyuncion    reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkIgual         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkDistinto      reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkMenor         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkMenorIgual    reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkMayor         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkMayorIgual    reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkSuma          reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkResta         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkDosPuntos     reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkParCierra     reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkPunto         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
-  ! TkSuma          [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
-  ! TkResta         [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
-  ! TkMult          [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
-  ! TkDiv           [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
-  ! TkMod           [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+  ! TkMult          [ reduce using rule 31 (EXP -> EXP TkSuma EXP .) ]
+  ! TkDiv           [ reduce using rule 31 (EXP -> EXP TkSuma EXP .) ]
+  ! TkMod           [ reduce using rule 31 (EXP -> EXP TkSuma EXP .) ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
   ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenor         [ shift and go to state 39 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayor         [ shift and go to state 43 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenor         [ shift and go to state 35 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayor         [ shift and go to state 44 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
+  ! TkSuma          [ shift and go to state 42 ]
+  ! TkResta         [ shift and go to state 39 ]
 
 
 state 66
-
-    (21) EXP -> EXP TkDistinto EXP .
-    (18) EXP -> EXP . TkConjuncion EXP
-    (19) EXP -> EXP . TkDisyuncion EXP
-    (20) EXP -> EXP . TkIgual EXP
-    (21) EXP -> EXP . TkDistinto EXP
-    (27) EXP -> EXP . TkMenor EXP
-    (28) EXP -> EXP . TkMenorIgual EXP
-    (29) EXP -> EXP . TkMayor EXP
-    (30) EXP -> EXP . TkMayorIgual EXP
-    (31) EXP -> EXP . TkSuma EXP
-    (32) EXP -> EXP . TkResta EXP
-    (33) EXP -> EXP . TkMult EXP
-    (34) EXP -> EXP . TkDiv EXP
-    (35) EXP -> EXP . TkMod EXP
-
-    TkDosPuntos     reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
-    TkConjuncion    reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
-    TkDisyuncion    reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
-    TkDistinto      reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
-    TkParCierra     reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
-    TkPunto         reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
-    TkIgual         shift and go to state 41
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
-
-  ! TkIgual         [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkMenor         [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkMenorIgual    [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkMayor         [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkMayorIgual    [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkSuma          [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkResta         [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkMult          [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkDiv           [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkMod           [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-
-
-state 67
-
-    (64) INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR . TkEnd INST_CONTROLADOR_A
-
-    TkEnd           shift and go to state 84
-
-
-state 68
 
     (33) EXP -> EXP TkMult EXP .
     (18) EXP -> EXP . TkConjuncion EXP
@@ -1924,7 +1894,6 @@ state 68
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 33 (EXP -> EXP TkMult EXP .)
     TkConjuncion    reduce using rule 33 (EXP -> EXP TkMult EXP .)
     TkDisyuncion    reduce using rule 33 (EXP -> EXP TkMult EXP .)
     TkIgual         reduce using rule 33 (EXP -> EXP TkMult EXP .)
@@ -1938,22 +1907,121 @@ state 68
     TkMult          reduce using rule 33 (EXP -> EXP TkMult EXP .)
     TkDiv           reduce using rule 33 (EXP -> EXP TkMult EXP .)
     TkMod           reduce using rule 33 (EXP -> EXP TkMult EXP .)
+    TkDosPuntos     reduce using rule 33 (EXP -> EXP TkMult EXP .)
     TkParCierra     reduce using rule 33 (EXP -> EXP TkMult EXP .)
     TkPunto         reduce using rule 33 (EXP -> EXP TkMult EXP .)
 
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
   ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenor         [ shift and go to state 39 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayor         [ shift and go to state 43 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
-  ! TkSuma          [ shift and go to state 49 ]
-  ! TkResta         [ shift and go to state 51 ]
-  ! TkMult          [ shift and go to state 46 ]
-  ! TkDiv           [ shift and go to state 42 ]
-  ! TkMod           [ shift and go to state 40 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenor         [ shift and go to state 35 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayor         [ shift and go to state 44 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
+  ! TkSuma          [ shift and go to state 42 ]
+  ! TkResta         [ shift and go to state 39 ]
+  ! TkMult          [ shift and go to state 43 ]
+  ! TkDiv           [ shift and go to state 40 ]
+  ! TkMod           [ shift and go to state 36 ]
+
+
+state 67
+
+    (29) EXP -> EXP TkMayor EXP .
+    (18) EXP -> EXP . TkConjuncion EXP
+    (19) EXP -> EXP . TkDisyuncion EXP
+    (20) EXP -> EXP . TkIgual EXP
+    (21) EXP -> EXP . TkDistinto EXP
+    (27) EXP -> EXP . TkMenor EXP
+    (28) EXP -> EXP . TkMenorIgual EXP
+    (29) EXP -> EXP . TkMayor EXP
+    (30) EXP -> EXP . TkMayorIgual EXP
+    (31) EXP -> EXP . TkSuma EXP
+    (32) EXP -> EXP . TkResta EXP
+    (33) EXP -> EXP . TkMult EXP
+    (34) EXP -> EXP . TkDiv EXP
+    (35) EXP -> EXP . TkMod EXP
+
+    TkConjuncion    reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkDisyuncion    reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkIgual         reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkDistinto      reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkMenor         reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkMenorIgual    reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkMayor         reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkMayorIgual    reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkDosPuntos     reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkParCierra     reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkPunto         reduce using rule 29 (EXP -> EXP TkMayor EXP .)
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
+
+  ! TkSuma          [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
+  ! TkResta         [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
+  ! TkMult          [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
+  ! TkDiv           [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
+  ! TkMod           [ reduce using rule 29 (EXP -> EXP TkMayor EXP .) ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
+  ! TkIgual         [ shift and go to state 41 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenor         [ shift and go to state 35 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
+  ! TkMayor         [ shift and go to state 44 ]
+  ! TkMayorIgual    [ shift and go to state 38 ]
+
+
+state 68
+
+    (21) EXP -> EXP TkDistinto EXP .
+    (18) EXP -> EXP . TkConjuncion EXP
+    (19) EXP -> EXP . TkDisyuncion EXP
+    (20) EXP -> EXP . TkIgual EXP
+    (21) EXP -> EXP . TkDistinto EXP
+    (27) EXP -> EXP . TkMenor EXP
+    (28) EXP -> EXP . TkMenorIgual EXP
+    (29) EXP -> EXP . TkMayor EXP
+    (30) EXP -> EXP . TkMayorIgual EXP
+    (31) EXP -> EXP . TkSuma EXP
+    (32) EXP -> EXP . TkResta EXP
+    (33) EXP -> EXP . TkMult EXP
+    (34) EXP -> EXP . TkDiv EXP
+    (35) EXP -> EXP . TkMod EXP
+
+    TkConjuncion    reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
+    TkDisyuncion    reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
+    TkDistinto      reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
+    TkDosPuntos     reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
+    TkParCierra     reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
+    TkPunto         reduce using rule 21 (EXP -> EXP TkDistinto EXP .)
+    TkIgual         shift and go to state 41
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
+
+  ! TkIgual         [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkMenor         [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkMenorIgual    [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkMayor         [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkMayorIgual    [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkSuma          [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkResta         [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkMult          [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkDiv           [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkMod           [ reduce using rule 21 (EXP -> EXP TkDistinto EXP .) ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
+  ! TkDistinto      [ shift and go to state 45 ]
 
 
 state 69
@@ -1973,22 +2041,22 @@ state 69
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .)
     TkDisyuncion    reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .)
+    TkDosPuntos     reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .)
     TkParCierra     reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .)
     TkPunto         reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .)
-    TkConjuncion    shift and go to state 38
+    TkConjuncion    shift and go to state 34
     TkIgual         shift and go to state 41
-    TkDistinto      shift and go to state 44
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkDistinto      shift and go to state 45
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
   ! TkConjuncion    [ reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .) ]
   ! TkIgual         [ reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .) ]
@@ -2002,108 +2070,10 @@ state 69
   ! TkMult          [ reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .) ]
   ! TkDiv           [ reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .) ]
   ! TkMod           [ reduce using rule 19 (EXP -> EXP TkDisyuncion EXP .) ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
 
 
 state 70
-
-    (30) EXP -> EXP TkMayorIgual EXP .
-    (18) EXP -> EXP . TkConjuncion EXP
-    (19) EXP -> EXP . TkDisyuncion EXP
-    (20) EXP -> EXP . TkIgual EXP
-    (21) EXP -> EXP . TkDistinto EXP
-    (27) EXP -> EXP . TkMenor EXP
-    (28) EXP -> EXP . TkMenorIgual EXP
-    (29) EXP -> EXP . TkMayor EXP
-    (30) EXP -> EXP . TkMayorIgual EXP
-    (31) EXP -> EXP . TkSuma EXP
-    (32) EXP -> EXP . TkResta EXP
-    (33) EXP -> EXP . TkMult EXP
-    (34) EXP -> EXP . TkDiv EXP
-    (35) EXP -> EXP . TkMod EXP
-
-    TkDosPuntos     reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
-    TkConjuncion    reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
-    TkDisyuncion    reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
-    TkIgual         reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
-    TkDistinto      reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
-    TkMenorIgual    reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
-    TkMayorIgual    reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
-    TkParCierra     reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
-    TkPunto         reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .)
-    TkMenor         shift and go to state 39
-    TkMayor         shift and go to state 43
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
-
-  ! TkMenor         [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
-  ! TkMayor         [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
-  ! TkSuma          [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
-  ! TkResta         [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
-  ! TkMult          [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
-  ! TkDiv           [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
-  ! TkMod           [ reduce using rule 30 (EXP -> EXP TkMayorIgual EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
-  ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
-
-
-state 71
-
-    (31) EXP -> EXP TkSuma EXP .
-    (18) EXP -> EXP . TkConjuncion EXP
-    (19) EXP -> EXP . TkDisyuncion EXP
-    (20) EXP -> EXP . TkIgual EXP
-    (21) EXP -> EXP . TkDistinto EXP
-    (27) EXP -> EXP . TkMenor EXP
-    (28) EXP -> EXP . TkMenorIgual EXP
-    (29) EXP -> EXP . TkMayor EXP
-    (30) EXP -> EXP . TkMayorIgual EXP
-    (31) EXP -> EXP . TkSuma EXP
-    (32) EXP -> EXP . TkResta EXP
-    (33) EXP -> EXP . TkMult EXP
-    (34) EXP -> EXP . TkDiv EXP
-    (35) EXP -> EXP . TkMod EXP
-
-    TkDosPuntos     reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkConjuncion    reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkDisyuncion    reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkIgual         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkDistinto      reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkMenor         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkMenorIgual    reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkMayor         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkMayorIgual    reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkSuma          reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkResta         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkParCierra     reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkPunto         reduce using rule 31 (EXP -> EXP TkSuma EXP .)
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
-
-  ! TkMult          [ reduce using rule 31 (EXP -> EXP TkSuma EXP .) ]
-  ! TkDiv           [ reduce using rule 31 (EXP -> EXP TkSuma EXP .) ]
-  ! TkMod           [ reduce using rule 31 (EXP -> EXP TkSuma EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
-  ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenor         [ shift and go to state 39 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayor         [ shift and go to state 43 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
-  ! TkSuma          [ shift and go to state 49 ]
-  ! TkResta         [ shift and go to state 51 ]
-
-
-state 72
 
     (28) EXP -> EXP TkMenorIgual EXP .
     (18) EXP -> EXP . TkConjuncion EXP
@@ -2120,22 +2090,22 @@ state 72
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkDosPuntos     reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .)
     TkConjuncion    reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .)
     TkDisyuncion    reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .)
     TkIgual         reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .)
     TkDistinto      reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .)
     TkMenorIgual    reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .)
+    TkDosPuntos     reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .)
     TkParCierra     reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .)
     TkPunto         reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .)
-    TkMenor         shift and go to state 39
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkMenor         shift and go to state 35
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
   ! TkMenor         [ reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .) ]
   ! TkMayor         [ reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .) ]
@@ -2145,67 +2115,17 @@ state 72
   ! TkMult          [ reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .) ]
   ! TkDiv           [ reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .) ]
   ! TkMod           [ reduce using rule 28 (EXP -> EXP TkMenorIgual EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
+  ! TkConjuncion    [ shift and go to state 34 ]
+  ! TkDisyuncion    [ shift and go to state 46 ]
   ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
+  ! TkDistinto      [ shift and go to state 45 ]
+  ! TkMenorIgual    [ shift and go to state 47 ]
 
 
-state 73
-
-    (32) EXP -> EXP TkResta EXP .
-    (18) EXP -> EXP . TkConjuncion EXP
-    (19) EXP -> EXP . TkDisyuncion EXP
-    (20) EXP -> EXP . TkIgual EXP
-    (21) EXP -> EXP . TkDistinto EXP
-    (27) EXP -> EXP . TkMenor EXP
-    (28) EXP -> EXP . TkMenorIgual EXP
-    (29) EXP -> EXP . TkMayor EXP
-    (30) EXP -> EXP . TkMayorIgual EXP
-    (31) EXP -> EXP . TkSuma EXP
-    (32) EXP -> EXP . TkResta EXP
-    (33) EXP -> EXP . TkMult EXP
-    (34) EXP -> EXP . TkDiv EXP
-    (35) EXP -> EXP . TkMod EXP
-
-    TkDosPuntos     reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkConjuncion    reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkDisyuncion    reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkIgual         reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkDistinto      reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkMenor         reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkMenorIgual    reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkMayor         reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkMayorIgual    reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkSuma          reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkResta         reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkParCierra     reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkPunto         reduce using rule 32 (EXP -> EXP TkResta EXP .)
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
-
-  ! TkMult          [ reduce using rule 32 (EXP -> EXP TkResta EXP .) ]
-  ! TkDiv           [ reduce using rule 32 (EXP -> EXP TkResta EXP .) ]
-  ! TkMod           [ reduce using rule 32 (EXP -> EXP TkResta EXP .) ]
-  ! TkConjuncion    [ shift and go to state 38 ]
-  ! TkDisyuncion    [ shift and go to state 47 ]
-  ! TkIgual         [ shift and go to state 41 ]
-  ! TkDistinto      [ shift and go to state 44 ]
-  ! TkMenor         [ shift and go to state 39 ]
-  ! TkMenorIgual    [ shift and go to state 50 ]
-  ! TkMayor         [ shift and go to state 43 ]
-  ! TkMayorIgual    [ shift and go to state 48 ]
-  ! TkSuma          [ shift and go to state 49 ]
-  ! TkResta         [ shift and go to state 51 ]
-
-
-state 74
+state 71
 
     (24) EXP -> TkParAbre EXP TkParCierra .
 
-    TkDosPuntos     reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
     TkConjuncion    reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
     TkDisyuncion    reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
     TkIgual         reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
@@ -2219,27 +2139,96 @@ state 74
     TkMult          reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
     TkDiv           reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
     TkMod           reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
+    TkDosPuntos     reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
     TkParCierra     reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
     TkPunto         reduce using rule 24 (EXP -> TkParAbre EXP TkParCierra .)
 
 
+state 72
+
+    (61) INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT TkPunto . INST_CONTROLADOR_A
+    (68) INST_CONTROLADOR_A -> . INST_CONTROLADOR
+    (69) INST_CONTROLADOR_A -> .
+    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
+    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+    (65) INST_CONTROLADOR -> . INICIO
+    (1) INICIO -> . CREATE
+    (2) INICIO -> . EXECUTE
+    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
+
+    TkEnd           reduce using rule 69 (INST_CONTROLADOR_A -> .)
+    TkElse          reduce using rule 69 (INST_CONTROLADOR_A -> .)
+    TkActivate      shift and go to state 12
+    TkAdvance       shift and go to state 8
+    TkDeactivate    shift and go to state 10
+    TkIf            shift and go to state 6
+    TkWhile         shift and go to state 11
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
+
+    INST_CONTROLADOR_A             shift and go to state 81
+    CREATE                         shift and go to state 2
+    EXECUTE                        shift and go to state 4
+    INICIO                         shift and go to state 9
+    INST_CONTROLADOR               shift and go to state 80
+
+state 73
+
+    (9) LISTA_IDENT -> TkComa IDENT . LISTA_IDENT
+    (9) LISTA_IDENT -> . TkComa IDENT LISTA_IDENT
+    (10) LISTA_IDENT -> .
+
+    TkComa          shift and go to state 51
+    TkPunto         reduce using rule 10 (LISTA_IDENT -> .)
+    TkOn            reduce using rule 10 (LISTA_IDENT -> .)
+    TkEnd           reduce using rule 10 (LISTA_IDENT -> .)
+
+    LISTA_IDENT                    shift and go to state 82
+
+state 74
+
+    (62) INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT TkPunto . INST_CONTROLADOR_A
+    (68) INST_CONTROLADOR_A -> . INST_CONTROLADOR
+    (69) INST_CONTROLADOR_A -> .
+    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
+    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+    (65) INST_CONTROLADOR -> . INICIO
+    (1) INICIO -> . CREATE
+    (2) INICIO -> . EXECUTE
+    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
+
+    TkEnd           reduce using rule 69 (INST_CONTROLADOR_A -> .)
+    TkElse          reduce using rule 69 (INST_CONTROLADOR_A -> .)
+    TkActivate      shift and go to state 12
+    TkAdvance       shift and go to state 8
+    TkDeactivate    shift and go to state 10
+    TkIf            shift and go to state 6
+    TkWhile         shift and go to state 11
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
+
+    INST_CONTROLADOR_A             shift and go to state 83
+    CREATE                         shift and go to state 2
+    EXECUTE                        shift and go to state 4
+    INICIO                         shift and go to state 9
+    INST_CONTROLADOR               shift and go to state 80
+
 state 75
 
-    (63) INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO . TkEnd INST_CONTROLADOR_A
+    (64) INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR . TkEnd INST_CONTROLADOR_A
 
-    TkEnd           shift and go to state 85
+    TkEnd           shift and go to state 84
 
 
 state 76
-
-    (66) CONTENIDO -> INST_CONTROLADOR .
-    (67) CONTENIDO -> INST_CONTROLADOR . TkElse TkDosPuntos INST_CONTROLADOR
-
-    TkEnd           reduce using rule 66 (CONTENIDO -> INST_CONTROLADOR .)
-    TkElse          shift and go to state 86
-
-
-state 77
 
     (60) INST_CONTROLADOR -> TkActivate IDENT LISTA_IDENT TkPunto . INST_CONTROLADOR_A
     (68) INST_CONTROLADOR_A -> . INST_CONTROLADOR
@@ -2257,21 +2246,151 @@ state 77
 
     TkEnd           reduce using rule 69 (INST_CONTROLADOR_A -> .)
     TkElse          reduce using rule 69 (INST_CONTROLADOR_A -> .)
-    TkActivate      shift and go to state 16
-    TkAdvance       shift and go to state 10
-    TkDeactivate    shift and go to state 12
-    TkIf            shift and go to state 15
-    TkWhile         shift and go to state 13
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
+    TkActivate      shift and go to state 12
+    TkAdvance       shift and go to state 8
+    TkDeactivate    shift and go to state 10
+    TkIf            shift and go to state 6
+    TkWhile         shift and go to state 11
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
 
-    INST_CONTROLADOR_A             shift and go to state 87
-    INST_CONTROLADOR               shift and go to state 81
-    INICIO                         shift and go to state 11
-    EXECUTE                        shift and go to state 2
-    CREATE                         shift and go to state 5
+    INST_CONTROLADOR_A             shift and go to state 85
+    CREATE                         shift and go to state 2
+    EXECUTE                        shift and go to state 4
+    INICIO                         shift and go to state 9
+    INST_CONTROLADOR               shift and go to state 80
+
+state 77
+
+    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT . COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (12) COMPORTAMIENTO -> . TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO
+    (13) COMPORTAMIENTO -> .
+
+    TkOn            shift and go to state 87
+    TkEnd           reduce using rule 13 (COMPORTAMIENTO -> .)
+
+    COMPORTAMIENTO                 shift and go to state 86
 
 state 78
+
+    (67) CONTENIDO -> INST_CONTROLADOR TkElse . TkDosPuntos INST_CONTROLADOR
+
+    TkDosPuntos     shift and go to state 88
+
+
+state 79
+
+    (63) INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO TkEnd . INST_CONTROLADOR_A
+    (68) INST_CONTROLADOR_A -> . INST_CONTROLADOR
+    (69) INST_CONTROLADOR_A -> .
+    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
+    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+    (65) INST_CONTROLADOR -> . INICIO
+    (1) INICIO -> . CREATE
+    (2) INICIO -> . EXECUTE
+    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
+
+    TkEnd           reduce using rule 69 (INST_CONTROLADOR_A -> .)
+    TkElse          reduce using rule 69 (INST_CONTROLADOR_A -> .)
+    TkActivate      shift and go to state 12
+    TkAdvance       shift and go to state 8
+    TkDeactivate    shift and go to state 10
+    TkIf            shift and go to state 6
+    TkWhile         shift and go to state 11
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
+
+    INST_CONTROLADOR_A             shift and go to state 89
+    CREATE                         shift and go to state 2
+    EXECUTE                        shift and go to state 4
+    INICIO                         shift and go to state 9
+    INST_CONTROLADOR               shift and go to state 80
+
+state 80
+
+    (68) INST_CONTROLADOR_A -> INST_CONTROLADOR .
+
+    TkEnd           reduce using rule 68 (INST_CONTROLADOR_A -> INST_CONTROLADOR .)
+    TkElse          reduce using rule 68 (INST_CONTROLADOR_A -> INST_CONTROLADOR .)
+
+
+state 81
+
+    (61) INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .
+
+    TkElse          reduce using rule 61 (INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
+    TkEnd           reduce using rule 61 (INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
+
+
+state 82
+
+    (9) LISTA_IDENT -> TkComa IDENT LISTA_IDENT .
+
+    TkPunto         reduce using rule 9 (LISTA_IDENT -> TkComa IDENT LISTA_IDENT .)
+    TkOn            reduce using rule 9 (LISTA_IDENT -> TkComa IDENT LISTA_IDENT .)
+    TkEnd           reduce using rule 9 (LISTA_IDENT -> TkComa IDENT LISTA_IDENT .)
+
+
+state 83
+
+    (62) INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .
+
+    TkElse          reduce using rule 62 (INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
+    TkEnd           reduce using rule 62 (INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
+
+
+state 84
+
+    (64) INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd . INST_CONTROLADOR_A
+    (68) INST_CONTROLADOR_A -> . INST_CONTROLADOR
+    (69) INST_CONTROLADOR_A -> .
+    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
+    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+    (65) INST_CONTROLADOR -> . INICIO
+    (1) INICIO -> . CREATE
+    (2) INICIO -> . EXECUTE
+    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
+
+    TkEnd           reduce using rule 69 (INST_CONTROLADOR_A -> .)
+    TkElse          reduce using rule 69 (INST_CONTROLADOR_A -> .)
+    TkActivate      shift and go to state 12
+    TkAdvance       shift and go to state 8
+    TkDeactivate    shift and go to state 10
+    TkIf            shift and go to state 6
+    TkWhile         shift and go to state 11
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
+
+    INST_CONTROLADOR_A             shift and go to state 90
+    CREATE                         shift and go to state 2
+    EXECUTE                        shift and go to state 4
+    INICIO                         shift and go to state 9
+    INST_CONTROLADOR               shift and go to state 80
+
+state 85
+
+    (60) INST_CONTROLADOR -> TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .
+
+    TkElse          reduce using rule 60 (INST_CONTROLADOR -> TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
+    TkEnd           reduce using rule 60 (INST_CONTROLADOR -> TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
+
+
+state 86
+
+    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO . TkEnd DECLARE EXECUTE
+
+    TkEnd           shift and go to state 91
+
+
+state 87
 
     (12) COMPORTAMIENTO -> TkOn . CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO
     (14) CONDICION -> . TkActivation
@@ -2301,170 +2420,111 @@ state 78
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkActivation    shift and go to state 89
-    TkDeactivation  shift and go to state 91
-    TkDefault       shift and go to state 90
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkActivation    shift and go to state 95
+    TkDeactivation  shift and go to state 93
+    TkDefault       shift and go to state 94
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 92
-    LITERAL_BOOL                   shift and go to state 22
-    CONDICION                      shift and go to state 88
-
-state 79
-
-    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO . TkEnd DECLARE EXECUTE
-
-    TkEnd           shift and go to state 93
-
-
-state 80
-
-    (61) INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .
-
-    TkEnd           reduce using rule 61 (INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
-    TkElse          reduce using rule 61 (INST_CONTROLADOR -> TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
-
-
-state 81
-
-    (68) INST_CONTROLADOR_A -> INST_CONTROLADOR .
-
-    TkEnd           reduce using rule 68 (INST_CONTROLADOR_A -> INST_CONTROLADOR .)
-    TkElse          reduce using rule 68 (INST_CONTROLADOR_A -> INST_CONTROLADOR .)
-
-
-state 82
-
-    (9) LISTA_IDENT -> TkComa IDENT LISTA_IDENT .
-
-    TkOn            reduce using rule 9 (LISTA_IDENT -> TkComa IDENT LISTA_IDENT .)
-    TkEnd           reduce using rule 9 (LISTA_IDENT -> TkComa IDENT LISTA_IDENT .)
-    TkPunto         reduce using rule 9 (LISTA_IDENT -> TkComa IDENT LISTA_IDENT .)
-
-
-state 83
-
-    (62) INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .
-
-    TkEnd           reduce using rule 62 (INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
-    TkElse          reduce using rule 62 (INST_CONTROLADOR -> TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
-
-
-state 84
-
-    (64) INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd . INST_CONTROLADOR_A
-    (68) INST_CONTROLADOR_A -> . INST_CONTROLADOR
-    (69) INST_CONTROLADOR_A -> .
-    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
-    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (65) INST_CONTROLADOR -> . INICIO
-    (1) INICIO -> . CREATE
-    (2) INICIO -> . EXECUTE
-    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
-
-    TkEnd           reduce using rule 69 (INST_CONTROLADOR_A -> .)
-    TkElse          reduce using rule 69 (INST_CONTROLADOR_A -> .)
-    TkActivate      shift and go to state 16
-    TkAdvance       shift and go to state 10
-    TkDeactivate    shift and go to state 12
-    TkIf            shift and go to state 15
-    TkWhile         shift and go to state 13
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
-
-    INST_CONTROLADOR_A             shift and go to state 94
-    INST_CONTROLADOR               shift and go to state 81
-    INICIO                         shift and go to state 11
-    EXECUTE                        shift and go to state 2
-    CREATE                         shift and go to state 5
-
-state 85
-
-    (63) INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO TkEnd . INST_CONTROLADOR_A
-    (68) INST_CONTROLADOR_A -> . INST_CONTROLADOR
-    (69) INST_CONTROLADOR_A -> .
-    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
-    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (65) INST_CONTROLADOR -> . INICIO
-    (1) INICIO -> . CREATE
-    (2) INICIO -> . EXECUTE
-    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
-
-    TkEnd           reduce using rule 69 (INST_CONTROLADOR_A -> .)
-    TkElse          reduce using rule 69 (INST_CONTROLADOR_A -> .)
-    TkActivate      shift and go to state 16
-    TkAdvance       shift and go to state 10
-    TkDeactivate    shift and go to state 12
-    TkIf            shift and go to state 15
-    TkWhile         shift and go to state 13
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
-
-    INST_CONTROLADOR_A             shift and go to state 95
-    INST_CONTROLADOR               shift and go to state 81
-    INICIO                         shift and go to state 11
-    EXECUTE                        shift and go to state 2
-    CREATE                         shift and go to state 5
-
-state 86
-
-    (67) CONTENIDO -> INST_CONTROLADOR TkElse . TkDosPuntos INST_CONTROLADOR
-
-    TkDosPuntos     shift and go to state 96
-
-
-state 87
-
-    (60) INST_CONTROLADOR -> TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .
-
-    TkEnd           reduce using rule 60 (INST_CONTROLADOR -> TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
-    TkElse          reduce using rule 60 (INST_CONTROLADOR -> TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A .)
-
+    EXP                            shift and go to state 96
+    CONDICION                      shift and go to state 92
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
 state 88
 
-    (12) COMPORTAMIENTO -> TkOn CONDICION . TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO
+    (67) CONTENIDO -> INST_CONTROLADOR TkElse TkDosPuntos . INST_CONTROLADOR
+    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
+    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
+    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
+    (65) INST_CONTROLADOR -> . INICIO
+    (1) INICIO -> . CREATE
+    (2) INICIO -> . EXECUTE
+    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
+    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
 
-    TkDosPuntos     shift and go to state 97
+    TkActivate      shift and go to state 12
+    TkAdvance       shift and go to state 8
+    TkDeactivate    shift and go to state 10
+    TkIf            shift and go to state 6
+    TkWhile         shift and go to state 11
+    TkCreate        shift and go to state 5
+    TkExecute       shift and go to state 1
 
+    CREATE                         shift and go to state 2
+    EXECUTE                        shift and go to state 4
+    INICIO                         shift and go to state 9
+    INST_CONTROLADOR               shift and go to state 97
 
 state 89
 
-    (14) CONDICION -> TkActivation .
+    (63) INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A .
 
-    TkDosPuntos     reduce using rule 14 (CONDICION -> TkActivation .)
+    TkElse          reduce using rule 63 (INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A .)
+    TkEnd           reduce using rule 63 (INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A .)
 
 
 state 90
 
-    (16) CONDICION -> TkDefault .
+    (64) INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A .
 
-    TkDosPuntos     reduce using rule 16 (CONDICION -> TkDefault .)
+    TkElse          reduce using rule 64 (INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A .)
+    TkEnd           reduce using rule 64 (INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A .)
 
 
 state 91
+
+    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd . DECLARE EXECUTE
+    (4) DECLARE -> . TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE
+    (5) DECLARE -> .
+    (6) TYPE -> . TkInt
+    (7) TYPE -> . TkBool
+    (8) TYPE -> . TkChar
+
+    TkExecute       reduce using rule 5 (DECLARE -> .)
+    TkInt           shift and go to state 16
+    TkBool          shift and go to state 14
+    TkChar          shift and go to state 15
+
+    TYPE                           shift and go to state 98
+    DECLARE                        shift and go to state 99
+
+state 92
+
+    (12) COMPORTAMIENTO -> TkOn CONDICION . TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO
+
+    TkDosPuntos     shift and go to state 100
+
+
+state 93
 
     (15) CONDICION -> TkDeactivation .
 
     TkDosPuntos     reduce using rule 15 (CONDICION -> TkDeactivation .)
 
 
-state 92
+state 94
+
+    (16) CONDICION -> TkDefault .
+
+    TkDosPuntos     reduce using rule 16 (CONDICION -> TkDefault .)
+
+
+state 95
+
+    (14) CONDICION -> TkActivation .
+
+    TkDosPuntos     reduce using rule 14 (CONDICION -> TkActivation .)
+
+
+state 96
 
     (17) CONDICION -> EXP .
     (18) EXP -> EXP . TkConjuncion EXP
@@ -2482,82 +2542,45 @@ state 92
     (35) EXP -> EXP . TkMod EXP
 
     TkDosPuntos     reduce using rule 17 (CONDICION -> EXP .)
-    TkConjuncion    shift and go to state 38
-    TkDisyuncion    shift and go to state 47
+    TkConjuncion    shift and go to state 34
+    TkDisyuncion    shift and go to state 46
     TkIgual         shift and go to state 41
-    TkDistinto      shift and go to state 44
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkDistinto      shift and go to state 45
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
-
-state 93
-
-    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd . DECLARE EXECUTE
-    (4) DECLARE -> . TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE
-    (5) DECLARE -> .
-    (6) TYPE -> . TkInt
-    (7) TYPE -> . TkBool
-    (8) TYPE -> . TkChar
-
-    TkExecute       reduce using rule 5 (DECLARE -> .)
-    TkInt           shift and go to state 9
-    TkBool          shift and go to state 7
-    TkChar          shift and go to state 6
-
-    TYPE                           shift and go to state 99
-    DECLARE                        shift and go to state 98
-
-state 94
-
-    (64) INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A .
-
-    TkEnd           reduce using rule 64 (INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A .)
-    TkElse          reduce using rule 64 (INST_CONTROLADOR -> TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A .)
-
-
-state 95
-
-    (63) INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A .
-
-    TkEnd           reduce using rule 63 (INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A .)
-    TkElse          reduce using rule 63 (INST_CONTROLADOR -> TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A .)
-
-
-state 96
-
-    (67) CONTENIDO -> INST_CONTROLADOR TkElse TkDosPuntos . INST_CONTROLADOR
-    (60) INST_CONTROLADOR -> . TkActivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (61) INST_CONTROLADOR -> . TkAdvance IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (62) INST_CONTROLADOR -> . TkDeactivate IDENT LISTA_IDENT TkPunto INST_CONTROLADOR_A
-    (63) INST_CONTROLADOR -> . TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
-    (64) INST_CONTROLADOR -> . TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
-    (65) INST_CONTROLADOR -> . INICIO
-    (1) INICIO -> . CREATE
-    (2) INICIO -> . EXECUTE
-    (3) CREATE -> . TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE
-    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
-
-    TkActivate      shift and go to state 16
-    TkAdvance       shift and go to state 10
-    TkDeactivate    shift and go to state 12
-    TkIf            shift and go to state 15
-    TkWhile         shift and go to state 13
-    TkCreate        shift and go to state 1
-    TkExecute       shift and go to state 4
-
-    INST_CONTROLADOR               shift and go to state 100
-    INICIO                         shift and go to state 11
-    EXECUTE                        shift and go to state 2
-    CREATE                         shift and go to state 5
 
 state 97
+
+    (67) CONTENIDO -> INST_CONTROLADOR TkElse TkDosPuntos INST_CONTROLADOR .
+
+    TkEnd           reduce using rule 67 (CONTENIDO -> INST_CONTROLADOR TkElse TkDosPuntos INST_CONTROLADOR .)
+
+
+state 98
+
+    (4) DECLARE -> TYPE . TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE
+
+    TkBot           shift and go to state 101
+
+
+state 99
+
+    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE . EXECUTE
+    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
+
+    TkExecute       shift and go to state 1
+
+    EXECUTE                        shift and go to state 102
+
+state 100
 
     (12) COMPORTAMIENTO -> TkOn CONDICION TkDosPuntos . INST_ROBOT TkEnd COMPORTAMIENTO
     (39) INST_ROBOT -> . TkStore EXPRESION TkPunto INST_ROBOT_A
@@ -2575,61 +2598,94 @@ state 97
     (57) READ -> . TkRead
     (58) READ -> . TkRead TkAs IDENT
 
-    TkStore         shift and go to state 103
-    TkCollect       shift and go to state 113
-    TkDrop          shift and go to state 108
-    TkSend          shift and go to state 102
-    TkRecieve       shift and go to state 107
-    TkLeft          shift and go to state 112
-    TkRight         shift and go to state 110
-    TkUp            shift and go to state 105
+    TkStore         shift and go to state 105
+    TkCollect       shift and go to state 112
+    TkDrop          shift and go to state 114
+    TkSend          shift and go to state 108
+    TkRecieve       shift and go to state 115
+    TkLeft          shift and go to state 110
+    TkRight         shift and go to state 113
+    TkUp            shift and go to state 106
     TkDown          shift and go to state 104
-    TkRead          shift and go to state 101
+    TkRead          shift and go to state 107
 
+    DIRECCION                      shift and go to state 103
+    INST_ROBOT                     shift and go to state 109
     READ                           shift and go to state 111
-    INST_ROBOT                     shift and go to state 106
-    DIRECCION                      shift and go to state 109
-
-state 98
-
-    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE . EXECUTE
-    (59) EXECUTE -> . TkExecute INST_CONTROLADOR TkEnd
-
-    TkExecute       shift and go to state 4
-
-    EXECUTE                        shift and go to state 114
-
-state 99
-
-    (4) DECLARE -> TYPE . TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE
-
-    TkBot           shift and go to state 115
-
-
-state 100
-
-    (67) CONTENIDO -> INST_CONTROLADOR TkElse TkDosPuntos INST_CONTROLADOR .
-
-    TkEnd           reduce using rule 67 (CONTENIDO -> INST_CONTROLADOR TkElse TkDosPuntos INST_CONTROLADOR .)
-
 
 state 101
 
-    (57) READ -> TkRead .
-    (58) READ -> TkRead . TkAs IDENT
+    (4) DECLARE -> TYPE TkBot . IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE
+    (11) IDENT -> . TkIdent
 
-    TkPunto         reduce using rule 57 (READ -> TkRead .)
-    TkAs            shift and go to state 116
+    TkIdent         shift and go to state 18
 
+    IDENT                          shift and go to state 116
 
 state 102
 
-    (45) INST_ROBOT -> TkSend . TkPunto INST_ROBOT_A
+    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE .
 
-    TkPunto         shift and go to state 117
+    TkEnd           reduce using rule 3 (CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE .)
+    TkElse          reduce using rule 3 (CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE .)
+    $end            reduce using rule 3 (CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE .)
 
 
 state 103
+
+    (42) INST_ROBOT -> DIRECCION . TkPunto INST_ROBOT_A
+    (43) INST_ROBOT -> DIRECCION . EXP TkPunto INST_ROBOT_A
+    (18) EXP -> . EXP TkConjuncion EXP
+    (19) EXP -> . EXP TkDisyuncion EXP
+    (20) EXP -> . EXP TkIgual EXP
+    (21) EXP -> . EXP TkDistinto EXP
+    (22) EXP -> . IDENT
+    (23) EXP -> . LITERAL_BOOL
+    (24) EXP -> . TkParAbre EXP TkParCierra
+    (25) EXP -> . TkNegacion EXP
+    (26) EXP -> . TkResta EXP
+    (27) EXP -> . EXP TkMenor EXP
+    (28) EXP -> . EXP TkMenorIgual EXP
+    (29) EXP -> . EXP TkMayor EXP
+    (30) EXP -> . EXP TkMayorIgual EXP
+    (31) EXP -> . EXP TkSuma EXP
+    (32) EXP -> . EXP TkResta EXP
+    (33) EXP -> . EXP TkMult EXP
+    (34) EXP -> . EXP TkDiv EXP
+    (35) EXP -> . EXP TkMod EXP
+    (36) EXP -> . TkNum
+    (11) IDENT -> . TkIdent
+    (37) LITERAL_BOOL -> . TkTrue
+    (38) LITERAL_BOOL -> . TkFalse
+
+    TkPunto         shift and go to state 117
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
+
+    EXP                            shift and go to state 118
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
+
+state 104
+
+    (54) DIRECCION -> TkDown .
+
+    TkPunto         reduce using rule 54 (DIRECCION -> TkDown .)
+    TkParAbre       reduce using rule 54 (DIRECCION -> TkDown .)
+    TkNegacion      reduce using rule 54 (DIRECCION -> TkDown .)
+    TkResta         reduce using rule 54 (DIRECCION -> TkDown .)
+    TkNum           reduce using rule 54 (DIRECCION -> TkDown .)
+    TkIdent         reduce using rule 54 (DIRECCION -> TkDown .)
+    TkTrue          reduce using rule 54 (DIRECCION -> TkDown .)
+    TkFalse         reduce using rule 54 (DIRECCION -> TkDown .)
+
+
+state 105
 
     (39) INST_ROBOT -> TkStore . EXPRESION TkPunto INST_ROBOT_A
     (49) EXPRESION -> . EXP
@@ -2657,35 +2713,21 @@ state 103
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkCaracter      shift and go to state 120
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkCaracter      shift and go to state 119
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 119
-    EXPRESION                      shift and go to state 118
-    LITERAL_BOOL                   shift and go to state 22
+    EXP                            shift and go to state 120
+    EXPRESION                      shift and go to state 121
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
-state 104
-
-    (54) DIRECCION -> TkDown .
-
-    TkPunto         reduce using rule 54 (DIRECCION -> TkDown .)
-    TkParAbre       reduce using rule 54 (DIRECCION -> TkDown .)
-    TkNegacion      reduce using rule 54 (DIRECCION -> TkDown .)
-    TkResta         reduce using rule 54 (DIRECCION -> TkDown .)
-    TkNum           reduce using rule 54 (DIRECCION -> TkDown .)
-    TkIdent         reduce using rule 54 (DIRECCION -> TkDown .)
-    TkTrue          reduce using rule 54 (DIRECCION -> TkDown .)
-    TkFalse         reduce using rule 54 (DIRECCION -> TkDown .)
-
-
-state 105
+state 106
 
     (53) DIRECCION -> TkUp .
 
@@ -2699,21 +2741,76 @@ state 105
     TkFalse         reduce using rule 53 (DIRECCION -> TkUp .)
 
 
-state 106
-
-    (12) COMPORTAMIENTO -> TkOn CONDICION TkDosPuntos INST_ROBOT . TkEnd COMPORTAMIENTO
-
-    TkEnd           shift and go to state 121
-
-
 state 107
 
-    (46) INST_ROBOT -> TkRecieve . TkPunto INST_ROBOT_A
+    (57) READ -> TkRead .
+    (58) READ -> TkRead . TkAs IDENT
 
-    TkPunto         shift and go to state 122
+    TkPunto         reduce using rule 57 (READ -> TkRead .)
+    TkAs            shift and go to state 122
 
 
 state 108
+
+    (45) INST_ROBOT -> TkSend . TkPunto INST_ROBOT_A
+
+    TkPunto         shift and go to state 123
+
+
+state 109
+
+    (12) COMPORTAMIENTO -> TkOn CONDICION TkDosPuntos INST_ROBOT . TkEnd COMPORTAMIENTO
+
+    TkEnd           shift and go to state 124
+
+
+state 110
+
+    (51) DIRECCION -> TkLeft .
+
+    TkPunto         reduce using rule 51 (DIRECCION -> TkLeft .)
+    TkParAbre       reduce using rule 51 (DIRECCION -> TkLeft .)
+    TkNegacion      reduce using rule 51 (DIRECCION -> TkLeft .)
+    TkResta         reduce using rule 51 (DIRECCION -> TkLeft .)
+    TkNum           reduce using rule 51 (DIRECCION -> TkLeft .)
+    TkIdent         reduce using rule 51 (DIRECCION -> TkLeft .)
+    TkTrue          reduce using rule 51 (DIRECCION -> TkLeft .)
+    TkFalse         reduce using rule 51 (DIRECCION -> TkLeft .)
+
+
+state 111
+
+    (44) INST_ROBOT -> READ . TkPunto INST_ROBOT_A
+
+    TkPunto         shift and go to state 125
+
+
+state 112
+
+    (40) INST_ROBOT -> TkCollect . COLLECT TkPunto INST_ROBOT_A
+    (55) COLLECT -> . TkAs IDENT
+    (56) COLLECT -> .
+
+    TkAs            shift and go to state 127
+    TkPunto         reduce using rule 56 (COLLECT -> .)
+
+    COLLECT                        shift and go to state 126
+
+state 113
+
+    (52) DIRECCION -> TkRight .
+
+    TkPunto         reduce using rule 52 (DIRECCION -> TkRight .)
+    TkParAbre       reduce using rule 52 (DIRECCION -> TkRight .)
+    TkNegacion      reduce using rule 52 (DIRECCION -> TkRight .)
+    TkResta         reduce using rule 52 (DIRECCION -> TkRight .)
+    TkNum           reduce using rule 52 (DIRECCION -> TkRight .)
+    TkIdent         reduce using rule 52 (DIRECCION -> TkRight .)
+    TkTrue          reduce using rule 52 (DIRECCION -> TkRight .)
+    TkFalse         reduce using rule 52 (DIRECCION -> TkRight .)
+
+
+state 114
 
     (41) INST_ROBOT -> TkDrop . EXPRESION TkPunto INST_ROBOT_A
     (49) EXPRESION -> . EXP
@@ -2741,273 +2838,40 @@ state 108
     (37) LITERAL_BOOL -> . TkTrue
     (38) LITERAL_BOOL -> . TkFalse
 
-    TkCaracter      shift and go to state 120
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
+    TkCaracter      shift and go to state 119
+    TkParAbre       shift and go to state 25
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 21
+    TkNum           shift and go to state 22
+    TkIdent         shift and go to state 18
+    TkTrue          shift and go to state 17
+    TkFalse         shift and go to state 26
 
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 119
-    EXPRESION                      shift and go to state 123
-    LITERAL_BOOL                   shift and go to state 22
-
-state 109
-
-    (42) INST_ROBOT -> DIRECCION . TkPunto INST_ROBOT_A
-    (43) INST_ROBOT -> DIRECCION . EXP TkPunto INST_ROBOT_A
-    (18) EXP -> . EXP TkConjuncion EXP
-    (19) EXP -> . EXP TkDisyuncion EXP
-    (20) EXP -> . EXP TkIgual EXP
-    (21) EXP -> . EXP TkDistinto EXP
-    (22) EXP -> . IDENT
-    (23) EXP -> . LITERAL_BOOL
-    (24) EXP -> . TkParAbre EXP TkParCierra
-    (25) EXP -> . TkNegacion EXP
-    (26) EXP -> . TkResta EXP
-    (27) EXP -> . EXP TkMenor EXP
-    (28) EXP -> . EXP TkMenorIgual EXP
-    (29) EXP -> . EXP TkMayor EXP
-    (30) EXP -> . EXP TkMayorIgual EXP
-    (31) EXP -> . EXP TkSuma EXP
-    (32) EXP -> . EXP TkResta EXP
-    (33) EXP -> . EXP TkMult EXP
-    (34) EXP -> . EXP TkDiv EXP
-    (35) EXP -> . EXP TkMod EXP
-    (36) EXP -> . TkNum
-    (11) IDENT -> . TkIdent
-    (37) LITERAL_BOOL -> . TkTrue
-    (38) LITERAL_BOOL -> . TkFalse
-
-    TkPunto         shift and go to state 124
-    TkParAbre       shift and go to state 26
-    TkNegacion      shift and go to state 21
-    TkResta         shift and go to state 29
-    TkNum           shift and go to state 23
-    TkIdent         shift and go to state 19
-    TkTrue          shift and go to state 27
-    TkFalse         shift and go to state 28
-
-    IDENT                          shift and go to state 24
-    EXP                            shift and go to state 125
-    LITERAL_BOOL                   shift and go to state 22
-
-state 110
-
-    (52) DIRECCION -> TkRight .
-
-    TkPunto         reduce using rule 52 (DIRECCION -> TkRight .)
-    TkParAbre       reduce using rule 52 (DIRECCION -> TkRight .)
-    TkNegacion      reduce using rule 52 (DIRECCION -> TkRight .)
-    TkResta         reduce using rule 52 (DIRECCION -> TkRight .)
-    TkNum           reduce using rule 52 (DIRECCION -> TkRight .)
-    TkIdent         reduce using rule 52 (DIRECCION -> TkRight .)
-    TkTrue          reduce using rule 52 (DIRECCION -> TkRight .)
-    TkFalse         reduce using rule 52 (DIRECCION -> TkRight .)
-
-
-state 111
-
-    (44) INST_ROBOT -> READ . TkPunto INST_ROBOT_A
-
-    TkPunto         shift and go to state 126
-
-
-state 112
-
-    (51) DIRECCION -> TkLeft .
-
-    TkPunto         reduce using rule 51 (DIRECCION -> TkLeft .)
-    TkParAbre       reduce using rule 51 (DIRECCION -> TkLeft .)
-    TkNegacion      reduce using rule 51 (DIRECCION -> TkLeft .)
-    TkResta         reduce using rule 51 (DIRECCION -> TkLeft .)
-    TkNum           reduce using rule 51 (DIRECCION -> TkLeft .)
-    TkIdent         reduce using rule 51 (DIRECCION -> TkLeft .)
-    TkTrue          reduce using rule 51 (DIRECCION -> TkLeft .)
-    TkFalse         reduce using rule 51 (DIRECCION -> TkLeft .)
-
-
-state 113
-
-    (40) INST_ROBOT -> TkCollect . COLLECT TkPunto INST_ROBOT_A
-    (55) COLLECT -> . TkAs IDENT
-    (56) COLLECT -> .
-
-    TkAs            shift and go to state 127
-    TkPunto         reduce using rule 56 (COLLECT -> .)
-
-    COLLECT                        shift and go to state 128
-
-state 114
-
-    (3) CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE .
-
-    TkEnd           reduce using rule 3 (CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE .)
-    TkElse          reduce using rule 3 (CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE .)
-    $end            reduce using rule 3 (CREATE -> TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE .)
-
+    EXP                            shift and go to state 120
+    EXPRESION                      shift and go to state 128
+    IDENT                          shift and go to state 20
+    LITERAL_BOOL                   shift and go to state 19
 
 state 115
 
-    (4) DECLARE -> TYPE TkBot . IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE
-    (11) IDENT -> . TkIdent
+    (46) INST_ROBOT -> TkRecieve . TkPunto INST_ROBOT_A
 
-    TkIdent         shift and go to state 19
+    TkPunto         shift and go to state 129
 
-    IDENT                          shift and go to state 129
 
 state 116
 
-    (58) READ -> TkRead TkAs . IDENT
-    (11) IDENT -> . TkIdent
+    (4) DECLARE -> TYPE TkBot IDENT . LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE
+    (9) LISTA_IDENT -> . TkComa IDENT LISTA_IDENT
+    (10) LISTA_IDENT -> .
 
-    TkIdent         shift and go to state 19
+    TkComa          shift and go to state 51
+    TkOn            reduce using rule 10 (LISTA_IDENT -> .)
+    TkEnd           reduce using rule 10 (LISTA_IDENT -> .)
 
-    IDENT                          shift and go to state 130
+    LISTA_IDENT                    shift and go to state 130
 
 state 117
-
-    (45) INST_ROBOT -> TkSend TkPunto . INST_ROBOT_A
-    (47) INST_ROBOT_A -> . INST_ROBOT
-    (48) INST_ROBOT_A -> .
-    (39) INST_ROBOT -> . TkStore EXPRESION TkPunto INST_ROBOT_A
-    (40) INST_ROBOT -> . TkCollect COLLECT TkPunto INST_ROBOT_A
-    (41) INST_ROBOT -> . TkDrop EXPRESION TkPunto INST_ROBOT_A
-    (42) INST_ROBOT -> . DIRECCION TkPunto INST_ROBOT_A
-    (43) INST_ROBOT -> . DIRECCION EXP TkPunto INST_ROBOT_A
-    (44) INST_ROBOT -> . READ TkPunto INST_ROBOT_A
-    (45) INST_ROBOT -> . TkSend TkPunto INST_ROBOT_A
-    (46) INST_ROBOT -> . TkRecieve TkPunto INST_ROBOT_A
-    (51) DIRECCION -> . TkLeft
-    (52) DIRECCION -> . TkRight
-    (53) DIRECCION -> . TkUp
-    (54) DIRECCION -> . TkDown
-    (57) READ -> . TkRead
-    (58) READ -> . TkRead TkAs IDENT
-
-    TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
-    TkStore         shift and go to state 103
-    TkCollect       shift and go to state 113
-    TkDrop          shift and go to state 108
-    TkSend          shift and go to state 102
-    TkRecieve       shift and go to state 107
-    TkLeft          shift and go to state 112
-    TkRight         shift and go to state 110
-    TkUp            shift and go to state 105
-    TkDown          shift and go to state 104
-    TkRead          shift and go to state 101
-
-    READ                           shift and go to state 111
-    INST_ROBOT_A                   shift and go to state 132
-    INST_ROBOT                     shift and go to state 131
-    DIRECCION                      shift and go to state 109
-
-state 118
-
-    (39) INST_ROBOT -> TkStore EXPRESION . TkPunto INST_ROBOT_A
-
-    TkPunto         shift and go to state 133
-
-
-state 119
-
-    (49) EXPRESION -> EXP .
-    (18) EXP -> EXP . TkConjuncion EXP
-    (19) EXP -> EXP . TkDisyuncion EXP
-    (20) EXP -> EXP . TkIgual EXP
-    (21) EXP -> EXP . TkDistinto EXP
-    (27) EXP -> EXP . TkMenor EXP
-    (28) EXP -> EXP . TkMenorIgual EXP
-    (29) EXP -> EXP . TkMayor EXP
-    (30) EXP -> EXP . TkMayorIgual EXP
-    (31) EXP -> EXP . TkSuma EXP
-    (32) EXP -> EXP . TkResta EXP
-    (33) EXP -> EXP . TkMult EXP
-    (34) EXP -> EXP . TkDiv EXP
-    (35) EXP -> EXP . TkMod EXP
-
-    TkPunto         reduce using rule 49 (EXPRESION -> EXP .)
-    TkConjuncion    shift and go to state 38
-    TkDisyuncion    shift and go to state 47
-    TkIgual         shift and go to state 41
-    TkDistinto      shift and go to state 44
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
-
-
-state 120
-
-    (50) EXPRESION -> TkCaracter .
-
-    TkPunto         reduce using rule 50 (EXPRESION -> TkCaracter .)
-
-
-state 121
-
-    (12) COMPORTAMIENTO -> TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd . COMPORTAMIENTO
-    (12) COMPORTAMIENTO -> . TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO
-    (13) COMPORTAMIENTO -> .
-
-    TkOn            shift and go to state 78
-    TkEnd           reduce using rule 13 (COMPORTAMIENTO -> .)
-
-    COMPORTAMIENTO                 shift and go to state 134
-
-state 122
-
-    (46) INST_ROBOT -> TkRecieve TkPunto . INST_ROBOT_A
-    (47) INST_ROBOT_A -> . INST_ROBOT
-    (48) INST_ROBOT_A -> .
-    (39) INST_ROBOT -> . TkStore EXPRESION TkPunto INST_ROBOT_A
-    (40) INST_ROBOT -> . TkCollect COLLECT TkPunto INST_ROBOT_A
-    (41) INST_ROBOT -> . TkDrop EXPRESION TkPunto INST_ROBOT_A
-    (42) INST_ROBOT -> . DIRECCION TkPunto INST_ROBOT_A
-    (43) INST_ROBOT -> . DIRECCION EXP TkPunto INST_ROBOT_A
-    (44) INST_ROBOT -> . READ TkPunto INST_ROBOT_A
-    (45) INST_ROBOT -> . TkSend TkPunto INST_ROBOT_A
-    (46) INST_ROBOT -> . TkRecieve TkPunto INST_ROBOT_A
-    (51) DIRECCION -> . TkLeft
-    (52) DIRECCION -> . TkRight
-    (53) DIRECCION -> . TkUp
-    (54) DIRECCION -> . TkDown
-    (57) READ -> . TkRead
-    (58) READ -> . TkRead TkAs IDENT
-
-    TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
-    TkStore         shift and go to state 103
-    TkCollect       shift and go to state 113
-    TkDrop          shift and go to state 108
-    TkSend          shift and go to state 102
-    TkRecieve       shift and go to state 107
-    TkLeft          shift and go to state 112
-    TkRight         shift and go to state 110
-    TkUp            shift and go to state 105
-    TkDown          shift and go to state 104
-    TkRead          shift and go to state 101
-
-    READ                           shift and go to state 111
-    INST_ROBOT_A                   shift and go to state 135
-    INST_ROBOT                     shift and go to state 131
-    DIRECCION                      shift and go to state 109
-
-state 123
-
-    (41) INST_ROBOT -> TkDrop EXPRESION . TkPunto INST_ROBOT_A
-
-    TkPunto         shift and go to state 136
-
-
-state 124
 
     (42) INST_ROBOT -> DIRECCION TkPunto . INST_ROBOT_A
     (47) INST_ROBOT_A -> . INST_ROBOT
@@ -3028,23 +2892,23 @@ state 124
     (58) READ -> . TkRead TkAs IDENT
 
     TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
-    TkStore         shift and go to state 103
-    TkCollect       shift and go to state 113
-    TkDrop          shift and go to state 108
-    TkSend          shift and go to state 102
-    TkRecieve       shift and go to state 107
-    TkLeft          shift and go to state 112
-    TkRight         shift and go to state 110
-    TkUp            shift and go to state 105
+    TkStore         shift and go to state 105
+    TkCollect       shift and go to state 112
+    TkDrop          shift and go to state 114
+    TkSend          shift and go to state 108
+    TkRecieve       shift and go to state 115
+    TkLeft          shift and go to state 110
+    TkRight         shift and go to state 113
+    TkUp            shift and go to state 106
     TkDown          shift and go to state 104
-    TkRead          shift and go to state 101
+    TkRead          shift and go to state 107
 
+    DIRECCION                      shift and go to state 103
+    INST_ROBOT_A                   shift and go to state 131
     READ                           shift and go to state 111
-    INST_ROBOT_A                   shift and go to state 137
-    INST_ROBOT                     shift and go to state 131
-    DIRECCION                      shift and go to state 109
+    INST_ROBOT                     shift and go to state 132
 
-state 125
+state 118
 
     (43) INST_ROBOT -> DIRECCION EXP . TkPunto INST_ROBOT_A
     (18) EXP -> EXP . TkConjuncion EXP
@@ -3061,23 +2925,127 @@ state 125
     (34) EXP -> EXP . TkDiv EXP
     (35) EXP -> EXP . TkMod EXP
 
-    TkPunto         shift and go to state 138
-    TkConjuncion    shift and go to state 38
-    TkDisyuncion    shift and go to state 47
+    TkPunto         shift and go to state 133
+    TkConjuncion    shift and go to state 34
+    TkDisyuncion    shift and go to state 46
     TkIgual         shift and go to state 41
-    TkDistinto      shift and go to state 44
-    TkMenor         shift and go to state 39
-    TkMenorIgual    shift and go to state 50
-    TkMayor         shift and go to state 43
-    TkMayorIgual    shift and go to state 48
-    TkSuma          shift and go to state 49
-    TkResta         shift and go to state 51
-    TkMult          shift and go to state 46
-    TkDiv           shift and go to state 42
-    TkMod           shift and go to state 40
+    TkDistinto      shift and go to state 45
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
 
 
-state 126
+state 119
+
+    (50) EXPRESION -> TkCaracter .
+
+    TkPunto         reduce using rule 50 (EXPRESION -> TkCaracter .)
+
+
+state 120
+
+    (49) EXPRESION -> EXP .
+    (18) EXP -> EXP . TkConjuncion EXP
+    (19) EXP -> EXP . TkDisyuncion EXP
+    (20) EXP -> EXP . TkIgual EXP
+    (21) EXP -> EXP . TkDistinto EXP
+    (27) EXP -> EXP . TkMenor EXP
+    (28) EXP -> EXP . TkMenorIgual EXP
+    (29) EXP -> EXP . TkMayor EXP
+    (30) EXP -> EXP . TkMayorIgual EXP
+    (31) EXP -> EXP . TkSuma EXP
+    (32) EXP -> EXP . TkResta EXP
+    (33) EXP -> EXP . TkMult EXP
+    (34) EXP -> EXP . TkDiv EXP
+    (35) EXP -> EXP . TkMod EXP
+
+    TkPunto         reduce using rule 49 (EXPRESION -> EXP .)
+    TkConjuncion    shift and go to state 34
+    TkDisyuncion    shift and go to state 46
+    TkIgual         shift and go to state 41
+    TkDistinto      shift and go to state 45
+    TkMenor         shift and go to state 35
+    TkMenorIgual    shift and go to state 47
+    TkMayor         shift and go to state 44
+    TkMayorIgual    shift and go to state 38
+    TkSuma          shift and go to state 42
+    TkResta         shift and go to state 39
+    TkMult          shift and go to state 43
+    TkDiv           shift and go to state 40
+    TkMod           shift and go to state 36
+
+
+state 121
+
+    (39) INST_ROBOT -> TkStore EXPRESION . TkPunto INST_ROBOT_A
+
+    TkPunto         shift and go to state 134
+
+
+state 122
+
+    (58) READ -> TkRead TkAs . IDENT
+    (11) IDENT -> . TkIdent
+
+    TkIdent         shift and go to state 18
+
+    IDENT                          shift and go to state 135
+
+state 123
+
+    (45) INST_ROBOT -> TkSend TkPunto . INST_ROBOT_A
+    (47) INST_ROBOT_A -> . INST_ROBOT
+    (48) INST_ROBOT_A -> .
+    (39) INST_ROBOT -> . TkStore EXPRESION TkPunto INST_ROBOT_A
+    (40) INST_ROBOT -> . TkCollect COLLECT TkPunto INST_ROBOT_A
+    (41) INST_ROBOT -> . TkDrop EXPRESION TkPunto INST_ROBOT_A
+    (42) INST_ROBOT -> . DIRECCION TkPunto INST_ROBOT_A
+    (43) INST_ROBOT -> . DIRECCION EXP TkPunto INST_ROBOT_A
+    (44) INST_ROBOT -> . READ TkPunto INST_ROBOT_A
+    (45) INST_ROBOT -> . TkSend TkPunto INST_ROBOT_A
+    (46) INST_ROBOT -> . TkRecieve TkPunto INST_ROBOT_A
+    (51) DIRECCION -> . TkLeft
+    (52) DIRECCION -> . TkRight
+    (53) DIRECCION -> . TkUp
+    (54) DIRECCION -> . TkDown
+    (57) READ -> . TkRead
+    (58) READ -> . TkRead TkAs IDENT
+
+    TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
+    TkStore         shift and go to state 105
+    TkCollect       shift and go to state 112
+    TkDrop          shift and go to state 114
+    TkSend          shift and go to state 108
+    TkRecieve       shift and go to state 115
+    TkLeft          shift and go to state 110
+    TkRight         shift and go to state 113
+    TkUp            shift and go to state 106
+    TkDown          shift and go to state 104
+    TkRead          shift and go to state 107
+
+    DIRECCION                      shift and go to state 103
+    INST_ROBOT_A                   shift and go to state 136
+    READ                           shift and go to state 111
+    INST_ROBOT                     shift and go to state 132
+
+state 124
+
+    (12) COMPORTAMIENTO -> TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd . COMPORTAMIENTO
+    (12) COMPORTAMIENTO -> . TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO
+    (13) COMPORTAMIENTO -> .
+
+    TkOn            shift and go to state 87
+    TkEnd           reduce using rule 13 (COMPORTAMIENTO -> .)
+
+    COMPORTAMIENTO                 shift and go to state 137
+
+state 125
 
     (44) INST_ROBOT -> READ TkPunto . INST_ROBOT_A
     (47) INST_ROBOT_A -> . INST_ROBOT
@@ -3098,167 +3066,108 @@ state 126
     (58) READ -> . TkRead TkAs IDENT
 
     TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
-    TkStore         shift and go to state 103
-    TkCollect       shift and go to state 113
-    TkDrop          shift and go to state 108
-    TkSend          shift and go to state 102
-    TkRecieve       shift and go to state 107
-    TkLeft          shift and go to state 112
-    TkRight         shift and go to state 110
-    TkUp            shift and go to state 105
+    TkStore         shift and go to state 105
+    TkCollect       shift and go to state 112
+    TkDrop          shift and go to state 114
+    TkSend          shift and go to state 108
+    TkRecieve       shift and go to state 115
+    TkLeft          shift and go to state 110
+    TkRight         shift and go to state 113
+    TkUp            shift and go to state 106
     TkDown          shift and go to state 104
-    TkRead          shift and go to state 101
+    TkRead          shift and go to state 107
 
+    DIRECCION                      shift and go to state 103
+    INST_ROBOT_A                   shift and go to state 138
     READ                           shift and go to state 111
-    INST_ROBOT_A                   shift and go to state 139
-    INST_ROBOT                     shift and go to state 131
-    DIRECCION                      shift and go to state 109
+    INST_ROBOT                     shift and go to state 132
+
+state 126
+
+    (40) INST_ROBOT -> TkCollect COLLECT . TkPunto INST_ROBOT_A
+
+    TkPunto         shift and go to state 139
+
 
 state 127
 
     (55) COLLECT -> TkAs . IDENT
     (11) IDENT -> . TkIdent
 
-    TkIdent         shift and go to state 19
+    TkIdent         shift and go to state 18
 
     IDENT                          shift and go to state 140
 
 state 128
 
-    (40) INST_ROBOT -> TkCollect COLLECT . TkPunto INST_ROBOT_A
+    (41) INST_ROBOT -> TkDrop EXPRESION . TkPunto INST_ROBOT_A
 
     TkPunto         shift and go to state 141
 
 
 state 129
 
-    (4) DECLARE -> TYPE TkBot IDENT . LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE
-    (9) LISTA_IDENT -> . TkComa IDENT LISTA_IDENT
-    (10) LISTA_IDENT -> .
+    (46) INST_ROBOT -> TkRecieve TkPunto . INST_ROBOT_A
+    (47) INST_ROBOT_A -> . INST_ROBOT
+    (48) INST_ROBOT_A -> .
+    (39) INST_ROBOT -> . TkStore EXPRESION TkPunto INST_ROBOT_A
+    (40) INST_ROBOT -> . TkCollect COLLECT TkPunto INST_ROBOT_A
+    (41) INST_ROBOT -> . TkDrop EXPRESION TkPunto INST_ROBOT_A
+    (42) INST_ROBOT -> . DIRECCION TkPunto INST_ROBOT_A
+    (43) INST_ROBOT -> . DIRECCION EXP TkPunto INST_ROBOT_A
+    (44) INST_ROBOT -> . READ TkPunto INST_ROBOT_A
+    (45) INST_ROBOT -> . TkSend TkPunto INST_ROBOT_A
+    (46) INST_ROBOT -> . TkRecieve TkPunto INST_ROBOT_A
+    (51) DIRECCION -> . TkLeft
+    (52) DIRECCION -> . TkRight
+    (53) DIRECCION -> . TkUp
+    (54) DIRECCION -> . TkDown
+    (57) READ -> . TkRead
+    (58) READ -> . TkRead TkAs IDENT
 
-    TkComa          shift and go to state 35
-    TkOn            reduce using rule 10 (LISTA_IDENT -> .)
-    TkEnd           reduce using rule 10 (LISTA_IDENT -> .)
+    TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
+    TkStore         shift and go to state 105
+    TkCollect       shift and go to state 112
+    TkDrop          shift and go to state 114
+    TkSend          shift and go to state 108
+    TkRecieve       shift and go to state 115
+    TkLeft          shift and go to state 110
+    TkRight         shift and go to state 113
+    TkUp            shift and go to state 106
+    TkDown          shift and go to state 104
+    TkRead          shift and go to state 107
 
-    LISTA_IDENT                    shift and go to state 142
+    DIRECCION                      shift and go to state 103
+    INST_ROBOT_A                   shift and go to state 142
+    READ                           shift and go to state 111
+    INST_ROBOT                     shift and go to state 132
 
 state 130
 
-    (58) READ -> TkRead TkAs IDENT .
+    (4) DECLARE -> TYPE TkBot IDENT LISTA_IDENT . COMPORTAMIENTO TkEnd DECLARE
+    (12) COMPORTAMIENTO -> . TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO
+    (13) COMPORTAMIENTO -> .
 
-    TkPunto         reduce using rule 58 (READ -> TkRead TkAs IDENT .)
+    TkOn            shift and go to state 87
+    TkEnd           reduce using rule 13 (COMPORTAMIENTO -> .)
 
+    COMPORTAMIENTO                 shift and go to state 143
 
 state 131
-
-    (47) INST_ROBOT_A -> INST_ROBOT .
-
-    TkEnd           reduce using rule 47 (INST_ROBOT_A -> INST_ROBOT .)
-
-
-state 132
-
-    (45) INST_ROBOT -> TkSend TkPunto INST_ROBOT_A .
-
-    TkEnd           reduce using rule 45 (INST_ROBOT -> TkSend TkPunto INST_ROBOT_A .)
-
-
-state 133
-
-    (39) INST_ROBOT -> TkStore EXPRESION TkPunto . INST_ROBOT_A
-    (47) INST_ROBOT_A -> . INST_ROBOT
-    (48) INST_ROBOT_A -> .
-    (39) INST_ROBOT -> . TkStore EXPRESION TkPunto INST_ROBOT_A
-    (40) INST_ROBOT -> . TkCollect COLLECT TkPunto INST_ROBOT_A
-    (41) INST_ROBOT -> . TkDrop EXPRESION TkPunto INST_ROBOT_A
-    (42) INST_ROBOT -> . DIRECCION TkPunto INST_ROBOT_A
-    (43) INST_ROBOT -> . DIRECCION EXP TkPunto INST_ROBOT_A
-    (44) INST_ROBOT -> . READ TkPunto INST_ROBOT_A
-    (45) INST_ROBOT -> . TkSend TkPunto INST_ROBOT_A
-    (46) INST_ROBOT -> . TkRecieve TkPunto INST_ROBOT_A
-    (51) DIRECCION -> . TkLeft
-    (52) DIRECCION -> . TkRight
-    (53) DIRECCION -> . TkUp
-    (54) DIRECCION -> . TkDown
-    (57) READ -> . TkRead
-    (58) READ -> . TkRead TkAs IDENT
-
-    TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
-    TkStore         shift and go to state 103
-    TkCollect       shift and go to state 113
-    TkDrop          shift and go to state 108
-    TkSend          shift and go to state 102
-    TkRecieve       shift and go to state 107
-    TkLeft          shift and go to state 112
-    TkRight         shift and go to state 110
-    TkUp            shift and go to state 105
-    TkDown          shift and go to state 104
-    TkRead          shift and go to state 101
-
-    READ                           shift and go to state 111
-    INST_ROBOT_A                   shift and go to state 143
-    INST_ROBOT                     shift and go to state 131
-    DIRECCION                      shift and go to state 109
-
-state 134
-
-    (12) COMPORTAMIENTO -> TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO .
-
-    TkEnd           reduce using rule 12 (COMPORTAMIENTO -> TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO .)
-
-
-state 135
-
-    (46) INST_ROBOT -> TkRecieve TkPunto INST_ROBOT_A .
-
-    TkEnd           reduce using rule 46 (INST_ROBOT -> TkRecieve TkPunto INST_ROBOT_A .)
-
-
-state 136
-
-    (41) INST_ROBOT -> TkDrop EXPRESION TkPunto . INST_ROBOT_A
-    (47) INST_ROBOT_A -> . INST_ROBOT
-    (48) INST_ROBOT_A -> .
-    (39) INST_ROBOT -> . TkStore EXPRESION TkPunto INST_ROBOT_A
-    (40) INST_ROBOT -> . TkCollect COLLECT TkPunto INST_ROBOT_A
-    (41) INST_ROBOT -> . TkDrop EXPRESION TkPunto INST_ROBOT_A
-    (42) INST_ROBOT -> . DIRECCION TkPunto INST_ROBOT_A
-    (43) INST_ROBOT -> . DIRECCION EXP TkPunto INST_ROBOT_A
-    (44) INST_ROBOT -> . READ TkPunto INST_ROBOT_A
-    (45) INST_ROBOT -> . TkSend TkPunto INST_ROBOT_A
-    (46) INST_ROBOT -> . TkRecieve TkPunto INST_ROBOT_A
-    (51) DIRECCION -> . TkLeft
-    (52) DIRECCION -> . TkRight
-    (53) DIRECCION -> . TkUp
-    (54) DIRECCION -> . TkDown
-    (57) READ -> . TkRead
-    (58) READ -> . TkRead TkAs IDENT
-
-    TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
-    TkStore         shift and go to state 103
-    TkCollect       shift and go to state 113
-    TkDrop          shift and go to state 108
-    TkSend          shift and go to state 102
-    TkRecieve       shift and go to state 107
-    TkLeft          shift and go to state 112
-    TkRight         shift and go to state 110
-    TkUp            shift and go to state 105
-    TkDown          shift and go to state 104
-    TkRead          shift and go to state 101
-
-    READ                           shift and go to state 111
-    INST_ROBOT_A                   shift and go to state 144
-    INST_ROBOT                     shift and go to state 131
-    DIRECCION                      shift and go to state 109
-
-state 137
 
     (42) INST_ROBOT -> DIRECCION TkPunto INST_ROBOT_A .
 
     TkEnd           reduce using rule 42 (INST_ROBOT -> DIRECCION TkPunto INST_ROBOT_A .)
 
 
-state 138
+state 132
+
+    (47) INST_ROBOT_A -> INST_ROBOT .
+
+    TkEnd           reduce using rule 47 (INST_ROBOT_A -> INST_ROBOT .)
+
+
+state 133
 
     (43) INST_ROBOT -> DIRECCION EXP TkPunto . INST_ROBOT_A
     (47) INST_ROBOT_A -> . INST_ROBOT
@@ -3279,37 +3188,88 @@ state 138
     (58) READ -> . TkRead TkAs IDENT
 
     TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
-    TkStore         shift and go to state 103
-    TkCollect       shift and go to state 113
-    TkDrop          shift and go to state 108
-    TkSend          shift and go to state 102
-    TkRecieve       shift and go to state 107
-    TkLeft          shift and go to state 112
-    TkRight         shift and go to state 110
-    TkUp            shift and go to state 105
+    TkStore         shift and go to state 105
+    TkCollect       shift and go to state 112
+    TkDrop          shift and go to state 114
+    TkSend          shift and go to state 108
+    TkRecieve       shift and go to state 115
+    TkLeft          shift and go to state 110
+    TkRight         shift and go to state 113
+    TkUp            shift and go to state 106
     TkDown          shift and go to state 104
-    TkRead          shift and go to state 101
+    TkRead          shift and go to state 107
 
+    DIRECCION                      shift and go to state 103
+    INST_ROBOT_A                   shift and go to state 144
     READ                           shift and go to state 111
-    INST_ROBOT_A                   shift and go to state 145
-    INST_ROBOT                     shift and go to state 131
-    DIRECCION                      shift and go to state 109
+    INST_ROBOT                     shift and go to state 132
 
-state 139
+state 134
+
+    (39) INST_ROBOT -> TkStore EXPRESION TkPunto . INST_ROBOT_A
+    (47) INST_ROBOT_A -> . INST_ROBOT
+    (48) INST_ROBOT_A -> .
+    (39) INST_ROBOT -> . TkStore EXPRESION TkPunto INST_ROBOT_A
+    (40) INST_ROBOT -> . TkCollect COLLECT TkPunto INST_ROBOT_A
+    (41) INST_ROBOT -> . TkDrop EXPRESION TkPunto INST_ROBOT_A
+    (42) INST_ROBOT -> . DIRECCION TkPunto INST_ROBOT_A
+    (43) INST_ROBOT -> . DIRECCION EXP TkPunto INST_ROBOT_A
+    (44) INST_ROBOT -> . READ TkPunto INST_ROBOT_A
+    (45) INST_ROBOT -> . TkSend TkPunto INST_ROBOT_A
+    (46) INST_ROBOT -> . TkRecieve TkPunto INST_ROBOT_A
+    (51) DIRECCION -> . TkLeft
+    (52) DIRECCION -> . TkRight
+    (53) DIRECCION -> . TkUp
+    (54) DIRECCION -> . TkDown
+    (57) READ -> . TkRead
+    (58) READ -> . TkRead TkAs IDENT
+
+    TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
+    TkStore         shift and go to state 105
+    TkCollect       shift and go to state 112
+    TkDrop          shift and go to state 114
+    TkSend          shift and go to state 108
+    TkRecieve       shift and go to state 115
+    TkLeft          shift and go to state 110
+    TkRight         shift and go to state 113
+    TkUp            shift and go to state 106
+    TkDown          shift and go to state 104
+    TkRead          shift and go to state 107
+
+    DIRECCION                      shift and go to state 103
+    INST_ROBOT_A                   shift and go to state 145
+    READ                           shift and go to state 111
+    INST_ROBOT                     shift and go to state 132
+
+state 135
+
+    (58) READ -> TkRead TkAs IDENT .
+
+    TkPunto         reduce using rule 58 (READ -> TkRead TkAs IDENT .)
+
+
+state 136
+
+    (45) INST_ROBOT -> TkSend TkPunto INST_ROBOT_A .
+
+    TkEnd           reduce using rule 45 (INST_ROBOT -> TkSend TkPunto INST_ROBOT_A .)
+
+
+state 137
+
+    (12) COMPORTAMIENTO -> TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO .
+
+    TkEnd           reduce using rule 12 (COMPORTAMIENTO -> TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO .)
+
+
+state 138
 
     (44) INST_ROBOT -> READ TkPunto INST_ROBOT_A .
 
     TkEnd           reduce using rule 44 (INST_ROBOT -> READ TkPunto INST_ROBOT_A .)
 
 
-state 140
-
-    (55) COLLECT -> TkAs IDENT .
-
-    TkPunto         reduce using rule 55 (COLLECT -> TkAs IDENT .)
-
-
-state 141
+state 139
 
     (40) INST_ROBOT -> TkCollect COLLECT TkPunto . INST_ROBOT_A
     (47) INST_ROBOT_A -> . INST_ROBOT
@@ -3330,52 +3290,92 @@ state 141
     (58) READ -> . TkRead TkAs IDENT
 
     TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
-    TkStore         shift and go to state 103
-    TkCollect       shift and go to state 113
-    TkDrop          shift and go to state 108
-    TkSend          shift and go to state 102
-    TkRecieve       shift and go to state 107
-    TkLeft          shift and go to state 112
-    TkRight         shift and go to state 110
-    TkUp            shift and go to state 105
+    TkStore         shift and go to state 105
+    TkCollect       shift and go to state 112
+    TkDrop          shift and go to state 114
+    TkSend          shift and go to state 108
+    TkRecieve       shift and go to state 115
+    TkLeft          shift and go to state 110
+    TkRight         shift and go to state 113
+    TkUp            shift and go to state 106
     TkDown          shift and go to state 104
-    TkRead          shift and go to state 101
+    TkRead          shift and go to state 107
 
-    READ                           shift and go to state 111
+    DIRECCION                      shift and go to state 103
     INST_ROBOT_A                   shift and go to state 146
-    INST_ROBOT                     shift and go to state 131
-    DIRECCION                      shift and go to state 109
+    READ                           shift and go to state 111
+    INST_ROBOT                     shift and go to state 132
+
+state 140
+
+    (55) COLLECT -> TkAs IDENT .
+
+    TkPunto         reduce using rule 55 (COLLECT -> TkAs IDENT .)
+
+
+state 141
+
+    (41) INST_ROBOT -> TkDrop EXPRESION TkPunto . INST_ROBOT_A
+    (47) INST_ROBOT_A -> . INST_ROBOT
+    (48) INST_ROBOT_A -> .
+    (39) INST_ROBOT -> . TkStore EXPRESION TkPunto INST_ROBOT_A
+    (40) INST_ROBOT -> . TkCollect COLLECT TkPunto INST_ROBOT_A
+    (41) INST_ROBOT -> . TkDrop EXPRESION TkPunto INST_ROBOT_A
+    (42) INST_ROBOT -> . DIRECCION TkPunto INST_ROBOT_A
+    (43) INST_ROBOT -> . DIRECCION EXP TkPunto INST_ROBOT_A
+    (44) INST_ROBOT -> . READ TkPunto INST_ROBOT_A
+    (45) INST_ROBOT -> . TkSend TkPunto INST_ROBOT_A
+    (46) INST_ROBOT -> . TkRecieve TkPunto INST_ROBOT_A
+    (51) DIRECCION -> . TkLeft
+    (52) DIRECCION -> . TkRight
+    (53) DIRECCION -> . TkUp
+    (54) DIRECCION -> . TkDown
+    (57) READ -> . TkRead
+    (58) READ -> . TkRead TkAs IDENT
+
+    TkEnd           reduce using rule 48 (INST_ROBOT_A -> .)
+    TkStore         shift and go to state 105
+    TkCollect       shift and go to state 112
+    TkDrop          shift and go to state 114
+    TkSend          shift and go to state 108
+    TkRecieve       shift and go to state 115
+    TkLeft          shift and go to state 110
+    TkRight         shift and go to state 113
+    TkUp            shift and go to state 106
+    TkDown          shift and go to state 104
+    TkRead          shift and go to state 107
+
+    DIRECCION                      shift and go to state 103
+    INST_ROBOT_A                   shift and go to state 147
+    READ                           shift and go to state 111
+    INST_ROBOT                     shift and go to state 132
 
 state 142
 
-    (4) DECLARE -> TYPE TkBot IDENT LISTA_IDENT . COMPORTAMIENTO TkEnd DECLARE
-    (12) COMPORTAMIENTO -> . TkOn CONDICION TkDosPuntos INST_ROBOT TkEnd COMPORTAMIENTO
-    (13) COMPORTAMIENTO -> .
+    (46) INST_ROBOT -> TkRecieve TkPunto INST_ROBOT_A .
 
-    TkOn            shift and go to state 78
-    TkEnd           reduce using rule 13 (COMPORTAMIENTO -> .)
+    TkEnd           reduce using rule 46 (INST_ROBOT -> TkRecieve TkPunto INST_ROBOT_A .)
 
-    COMPORTAMIENTO                 shift and go to state 147
 
 state 143
 
-    (39) INST_ROBOT -> TkStore EXPRESION TkPunto INST_ROBOT_A .
+    (4) DECLARE -> TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO . TkEnd DECLARE
 
-    TkEnd           reduce using rule 39 (INST_ROBOT -> TkStore EXPRESION TkPunto INST_ROBOT_A .)
+    TkEnd           shift and go to state 148
 
 
 state 144
 
-    (41) INST_ROBOT -> TkDrop EXPRESION TkPunto INST_ROBOT_A .
+    (43) INST_ROBOT -> DIRECCION EXP TkPunto INST_ROBOT_A .
 
-    TkEnd           reduce using rule 41 (INST_ROBOT -> TkDrop EXPRESION TkPunto INST_ROBOT_A .)
+    TkEnd           reduce using rule 43 (INST_ROBOT -> DIRECCION EXP TkPunto INST_ROBOT_A .)
 
 
 state 145
 
-    (43) INST_ROBOT -> DIRECCION EXP TkPunto INST_ROBOT_A .
+    (39) INST_ROBOT -> TkStore EXPRESION TkPunto INST_ROBOT_A .
 
-    TkEnd           reduce using rule 43 (INST_ROBOT -> DIRECCION EXP TkPunto INST_ROBOT_A .)
+    TkEnd           reduce using rule 39 (INST_ROBOT -> TkStore EXPRESION TkPunto INST_ROBOT_A .)
 
 
 state 146
@@ -3387,9 +3387,9 @@ state 146
 
 state 147
 
-    (4) DECLARE -> TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO . TkEnd DECLARE
+    (41) INST_ROBOT -> TkDrop EXPRESION TkPunto INST_ROBOT_A .
 
-    TkEnd           shift and go to state 148
+    TkEnd           reduce using rule 41 (INST_ROBOT -> TkDrop EXPRESION TkPunto INST_ROBOT_A .)
 
 
 state 148
@@ -3402,12 +3402,12 @@ state 148
     (8) TYPE -> . TkChar
 
     TkExecute       reduce using rule 5 (DECLARE -> .)
-    TkInt           shift and go to state 9
-    TkBool          shift and go to state 7
-    TkChar          shift and go to state 6
+    TkInt           shift and go to state 16
+    TkBool          shift and go to state 14
+    TkChar          shift and go to state 15
 
+    TYPE                           shift and go to state 98
     DECLARE                        shift and go to state 149
-    TYPE                           shift and go to state 99
 
 state 149
 

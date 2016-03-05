@@ -1,32 +1,29 @@
-create 
-  bool bot a,b,c
-  	on activation:
-  		collect as a.
-  		read as b.
-  		store x+5.
-  		left x+5.
-  		right.
-  		up.
-  		down.
-  	end
-
-  end
+create
+	int bot bar
+		on activation:
+			store 3.
+		end
+	end
+	int bot contador
+	on default:
+	store 35.
+	end
+end
 execute
-	advance a,v,b.
-	create 
-	  bool bot a,b,c
-	  	on activation:
-	  		collect as a.
-	  		read as b.
-	  		store x+5.
-	  		left x+5.
-	  		right.
-	  		up.
-	  		down.
-	  	end
-
-	  end
-	execute
-		advance a,v,b.
+	activate contador,b,c,d.
+	$- Asignar al contador
+	el valor 35, si bar > 2 -$
+	
+	if hello:
+		advance CONDICION1.
+	end
+	if -hola:
+		advance CONDICION2.
+	end
+	if chao > 2:
+		advance CONDICION3.
+	end
+	if 2 > -ciao:
+		advance CONDICION4.
 	end
 end

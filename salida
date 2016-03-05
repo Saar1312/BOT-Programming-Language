@@ -1,0 +1,28 @@
+SECUENCIACION
+	ACTIVACION
+		- var: contador
+		- var: b
+		- var: c
+		- var: d
+	CONDICIONAL
+		- guardia: hello
+	-exito: AVANCE
+		- var: CONDICION1
+	CONDICIONAL
+		- guardia:-hola
+	-exito: AVANCE
+		- var: CONDICION2
+	CONDICIONAL
+		- guardia: BIN_RELACIONAL
+		- operacion: 'Mayor que'
+		- operador izquierdo: chao
+		- operador derecho:  2
+	-exito: AVANCE
+		- var: CONDICION3
+	CONDICIONAL
+		- guardia: BIN_RELACIONAL
+		- operacion: 'Mayor que'
+		- operador izquierdo:  2
+		- operador derecho: -ciao
+	-exito: AVANCE
+		- var: CONDICION4

@@ -39,7 +39,7 @@ if len(sys.argv) > 1:
 	# - No se puede usar un robot anteriormente declarado dentro de las instrucciones del mismo robot o de otros
 	# - El tipo del me y las demas variables declaradas con Collect o read sera el mismo que el del robot
 	pointer = Tabla(None)
-	pointer = tabla
+	# pointer = tabla
 	tipo = None
 
 	def crearTabla(arbol,almacenar):
@@ -80,7 +80,7 @@ if len(sys.argv) > 1:
 
 	crearTabla(result,None)
 	#print("HOLAAAAAAAAAAAAAAAAAAAAAAAAA",pointer.tabla)
-	#print(pointer.tabla['a'].tabla.tabla)
+	# print(pointer.tabla['a'].tabla.tabla)
 	#print(pointer.tabla['v'])
 	#print(pointer.tabla['c'].tabla.tabla)
 	"""
