@@ -40,6 +40,12 @@ if len(sys.argv) > 1:
 	# Asumiendo que:
 	# - No se puede usar un robot anteriormente declarado dentro de las instrucciones del mismo robot o de otros
 	# - El tipo del me y las demas variables declaradas con Collect o read sera el mismo que el del robot
+
+#-------------------------------------------
+#
+# Funcion para verificar si es arbol
+#
+#-------------------------------------------
 	def es_arbol(h):
 		if type(h) in [arbol,expresion,instContr,\
 					instRobot]:
@@ -53,31 +59,31 @@ if len(sys.argv) > 1:
 	p = pila()
 	def crearTabla(arbol,almacenar):
 		global tipo,pointer,p,incAlcance
-		
-		if es_arbol(arbol):
-			print(arbol," ES UN ARBOL")
-		else:
-			print(arbol," NO ES UN ARBOL")
 
-
-		if arbol.nombre == 'INC_ALCANCE':
+		if es_arbol(arbol) and arbol.nombre == 'INC_ALCANCE':
 			incAlcance = True
-		if arbol.nombre == 'INSTRUCCIONES_ROBOT': # Crea la tabla para la inc de alcance solo si hay una inc de 
+		
+		if es_arbol(arbol) and arbol.nombre == 'INSTRUCCIONES_ROBOT': # Crea la tabla para la inc de alcance solo si hay una inc de 
 			almacenar = True 					  # alcance y en esta se declaran robots
 			if incAlcance:
 				p.addTope(pointer)
 				t = Tabla(pointer)
 				pointer = t
 				incAlcance = False
-		elif arbol.nombre == 'INICIO':
+		elif es_arbol(arbol) and arbol.nombre == 'INICIO':
 			almacenar = True
-		elif arbol.nombre == 'EXECUTE':
+		elif es_arbol(arbol) and arbol.nombre == 'EXECUTE':
 			almacenar = False
+		
 		print('\n',pointer.tabla)
-		print(arbol.nombre)
-		if pointer.tablaExterna:
+		
+		if es_arbol(arbol):
+			print(arbol.nombre)
+		
+		if es_arbol(arbol) and pointer.tablaExterna:
 			print('PADRE:',pointer.tablaExterna.tabla,'\n')
-		if almacenar:
+		
+		if es_arbol(arbol) and almacenar:
 			if arbol.nombre == 'DECLARACION_ROBOT':
 				tipo = arbol.hijos[0].tipo
 				simbolo = arbol.hijos[1].hijos[0]
@@ -101,12 +107,14 @@ if len(sys.argv) > 1:
 				simbolo = arbol.hijos[0].hijos[0]
 				for robot,datos in pointer.tabla.items():
 					datos.tabla.agregar(simbolo,None,tipo)
-		for rama in arbol.hijos:
-			if rama != None and not type(rama) in [defTipo,expresion]: # cambiar para que cicle en expresiones distintas de strings,int,bool,etc
-				if rama == 'incAlcance':
-					pointer = p.popTope()
-				else:
-					crearTabla(rama,almacenar)
+		
+		if es_arbol(arbol):
+			for rama in arbol.hijos:
+				if rama != None and not type(rama) in [defTipo,expresion]: # cambiar para que cicle en expresiones distintas de strings,int,bool,etc
+					if rama == 'incAlcance':
+						pointer = p.popTope()
+					else:
+						crearTabla(rama,almacenar)
 
 
 

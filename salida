@@ -1,33 +1,144 @@
-<Arbol.arbol object at 0xb6d1674c>  ES UN ARBOL
 
  {}
 INICIO
-<Arbol.instContr object at 0xb6e1336c>  ES UN ARBOL
+
+ {}
+EXECUTE
+
+ {}
+INC_ALCANCE
+
+ {}
+INICIO
 
  {}
 INSTRUCCIONES_ROBOT
-<Arbol.instContr object at 0xb6d2560c>  ES UN ARBOL
+PADRE: {} 
+
 
  {}
 DECLARACION_ROBOT
-<Arbol.instRobot object at 0xb6d2406c>  ES UN ARBOL
+PADRE: {} 
 
- {'v_1': <Tabla.datos object at 0xb6d1f6cc>}
+
+ {'X': <Tabla.datos object at 0xb6daac6c>}
 LISTA
-<Arbol.instRobot object at 0xb6d24dec>  ES UN ARBOL
+PADRE: {} 
 
- {'v_2': <Tabla.datos object at 0xb6d102ec>, 'v_1': <Tabla.datos object at 0xb6d1f6cc>}
+
+ {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>}
 LISTA
-<Arbol.instRobot object at 0xb6d1f34c>  ES UN ARBOL
+PADRE: {} 
 
- {'v_2': <Tabla.datos object at 0xb6d102ec>, 'v_1': <Tabla.datos object at 0xb6d1f6cc>, 'v_3': <Tabla.datos object at 0xb6d39f4c>}
-CONDICION
-<Arbol.instContr object at 0xb6d1d18c>  ES UN ARBOL
 
- {'v_2': <Tabla.datos object at 0xb6d102ec>, 'v_1': <Tabla.datos object at 0xb6d1f6cc>, 'v_3': <Tabla.datos object at 0xb6d39f4c>}
-ACTIVACION
-<Arbol.instContr object at 0xb6d2530c>  ES UN ARBOL
+ {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>, 'Z': <Tabla.datos object at 0xb6daa9ec>}
+EXECUTE
+PADRE: {} 
 
- {'v_2': <Tabla.datos object at 0xb6d102ec>, 'v_1': <Tabla.datos object at 0xb6d1f6cc>, 'v_3': <Tabla.datos object at 0xb6d39f4c>}
-RECIEVE
-recieve  NO ES UN ARBOL
+
+ {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>, 'Z': <Tabla.datos object at 0xb6daa9ec>}
+ADVANCE
+PADRE: {} 
+
+
+ {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>, 'Z': <Tabla.datos object at 0xb6daa9ec>}
+LISTA
+PADRE: {} 
+
+
+ {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>, 'Z': <Tabla.datos object at 0xb6daa9ec>}
+LISTA
+PADRE: {} 
+
+
+ {}
+INST_CONT
+
+ {}
+INC_ALCANCE
+
+ {}
+INICIO
+
+ {}
+INSTRUCCIONES_ROBOT
+PADRE: {} 
+
+
+ {}
+DECLARACION_ROBOT
+PADRE: {} 
+
+
+ {'A': <Tabla.datos object at 0xb6daa8ac>}
+LISTA
+PADRE: {} 
+
+
+ {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>}
+LISTA
+PADRE: {} 
+
+
+ {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>}
+EXECUTE
+PADRE: {} 
+
+
+ {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>}
+INC_ALCANCE
+PADRE: {} 
+
+
+ {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>}
+INICIO
+PADRE: {} 
+
+
+ {}
+INSTRUCCIONES_ROBOT
+PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
+
+
+ {}
+DECLARACION_ROBOT
+PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
+
+
+ {'H': <Tabla.datos object at 0xb6db538c>}
+LISTA
+PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
+
+
+ {'I': <Tabla.datos object at 0xb6dbbecc>, 'H': <Tabla.datos object at 0xb6db538c>}
+LISTA
+PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
+
+
+ {'I': <Tabla.datos object at 0xb6dbbecc>, 'J': <Tabla.datos object at 0xb6dbb54c>, 'H': <Tabla.datos object at 0xb6db538c>}
+EXECUTE
+PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
+
+
+ {'I': <Tabla.datos object at 0xb6dbbecc>, 'J': <Tabla.datos object at 0xb6dbb54c>, 'H': <Tabla.datos object at 0xb6db538c>}
+ADVANCE
+PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
+
+
+ {'I': <Tabla.datos object at 0xb6dbbecc>, 'J': <Tabla.datos object at 0xb6dbb54c>, 'H': <Tabla.datos object at 0xb6db538c>}
+LISTA
+PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
+
+
+ {'I': <Tabla.datos object at 0xb6dbbecc>, 'J': <Tabla.datos object at 0xb6dbb54c>, 'H': <Tabla.datos object at 0xb6db538c>}
+LISTA
+PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
+
+				-exito: AVANCE
+					- var: A
+					- var: V
+					- var: B
+									-exito: AVANCE
+										- var: A
+										- var: V
+										- var: B

@@ -1,19 +1,19 @@
 execute
 	create 
-	  bool bot x,y,z
+	  bool bot X,Y,Z
 	  end
 	execute
-		advance a,v,b.
+		advance A,V,B.
 	end
 	create 
-	  bool bot a,b,c
+	  bool bot A,B,C
 	  end
 	execute
 		create 
-		  bool bot h,i,j
+		  bool bot H,I,J
 		  end
 		execute
-			advance a,v,b.
+			advance A,V,B.
 		end
 	end
 end
