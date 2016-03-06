@@ -1,6 +1,9 @@
 execute
 	create 
 	  bool bot x,y,z
+	  	on activation:
+	  		store '0'.
+	  	end
 	  end
 	execute
 		advance a,v,b.

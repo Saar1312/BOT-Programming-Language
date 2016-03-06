@@ -54,10 +54,10 @@ if len(sys.argv) > 1:
 	def crearTabla(arbol,almacenar):
 		global tipo,pointer,p,incAlcance
 		
-		if es_arbol(arbol):
-			print(arbol," ES UN ARBOL")
-		else:
-			print(arbol," NO ES UN ARBOL")
+		#if es_arbol(arbol):
+		#	print(arbol," ES UN ARBOL")
+		#else:
+		#	print(arbol," NO ES UN ARBOL")
 
 
 		if arbol.nombre == 'INC_ALCANCE':
@@ -77,8 +77,8 @@ if len(sys.argv) > 1:
 
 		#print('\n',pointer.tabla)
 		#print(arbol.nombre)
-		if pointer.tablaExterna:
-			print('PADRE:',pointer.tablaExterna.tabla,'\n')
+		#if pointer.tablaExterna:
+			#print('PADRE:',pointer.tablaExterna.tabla,'\n')
 
 		if almacenar:
 			if arbol.nombre == 'DECLARACION_ROBOT':
@@ -113,6 +113,8 @@ if len(sys.argv) > 1:
 					pointer = p.popTope()
 				else:
 					crearTabla(rama,almacenar)
+					#if rama.nombre == 'expresion':
+
 
 
 

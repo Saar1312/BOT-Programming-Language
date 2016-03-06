@@ -159,8 +159,8 @@ def p_identificador(p):
 #-------------------------------------------------------------------------------
 def p_ident(p):
 	'IDENT : TkIdent'
-	p[0] = expresion('VAR',[p[1]])
-	
+	p[0] = expresion('VAR',[p[1]],p.lineno)
+
 #-------------------------------------------------------------------------------
 # COMPORTAMIENTO genera un comportamiento de un robot, delimitado por las palabras
 # reservadas "on" y "end"
@@ -275,7 +275,7 @@ def p_exp(p):
 		elif (p[1] == True) or (p[1] == False):
 			p[0] = expresion('BOOLEANO',[p[1]],p.lineno)
 		else:
-			p[0] = expresion('VAR',[p[1]])
+			p[0] = expresion('VAR',[p[1]],p.lineno)
 
 #-------------------------------------------------------------------------------
 # Genera los booleanos True y False
