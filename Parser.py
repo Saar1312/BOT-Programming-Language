@@ -201,7 +201,9 @@ def p_exp(p):
 	'''EXP : EXP TkConjuncion EXP
 		   | EXP TkDisyuncion EXP
 		   | EXP TkIgual EXP
+		   | TkCaracter TkIgual TkCaracter
 		   | EXP TkDistinto EXP
+		   | TkCaracter TkDistinto TkCaracter
 		   | IDENT
 		   | LITERAL_BOOL
 		   | TkParAbre EXP TkParCierra
@@ -230,10 +232,20 @@ def p_exp(p):
 				p[0] = expresion('DISYUNCION',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '=':
-				p[0] = expresion('IGUALDAD',[p[1],p[3]],p.lineno)
+				if type(p[1]) == str:
+					nodo1 = expresion('CARACTER',[p[1]],p.lineno)
+					nodo2 = expresion('CARACTER',[p[3]],p.lineno)
+					p[0] = expresion('IGUALDAD',[nodo1,nodo2],p.lineno)
+				else:
+					p[0] = expresion('IGUALDAD',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '/=':
-				p[0] = expresion('DISTINTO',[p[1],p[3]],p.lineno)
+				if type(p[1]) == str:
+					nodo1 = expresion('CARACTER',[p[1]],p.lineno)
+					nodo2 = expresion('CARACTER',[p[3]],p.lineno)
+					p[0] = expresion('DISTINTO',[nodo1,nodo2],p.lineno)
+				else:
+					p[0] = expresion('DISTINTO',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '<':
 				p[0] = expresion('MENOR_QUE',[p[1],p[3]],p.lineno)
@@ -369,7 +381,8 @@ def p_expresion(p):
 				 | TkCaracter
 	'''
 	if type(p[1]) == chr:
-		p[0] = expresion('CARACTER',p[1],p.lineno)
+		p[0] = expresion('CARACTER',[p[1]],p.lineno) # Nuevo
+		#p[0] = expresion('CARACTER',p[1],p.lineno)  # Antes
 	else:
 		p[0] = expresion('EXPRESION',[p[1]],p.lineno)
 
@@ -474,9 +487,9 @@ def p_inst_controlador(p):
 			p[0] = instRobot('CONDICIONAL',[p[2],p[4],p[6]])
 	elif p[1] == 'while':
 		if p[6] == None:
-			p[0] = instRobot('CICLO',[p[1],p[2],p[3],p[4],p[5]])
+			p[0] = instRobot('CICLO',[p[2],p[4]])
 		else:
-			p[0] = instRobot('CICLO',[p[1],p[2],p[3],p[4],p[5],p[6]])
+			p[0] = instRobot('CICLO',[p[2],p[4],p[6]])
 	else:
 		if p[2] == None:
 			p[0] = arbol('INC_ALCANCE',[p[1],'incAlcance'])

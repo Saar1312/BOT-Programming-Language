@@ -6,7 +6,16 @@ execute
 	  	end
 	  end
 	execute
-		advance a,v,b.
+		if 'a' = 'b':	
+			advance a,v,b.
+		else:
+			advance j.
+			while a:
+				while b:
+					advance c.
+				end
+			end
+		end
 	end
 	create 
 	  bool bot a,b,c

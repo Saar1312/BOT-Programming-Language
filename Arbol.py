@@ -316,11 +316,15 @@ class arbol(object):
 
 # Expresiones
 class expresion(arbol):
-	def __init__(self,nombre,hijos,linea,tipo=None,valor=None):
+	def __init__(self,nombre,hijos,linea):
 		arbol.__init__(self,nombre,hijos)
-		self.tipo = tipo
-		self.valor = valor
+		self.tipo = None
+		self.valor = None
 		self.linea = linea
+	def setValor(self,valor):
+		self.valor = valor
+	def setTipo(self,tipo):
+		self.tipo = tipo
 
 # Instruccion del robot
 class instContr(arbol):

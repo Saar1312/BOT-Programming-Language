@@ -58,8 +58,6 @@ if len(sys.argv) > 1:
 		#	print(arbol," ES UN ARBOL")
 		#else:
 		#	print(arbol," NO ES UN ARBOL")
-
-
 		if arbol.nombre == 'INC_ALCANCE':
 			incAlcance = True
 
@@ -114,8 +112,7 @@ if len(sys.argv) > 1:
 				else:
 					crearTabla(rama,almacenar)
 					#if rama.nombre == 'expresion':
-
-
+						#if 
 
 
 # Usar la tabla en cada nodo del arbol para colocar el tipo actual en los nodos de expresiones
