@@ -130,15 +130,16 @@ class arbol(object):
 	#---------------------------------------------------------------------------
 	# Imprimir_variables_OP()
 	#
-	# Si es una variable la imprime sin el prefijo "- var: "
+	# Si es una variable la imprime sin el prefijo "VAR"
 	#---------------------------------------------------------------------------
 	def Imprimir_variables_OP(self,nivel):
 		for h in self.hijos:
 			if self.es_arbol(h):
-				if h.nombre == "- var: ":
+				if h.nombre == "VAR":
 					for i in h.hijos:
 						if not h.es_arbol(i): 
 							print(i)
+	
 	#---------------------------------------------------------------------------
 	# Imprimir_variables()
 	#
@@ -147,12 +148,12 @@ class arbol(object):
 	def Imprimir_variables(self,nivel):
 		for h in self.hijos:
 			if self.es_arbol(h):
-				if h.nombre == "- var: ":
-					print("\t"*(nivel+1)+str(h.nombre),end="")
+				if h.nombre == "VAR":
+					print("\t"*(nivel+1)+"- var: ",end="")
 					for i in h.hijos:
 						print(i)
 				
-				elif h.nombre == "- lis_var: ":
+				elif h.nombre == "LISTA":
 					h.Imprimir_variables(nivel)
 				
 				elif h.nombre in ["TRUE","FALSE"]:
@@ -166,12 +167,46 @@ class arbol(object):
 	# Verifica si el argumento h es un arbol
 	#---------------------------------------------------------------------------
 	def es_arbol(self,h):
-		if not ((type(h) != arbol)\
-			and (type(h) != expresion)\
-			and (type(h) != instContr)\
-			and (type(h) != instRobot)):
-				return True
+		if type(h) in [arbol,expresion,instContr,instRobot]:
+			return True
 		return False
+
+	#---------------------------------------------------------------------------
+	# Verificar_secuenciacion()
+	#
+	# verifica si el ultimo hijo es una instruccion, si lo es lo 
+	# considera una secuenciacion y si no se ha impreso aun, 
+	# imprime SECUENCIACION
+	#---------------------------------------------------------------------------
+	def Verificar_secuenciacion(self,secuenciado,nivel):
+		for i in self.hijos:					
+			if  (self.es_arbol(i))\
+			and (i.nombre == 'INST_CONT')\
+			and (not (secuenciado)):		
+				print('\t'*(nivel-1)+'SECUENCIACION')
+				secuenciado = True
+		return secuenciado
+
+	#---------------------------------------------------------------------------
+	# condicion_simple()
+	#
+	# Verifica si la condicion es una sola variable y la 
+	# almacena si ese es el caso		
+	# Si la condicion es una variable sola, la imprime
+	#---------------------------------------------------------------------------
+	def condicion_simple(self):
+		expresion_sola = ''
+		for i in self.hijos:
+			if str(type(i)) == '<class \'Arbol.expresion\'>':
+				if len(i.hijos) == 1:
+					for j in i.hijos:
+						for k in j.hijos:
+							if not self.es_arbol(k):
+								expresion_sola = str(k)
+								break
+		if expresion_sola != '':
+			print(' '+expresion_sola)
+		return expresion_sola
 
 	#---------------------------------------------------------------------------
 	# imprimirArbol()
@@ -179,7 +214,7 @@ class arbol(object):
 	# Imprime la estructura de arbol
 	#---------------------------------------------------------------------------
 	def imprimirArbol(self,nivel,imprimir=None,secuenciado=False):
-		if self.nombre in ["INSTRUCCIONES_ROBOT"]: 		# Si el nodo es una intruccion
+		if self.nombre in ["INSTRUCCIONES_ROBOT","DECLARACION_ROBOT"]: 		# Si el nodo es una intruccion
 			imprimir = False 						# robot se ignora
 		elif self.nombre == "EXECUTE":				# Si el nodo es del tipo execute 
 			imprimir = True 						# comienza a imprimir
@@ -191,110 +226,50 @@ class arbol(object):
 			# Si es un literal booleano imprime su valor
 			elif self.nombre in ["TRUE","FALSE"]:
 				print("",self.nombre)
+
 			# Si es ACTIVATE:
 			# > imprime el tipo y la lista de variables que se activen
-			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
-			#   considera una secuenciacion y si no se ha impreso aun, 
-			#   imprime SECUENCIACION
-			elif self.nombre == "ACTIVATE":
-				for i in self.hijos:					
-					if  (self.es_arbol(i))\
-					and (i.nombre == "INST_CONT")\
-					and (not (secuenciado)):		
-						print("\t"*(nivel-1)+"SECUENCIACION")
-						secuenciado = True
-				print("\t"*nivel+"ACTIVACION")
+			elif self.nombre == 'ACTIVATE':
+				secuenciado = self.Verificar_secuenciacion(secuenciado,nivel)
+				print('\t'*nivel+'ACTIVACION')
 				self.Imprimir_variables(nivel)
+
 			# Si es DEACTIVATE:
 			# > imprime el tipo y la lista de variables que se desactiven
-			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
-			#   considera una secuenciacion y si no se ha impreso aun, 
-			#   imprime SECUENCIACION
-			elif self.nombre == "DEACTIVATE":
-				for i in self.hijos:				
-					if  ( self.es_arbol(i) )\
-					and ( i.nombre == "INST_CONT" )\
-					and ( not (secuenciado) ):		
-						print("\t"*(nivel-1)+"SECUENCIACION")
-						secuenciado = True
-				print("\t"*nivel+"DESACTIVACION")	
+			elif self.nombre == 'DEACTIVATE':
+				secuenciado = self.Verificar_secuenciacion(secuenciado,nivel)
+				print('\t'*nivel+'DESACTIVACION')	
 				self.Imprimir_variables(nivel)		
+			
 			# Si es ADVANCE:
 			# > imprime el "- exito: " seguido por el tipo y la lista de variables 
 			#   que se activen
-			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
-			#   considera una secuenciacion y si no se ha impreso aun, 
-			#   imprime SECUENCIACION
-			elif self.nombre == "ADVANCE":
-				for i in self.hijos:
-					if  ( self.es_arbol(i) )\
-					and ( i.nombre == "INST_CONT" )\
-					and ( not (secuenciado) ):
-						print("\t"*(nivel-1)+"SECUENCIACION")
-						secuenciado = True
-				print("\t"*nivel+"-exito: AVANCE")
+			elif self.nombre == 'ADVANCE':
+				self.Verificar_secuenciacion(secuenciado,nivel)
+				print('\t'*nivel+'-exito: AVANCE')
 				self.Imprimir_variables(nivel)
+
 			# Si es CONDICIONAL:
 			# > imprime el tipo y "- guardia: " esperando que lo proxima iteracion 
-			#   imprima el tipo de guardia
-			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
-			#   considera una secuenciacion y si no se ha impreso aun, 
-			#   imprime SECUENCIACION			
-			elif self.nombre == "CONDICIONAL":
-				expresion_sola = ''
-				for i in self.hijos:
-					if  ( self.es_arbol(i) )\
-					and ( i.nombre == "INST_CONT" )\
-					and ( not (secuenciado) ):
-						print("\t"*(nivel-1)+"SECUENCIACION")
-						secuenciado = True
+			#   imprima el tipo de guardia		
+			elif self.nombre == 'CONDICIONAL':
+				secuenciado = self.Verificar_secuenciacion(secuenciado,nivel)
 
-					# Verifica si la condicion es una sola variable y la 
-					# almacena si ese es el caso		
-					if str(type(i)) == '<class \'Arbol.expresion\'>':
-						if len(i.hijos) == 1:
-							for j in i.hijos:
-								for k in j.hijos:
-									if not self.es_arbol(k):
-										expresion_sola = str(k)
-										break
 				print('\t'*nivel+self.nombre)
 				print('\t'*(nivel+1)+'- guardia:',end="")
 				
-				# Si la condicion es una variable sola la imprime
-				if expresion_sola != '':
-					print(' '+expresion_sola)
+				expresion_sola = self.condicion_simple()			
 			# Si es CICLO:
 			# > imprime el tipo y "- guardia: " esperando que lo proxima iteracion 
-			#   imprima el tipo de guardia
-			# > verifica si el ultimo hijo es una instruccion, si lo es lo 
-			#   considera una secuenciacion y si no se ha impreso aun, 
-			#   imprime SECUENCIACION				
-			elif self.nombre == "CICLO":
-				expresion_sola = ''
-				for i in self.hijos:
-					if  ( self.es_arbol(i) )\
-					and ( i.nombre == "INST_CONT" )\
-					and ( not (secuenciado) ):
-						print("\t"*(nivel-1)+"SECUENCIACION")
-						secuenciado = True
-
-					# Verifica si la condicion es una sola variable y la 
-					# almacena si ese es el caso		
-					if str(type(i)) == '<class \'Arbol.expresion\'>':
-						if len(i.hijos) == 1:
-							for j in i.hijos:
-								for k in j.hijos:
-									if not self.es_arbol(k):
-										expresion_sola = str(k)
-										break
+			#   imprima el tipo de guardia			
+			elif self.nombre == 'CICLO':
+				secuenciado = self.Verificar_secuenciacion(secuenciado,nivel)
 
 				print('\t'*nivel+self.nombre)
 				print('\t'*(nivel+1)+'- guardia:',end="")
+			
+				expresion_sola = self.condicion_simple()
 
-				# Si la condicion es una variable sola la imprime
-				if expresion_sola != '':
-					print(' '+expresion_sola)
 
 			# Si la expresion tiene un operador unario primero imprime el operador
 			elif self.es_unario():
@@ -302,8 +277,8 @@ class arbol(object):
 					print("~",end="")
 				else:
 					print("-",end="")
-					self.Imprimir_operacion(nivel)
-					imprimir= False
+				self.Imprimir_operacion(nivel)
+				imprimir= False
 			# Si es una relacion binaria:
 			# > Verifica que tipo de relacion es lo imprime y luego imprime 
 			#   la operacion
@@ -311,20 +286,25 @@ class arbol(object):
 				print(" BIN_RELACIONAL")
 				imprimir = False
 				nivel = self.Imprimir_operacion(nivel,imprimir)
+
 			elif self.Es_bin_logica():
 				print(" BIN_LOGICA")
 				imprimir = False
 				nivel = self.Imprimir_operacion(nivel,imprimir)
+
 			elif self.Es_bin_aritmetica():
 				print(" BIN_ARITMETICA")
 				imprimir = False
 				nivel = self.Imprimir_operacion(nivel,imprimir)
+
 			# Si es un entero booleano expresion o caracter imprime la variable
 			elif self.nombre in 	["ENTERO", "BOOLEANO", "EXPRESION",\
 									"CARACTER"]\
 			or 	 type(self) == chr:
 				imprimir = False				
 				self.Imprimir_variables(nivel)
+
+
 		# Para los hijos del nodo verifica si es un arbol y segun sea el 
 		# caso lo imprime identado o no
 		for hijo in self.hijos:

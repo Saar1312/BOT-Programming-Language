@@ -12,6 +12,7 @@
 from Parser import *
 from Tabla import *
 from Pila import *
+from Arbol import *
 # Creando una instancia de clase Tokenizer
 tokenizer = Tokenizer()
 
@@ -39,6 +40,12 @@ if len(sys.argv) > 1:
 	# Asumiendo que:
 	# - No se puede usar un robot anteriormente declarado dentro de las instrucciones del mismo robot o de otros
 	# - El tipo del me y las demas variables declaradas con Collect o read sera el mismo que el del robot
+	def es_arbol(h):
+		if type(h) in [arbol,expresion,instContr,\
+					instRobot]:
+			return True
+		return False
+
 	tabla = Tabla(None)
 	pointer = tabla
 	tipo = None
@@ -46,6 +53,13 @@ if len(sys.argv) > 1:
 	p = pila()
 	def crearTabla(arbol,almacenar):
 		global tipo,pointer,p,incAlcance
+		
+		if es_arbol(arbol):
+			print(arbol," ES UN ARBOL")
+		else:
+			print(arbol," NO ES UN ARBOL")
+
+
 		if arbol.nombre == 'INC_ALCANCE':
 			incAlcance = True
 
@@ -74,7 +88,7 @@ if len(sys.argv) > 1:
 				t.agregar('me',None,tipo)				# No tiene padre porque la idea es que las instrucciones de robot no 
 				pointer.agregar(simbolo,None,tipo,t)	# usen a los robots declarados.
 														# t no recibe ninguna tabla, por lo que tiene 3 argumentos
-			elif arbol.nombre == '- lis_var: ':
+			elif arbol.nombre == 'LISTA':
 				simbolo = arbol.hijos[0].hijos[0]
 				t = Tabla(None)
 				t.agregar('me',None,tipo)
@@ -106,7 +120,7 @@ if len(sys.argv) > 1:
 
 	crearTabla(result,None)
 	#print("HOLAAAAAAAAAAAAAAAAAAAAAAAAA",pointer.tabla)
-	#print(pointer.tabla['a'].tabla.tabla)
+	# print(pointer.tabla['a'].tabla.tabla)
 	#print(pointer.tabla['v'])
 	#print(pointer.tabla['c'].tabla.tabla)
 	"""

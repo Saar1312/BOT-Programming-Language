@@ -1,0 +1,84 @@
+create 
+  int bot v_1,v_2,v_3
+    on activation:
+      recieve.
+    end
+    on deactivation:
+      store v_4 -1.
+      recieve.
+    end
+  
+    on default:
+      left.
+      left 2*3%4+5/6*7-8.
+      right.
+      store 9.
+      send.
+      drop v_5 - 10.
+      store 11.
+      store 'H'.
+      read.
+      recieve.
+      store True\/False= v_6.
+    end
+end
+execute
+
+	while True:
+		
+    if true:
+		
+      activate v_7.
+      activate v_8.
+      activate v_9.
+    	activate v_10.
+    else:
+		
+    	deactivate v_11.
+      advance v_12,v_13.
+		
+    end
+	
+  end
+	if v_14:
+
+		activate v_15.
+		if True > v_16*-12:
+	
+  		activate v_17.
+	
+  	else:
+	
+  		deactivate v_18.
+      advance v_19,v_20.
+			advance v_21,v_22.
+	
+  	end
+	
+  else:
+	
+  	deactivate v_23.
+		advance v_24,v_25.
+		if v_26>v_27*13:
+	
+  		activate v_28.
+	
+  	else:
+	
+  		deactivate v_29.
+			advance v_30.
+      
+      create
+        int bot v_31
+          on activation:
+            store 14.
+          end
+      end
+      execute
+        activate v_32.
+        activate v_33.
+      end
+	
+  	end
+	end
+end
