@@ -114,7 +114,7 @@ class Tokenizer:
 	# caracter. Ademas elimina las comillas del caracter
 	#---------------------------------------------------------------------------
 	def t_TkCaracter(self, t):
-		r'\'[^\0]\''
+		r"\'[^\']?\'"
 		t.value = t.value[1]
 		return t
 

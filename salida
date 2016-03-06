@@ -1,143 +1,21 @@
-
- {}
-INICIO
-
- {}
-EXECUTE
-
- {}
-INC_ALCANCE
-
- {}
-INICIO
-
- {}
-INSTRUCCIONES_ROBOT
-PADRE: {} 
-
-
- {}
-DECLARACION_ROBOT
-PADRE: {} 
-
-
- {'X': <Tabla.datos object at 0xb6daac6c>}
-LISTA
-PADRE: {} 
-
-
- {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>}
-LISTA
-PADRE: {} 
-
-
- {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>, 'Z': <Tabla.datos object at 0xb6daa9ec>}
-EXECUTE
-PADRE: {} 
-
-
- {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>, 'Z': <Tabla.datos object at 0xb6daa9ec>}
-ADVANCE
-PADRE: {} 
-
-
- {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>, 'Z': <Tabla.datos object at 0xb6daa9ec>}
-LISTA
-PADRE: {} 
-
-
- {'X': <Tabla.datos object at 0xb6daac6c>, 'Y': <Tabla.datos object at 0xb6daa88c>, 'Z': <Tabla.datos object at 0xb6daa9ec>}
-LISTA
-PADRE: {} 
-
-
- {}
-INST_CONT
-
- {}
-INC_ALCANCE
-
- {}
-INICIO
-
- {}
-INSTRUCCIONES_ROBOT
-PADRE: {} 
-
-
- {}
-DECLARACION_ROBOT
-PADRE: {} 
-
-
- {'A': <Tabla.datos object at 0xb6daa8ac>}
-LISTA
-PADRE: {} 
-
-
- {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>}
-LISTA
-PADRE: {} 
-
-
- {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>}
-EXECUTE
-PADRE: {} 
-
-
- {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>}
-INC_ALCANCE
-PADRE: {} 
-
-
- {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>}
-INICIO
-PADRE: {} 
-
-
- {}
-INSTRUCCIONES_ROBOT
-PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
-
-
- {}
-DECLARACION_ROBOT
-PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
-
-
- {'H': <Tabla.datos object at 0xb6db538c>}
-LISTA
-PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
-
-
- {'I': <Tabla.datos object at 0xb6dbbecc>, 'H': <Tabla.datos object at 0xb6db538c>}
-LISTA
-PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
-
-
- {'I': <Tabla.datos object at 0xb6dbbecc>, 'J': <Tabla.datos object at 0xb6dbb54c>, 'H': <Tabla.datos object at 0xb6db538c>}
-EXECUTE
-PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
-
-
- {'I': <Tabla.datos object at 0xb6dbbecc>, 'J': <Tabla.datos object at 0xb6dbb54c>, 'H': <Tabla.datos object at 0xb6db538c>}
-ADVANCE
-PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
-
-
- {'I': <Tabla.datos object at 0xb6dbbecc>, 'J': <Tabla.datos object at 0xb6dbb54c>, 'H': <Tabla.datos object at 0xb6db538c>}
-LISTA
-PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
-
-
- {'I': <Tabla.datos object at 0xb6dbbecc>, 'J': <Tabla.datos object at 0xb6dbb54c>, 'H': <Tabla.datos object at 0xb6db538c>}
-LISTA
-PADRE: {'A': <Tabla.datos object at 0xb6daa8ac>, 'B': <Tabla.datos object at 0xb6daad2c>, 'C': <Tabla.datos object at 0xb6db580c>} 
-
-				-exito: AVANCE
-					- var: A
-					- var: V
-					- var: B
+				CONDICIONAL
+					- guardia: BIN_RELACIONAL
+						- operacion: 'Igual a'
+						- operador izquierdo: ' x '
+						- operador derecho: ' b '
+						-exito: AVANCE
+							- var: a
+							- var: v
+							- var: b
+					SECUENCIACION
+						-exito: AVANCE
+							- var: j
+								CICLO
+									- guardia: a
+									CICLO
+										- guardia: b
+										-exito: AVANCE
+											- var: c
 									-exito: AVANCE
 										- var: A
 										- var: V

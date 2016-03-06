@@ -1,9 +1,21 @@
 execute
 	create 
-	  bool bot X,Y,Z
+	  char bot x,y,z
+	  	on activation:
+	  		store '0'.
+	  	end
 	  end
 	execute
-		advance A,V,B.
+		if 'x' = 'b':	
+			advance a,v,b.
+		else:
+			advance j.
+			while a:
+				while b:
+					advance c.
+				end
+			end
+		end
 	end
 	create 
 	  bool bot A,B,C

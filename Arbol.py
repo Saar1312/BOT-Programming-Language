@@ -287,11 +287,15 @@ class arbol(object):
 				nivel = self.Imprimir_operacion(nivel,imprimir)
 
 			# Si es un entero booleano expresion o caracter imprime la variable
-			elif self.nombre in 	["ENTERO", "BOOLEANO", "EXPRESION",\
-									"CARACTER"]\
-			or 	 type(self) == chr:
+			elif self.nombre in 	["ENTERO", "BOOLEANO", "EXPRESION"]:
 				imprimir = False				
 				self.Imprimir_variables(nivel)
+			
+			#Si es un carcater lo imprime entre comillas
+			elif self.nombre == "CARACTER":
+				for i in self.hijos:
+					print('\'',i,'\'')
+
 
 
 		# Para los hijos del nodo verifica si es un arbol y segun sea el 
@@ -305,11 +309,17 @@ class arbol(object):
 
 # Expresiones
 class expresion(arbol):
-	def __init__(self,nombre,hijos,tipo=None):
+	def __init__(self,nombre,hijos,linea):
 		arbol.__init__(self,nombre,hijos)
+		self.tipo = None
+		self.valor = None
+		self.linea = linea
+	def setValor(self,valor):
+		self.valor = valor
+	def setTipo(self,tipo):
 		self.tipo = tipo
 
-# INstrouccion del robot
+# Instruccion del robot
 class instContr(arbol):
 	def __init__(self,nombre,hijos):
 		arbol.__init__(self,nombre,hijos)
@@ -319,6 +329,7 @@ class instRobot(arbol):
 	def __init__(self,nombre,hijos):
 		arbol.__init__(self,nombre,hijos)
 
+# Tipo de variables o robots
 class defTipo(arbol):
 	def __init__(self,nombre,hijos,tipo=None):
 		arbol.__init__(self,nombre,hijos)

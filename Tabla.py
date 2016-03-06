@@ -43,7 +43,7 @@ class datos:
 		self.tipo = tipo
 		#self.declarada = False # Para ahorrar tiempo y no buscar una variable en todas las tablas
 		#self.robot = None
-		self.tabla = tabla
+		#self.tabla = tabla
 	def getValor(self):
 		return self.valor
 	def getTipo(self):
