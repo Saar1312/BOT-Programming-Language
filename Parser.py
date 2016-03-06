@@ -53,6 +53,7 @@ import sys
 # Hay que modificar el arbol para que sirva en la ultima entrega?
 # Alfajores: 1 T harina trigo 2 Maizina 2 Huevos 1 Azucar 
 
+#---- Se tomo la decision de que algo como ('a') no forme parte del lenguaje
 #---- Igualdad de caracteres
 #---- Verificar tipos del me Ej, me - 1
 #---- Agregar token me 
@@ -134,11 +135,11 @@ def p_tipo(p):
 			| TkBool
 			| TkChar
 	'''
-	if type(p[1]) == int:
+	if p[1] == 'int':
 		p[0] = defTipo('TIPO_ENTERO',[],'int')
-	elif type(p[1]) == bool:
+	elif p[1] == 'bool':
 		p[0] = defTipo('TIPO_BOOL',[],'bool')
-	elif type(p[1]) == str:
+	elif p[1] == 'str':
 		p[0] = defTipo('TIPO_CHAR',[],'char')
 
 #-------------------------------------------------------------------------------
@@ -159,7 +160,7 @@ def p_identificador(p):
 #-------------------------------------------------------------------------------
 def p_ident(p):
 	'IDENT : TkIdent'
-	p[0] = expresion('VAR',[p[1]],p.lineno)
+	p[0] = expresion('VAR',[p[1]],p.lineno(1))
 
 #-------------------------------------------------------------------------------
 # COMPORTAMIENTO genera un comportamiento de un robot, delimitado por las palabras
@@ -191,7 +192,7 @@ def p_condicion(p):
 	elif p[1] == 'default':
 		p[0] = instContr('DEFAULT',[])
 	else:
-		p[0] = expresion('EXPRESION',[p[1]],p.lineno)
+		p[0] = expresion('EXPRESION',[p[1]])
 
 #-------------------------------------------------------------------------------
 # EXP genera las expresiones aritmeticas, booleanas, identificadores y constantes
@@ -224,70 +225,72 @@ def p_exp(p):
 	# operador, p[0] = 4 elementos en el arreglo)
 
 	if len(p) == 4:
+		linea = p.lineno(2)
 		if p[1] != '(': # Si no es parentesis entonces se tienen expresiones binarias
 			if p[2] == '/\\': # Ademas el tipo de los operandos debe corresponderse con el
-				p[0] = expresion('CONJUNCION',[p[1],p[3]],p.lineno) # del resultado de la operacion
+				p[0] = expresion('CONJUNCION',[p[1],p[3]],linea,'bool') # del resultado de la operacion
 
 			elif p[2] == '\/':
-				p[0] = expresion('DISYUNCION',[p[1],p[3]],p.lineno)
+				p[0] = expresion('DISYUNCION',[p[1],p[3]],linea,'bool')
 
 			elif p[2] == '=':
 				if type(p[1]) == str:
-					nodo1 = expresion('CARACTER',[p[1]],p.lineno)
-					nodo2 = expresion('CARACTER',[p[3]],p.lineno)
-					p[0] = expresion('IGUALDAD',[nodo1,nodo2],p.lineno)
+					nodo1 = expresion('CARACTER',[p[1]],linea,'char')
+					nodo2 = expresion('CARACTER',[p[3]],linea,'char')
+					p[0] = expresion('IGUALDAD',[nodo1,nodo2],linea,'bool')
 				else:
-					p[0] = expresion('IGUALDAD',[p[1],p[3]],p.lineno)
+					p[0] = expresion('IGUALDAD',[p[1],p[3]],linea,'bool')
 
 			elif p[2] == '/=':
 				if type(p[1]) == str:
-					nodo1 = expresion('CARACTER',[p[1]],p.lineno)
-					nodo2 = expresion('CARACTER',[p[3]],p.lineno)
-					p[0] = expresion('DISTINTO',[nodo1,nodo2],p.lineno)
+					nodo1 = expresion('CARACTER',[p[1]],linea,'char')
+					nodo2 = expresion('CARACTER',[p[3]],linea,'char')
+					p[0] = expresion('DISTINTO',[nodo1,nodo2],linea,'bool')
 				else:
-					p[0] = expresion('DISTINTO',[p[1],p[3]],p.lineno)
+					p[0] = expresion('DISTINTO',[p[1],p[3]],linea,'bool')
 
 			elif p[2] == '<':
-				p[0] = expresion('MENOR_QUE',[p[1],p[3]],p.lineno)
+				p[0] = expresion('MENOR_QUE',[p[1],p[3]],linea,'bool')
 
 			elif p[2] == '<=':
-				p[0] = expresion('MENOR_IGUAL',[p[1],p[3]],p.lineno)
+				p[0] = expresion('MENOR_IGUAL',[p[1],p[3]],linea,'bool')
 
 			elif p[2] == '>':
-				p[0] = expresion('MAYOR',[p[1],p[3]],p.lineno)
+				p[0] = expresion('MAYOR',[p[1],p[3]],linea,'bool')
 
 			elif p[2] == '>=':
-				p[0] = expresion('MAYOR_IGUAL',[p[1],p[3]],p.lineno)
+				p[0] = expresion('MAYOR_IGUAL',[p[1],p[3]],linea,'bool')
 
 			elif p[2] == '+':
-				p[0] = expresion('SUMA',[p[1],p[3]],p.lineno)
+				p[0] = expresion('SUMA',[p[1],p[3]],linea,'int')
 
 			elif p[2] == '-':
-				p[0] = expresion('RESTA',[p[1],p[3]],p.lineno)
+				p[0] = expresion('RESTA',[p[1],p[3]],linea,'int')
 
 			elif p[2] == '*':
-				p[0] = expresion('MULTIPLICACION',[p[1],p[3]],p.lineno)
+				p[0] = expresion('MULTIPLICACION',[p[1],p[3]],linea,'int')
 
 			elif p[2] == '/':
-				p[0] = expresion('DIVISION',[p[1],p[3]],p.lineno)
+				p[0] = expresion('DIVISION',[p[1],p[3]],linea,'int')
 
 			elif p[2] == '%':
-				p[0] = expresion('MODULO',[p[1],p[3]],p.lineno)
+				p[0] = expresion('MODULO',[p[1],p[3]],linea,'int')
 		else:
-			p[0] = expresion('PARENTESIS',[p[2]],p.lineno)
+			p[0] = expresion('PARENTESIS',[p[2]],linea)
 
 	elif len(p) == 3:
+		linea = p.lineno(1)
 		if p[1] == '~':
-			p[0] = expresion('NEGACION',[p[2]],p.lineno)
+			p[0] = expresion('NEGACION',[p[2]],linea,'bool')
 		elif p[1] == '-':
-			p[0] = expresion('NEGATIVO',[p[2]],p.lineno)
+			p[0] = expresion('NEGATIVO',[p[2]],linea,'int')
 	elif len(p) == 2:
 		if type(p[1]) == int:
-			p[0] = expresion('ENTERO',[p[1]],p.lineno)
+			p[0] = expresion('ENTERO',[p[1]],p.lineno(1),'int')
 		elif (p[1] == True) or (p[1] == False):
-			p[0] = expresion('BOOLEANO',[p[1]],p.lineno)
+			p[0] = expresion('BOOLEANO',[p[1]],p.lineno(1),'bool')
 		else:
-			p[0] = expresion('VAR',[p[1]],p.lineno)
+			p[0] = expresion('VAR',[p[1].hijos[0]],p[1].linea)
 
 #-------------------------------------------------------------------------------
 # Genera los booleanos True y False
@@ -297,9 +300,9 @@ def p_literal_bool(p):
 					| TkFalse
 	'''
 	if p[1] == 'true':
-		p[0] = expresion('TRUE',[],p.lineno)
+		p[0] = expresion('TRUE',[],p.lineno(1),'bool')
 	elif p[1] == 'false':
-		p[0] = expresion('FALSE',[],p.lineno)
+		p[0] = expresion('FALSE',[],p.lineno(1),'bool')
 
 
 #-------------------------------------------------------------------------------
@@ -381,10 +384,9 @@ def p_expresion(p):
 				 | TkCaracter
 	'''
 	if type(p[1]) == chr:
-		p[0] = expresion('CARACTER',[p[1]],p.lineno) # Nuevo
-		#p[0] = expresion('CARACTER',p[1],p.lineno)  # Antes
+		p[0] = expresion('CARACTER',[p[1]],p.lineno(1),'char') # Nuevo
 	else:
-		p[0] = expresion('EXPRESION',[p[1]],p.lineno)
+		p[0] = expresion('EXPRESION',[p[1]],p.lineno(1))
 
 #-------------------------------------------------------------------------------
 # Genera las direcciones a las que se puede mover un robot
@@ -524,16 +526,5 @@ def p_inst_controlador_a(p):
 # Regla para errores de sintaxis
 #-------------------------------------------------------------------------------
 def p_error(p):
-	print(p.lineno)
 	print("Error de sintaxis en la linea %d del archivo %s"%(p.lineno,sys.argv[1]))
 	exit()
-
-def errorTipos():
-#def p_errorTipos(p):
-	#if tipo == 'redeclaracion':
-	#if tipo == 'no_declarado':
-	#if tipo == 'error_tipos':
-	#print("Error de tipos en la linea %d, columna %d" % (p.lineno,p.lexpos))
-	print("Error TIPOS")
-	exit()
-

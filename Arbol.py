@@ -316,9 +316,9 @@ class arbol(object):
 
 # Expresiones
 class expresion(arbol):
-	def __init__(self,nombre,hijos,linea):
+	def __init__(self,nombre,hijos,linea=None,tipo=None):
 		arbol.__init__(self,nombre,hijos)
-		self.tipo = None
+		self.tipo = tipo
 		self.valor = None
 		self.linea = linea
 	def setValor(self,valor):

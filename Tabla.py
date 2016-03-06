@@ -48,20 +48,3 @@ class datos:
 		return self.valor
 	def getTipo(self):
 		return self.tipo
-
-"""
-T = Tabla(None)
-T2 = Tabla(T)
-T3 = Tabla(T2)
-T.agregar('a',2,'int')
-T.agregar('b',3,'float')
-T.agregar('c',5,'long')
-T2.agregar('d',2,'longlong')
-T2.agregar('e',3,'longint')
-T2.agregar('f',5,'int')
-T3.agregar('g',2,'int')
-T3.agregar('h',3,'int')
-T3.agregar('i',5,'int')
-print(T.buscarAqui('a'))
-print(T3.buscarEnTodos('a','getValor'))
-"""
