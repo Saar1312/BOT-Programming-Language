@@ -159,7 +159,7 @@ def p_identificador(p):
 #-------------------------------------------------------------------------------
 def p_ident(p):
 	'IDENT : TkIdent'
-	p[0] = expresion('- var: ',[p[1]])
+	p[0] = expresion('- var: ',[p[1]],p.lineno)
 
 #-------------------------------------------------------------------------------
 # COMPORTAMIENTO genera un comportamiento de un robot, delimitado por las palabras
@@ -191,7 +191,7 @@ def p_condicion(p):
 	elif p[1] == 'default':
 		p[0] = instContr('DEFAULT',[])
 	else:
-		p[0] = expresion('EXPRESION',[p[1]])
+		p[0] = expresion('EXPRESION',[p[1]],p.lineno)
 
 #-------------------------------------------------------------------------------
 # EXP genera las expresiones aritmeticas, booleanas, identificadores y constantes
@@ -224,58 +224,58 @@ def p_exp(p):
 	if len(p) == 4:
 		if p[1] != '(': # Si no es parentesis entonces se tienen expresiones binarias
 			if p[2] == '/\\': # Ademas el tipo de los operandos debe corresponderse con el
-				p[0] = expresion('CONJUNCION',[p[1],p[3]]) # del resultado de la operacion
+				p[0] = expresion('CONJUNCION',[p[1],p[3]],p.lineno) # del resultado de la operacion
 
 			elif p[2] == '\/':
-				p[0] = expresion('DISYUNCION',[p[1],p[3]])
+				p[0] = expresion('DISYUNCION',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '=':
-				p[0] = expresion('IGUALDAD',[p[1],p[3]])
+				p[0] = expresion('IGUALDAD',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '/=':
-				p[0] = expresion('DISTINTO',[p[1],p[3]])
+				p[0] = expresion('DISTINTO',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '<':
-				p[0] = expresion('MENOR_QUE',[p[1],p[3]])
+				p[0] = expresion('MENOR_QUE',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '<=':
-				p[0] = expresion('MENOR_IGUAL',[p[1],p[3]])
+				p[0] = expresion('MENOR_IGUAL',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '>':
-				p[0] = expresion('MAYOR',[p[1],p[3]])
+				p[0] = expresion('MAYOR',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '>=':
-				p[0] = expresion('MAYOR_IGUAL',[p[1],p[3]])
+				p[0] = expresion('MAYOR_IGUAL',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '+':
-				p[0] = expresion('SUMA',[p[1],p[3]])
+				p[0] = expresion('SUMA',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '-':
-				p[0] = expresion('RESTA',[p[1],p[3]])
+				p[0] = expresion('RESTA',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '*':
-				p[0] = expresion('MULTIPLICACION',[p[1],p[3]])
+				p[0] = expresion('MULTIPLICACION',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '/':
-				p[0] = expresion('DIVISION',[p[1],p[3]])
+				p[0] = expresion('DIVISION',[p[1],p[3]],p.lineno)
 
 			elif p[2] == '%':
-				p[0] = expresion('MODULO',[p[1],p[3]])
+				p[0] = expresion('MODULO',[p[1],p[3]],p.lineno)
 		else:
-			p[0] = expresion('PARENTESIS',[p[2]],p[2].tipo)
+			p[0] = expresion('PARENTESIS',[p[2]],p.lineno)
 
 	elif len(p) == 3:
 		if p[1] == '~':
-			p[0] = expresion('NEGACION',[p[2]],'bool')
+			p[0] = expresion('NEGACION',[p[2]],p.lineno)
 		elif p[1] == '-':
-			p[0] = expresion('NEGATIVO',[p[2]],'int')
+			p[0] = expresion('NEGATIVO',[p[2]],p.lineno)
 	elif len(p) == 2:
 		if type(p[1]) == int:
-			p[0] = expresion('ENTERO',[p[1]],'int')
+			p[0] = expresion('ENTERO',[p[1]],p.lineno)
 		elif (p[1] == True) or (p[1] == False):
-			p[0] = expresion('BOOLEANO',[p[1]],'bool')
+			p[0] = expresion('BOOLEANO',[p[1]],p.lineno)
 		else:
-			p[0] = expresion('- var: ',[p[1]])
+			p[0] = expresion('- var: ',[p[1]],p.lineno)
 
 #-------------------------------------------------------------------------------
 # Genera los booleanos True y False
@@ -285,9 +285,9 @@ def p_literal_bool(p):
 					| TkFalse
 	'''
 	if p[1] == 'true':
-		p[0] = expresion('TRUE',[],'bool')
+		p[0] = expresion('TRUE',[],p.lineno)
 	elif p[1] == 'false':
-		p[0] = expresion('FALSE',[],'bool')
+		p[0] = expresion('FALSE',[],p.lineno)
 
 
 #-------------------------------------------------------------------------------
@@ -369,9 +369,9 @@ def p_expresion(p):
 				 | TkCaracter
 	'''
 	if type(p[1]) == chr:
-		p[0] = expresion('CARACTER',p[1],'char')
+		p[0] = expresion('CARACTER',p[1],p.lineno)
 	else:
-		p[0] = expresion('EXPRESION',[p[1]],p[1].tipo)
+		p[0] = expresion('EXPRESION',[p[1]],p.lineno)
 
 #-------------------------------------------------------------------------------
 # Genera las direcciones a las que se puede mover un robot

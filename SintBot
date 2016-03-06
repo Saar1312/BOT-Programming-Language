@@ -48,6 +48,7 @@ if len(sys.argv) > 1:
 		global tipo,pointer,p,incAlcance
 		if arbol.nombre == 'INC_ALCANCE':
 			incAlcance = True
+
 		if arbol.nombre == 'INSTRUCCIONES_ROBOT': # Crea la tabla para la inc de alcance solo si hay una inc de 
 			almacenar = True 					  # alcance y en esta se declaran robots
 			if incAlcance:
@@ -59,10 +60,12 @@ if len(sys.argv) > 1:
 			almacenar = True
 		elif arbol.nombre == 'EXECUTE':
 			almacenar = False
-		print('\n',pointer.tabla)
-		print(arbol.nombre)
+
+		#print('\n',pointer.tabla)
+		#print(arbol.nombre)
 		if pointer.tablaExterna:
 			print('PADRE:',pointer.tablaExterna.tabla,'\n')
+
 		if almacenar:
 			if arbol.nombre == 'DECLARACION_ROBOT':
 				tipo = arbol.hijos[0].tipo
@@ -76,17 +79,20 @@ if len(sys.argv) > 1:
 				t = Tabla(None)
 				t.agregar('me',None,tipo)
 				pointer.agregar(simbolo,None,tipo,t)
+
 			elif (arbol.nombre == 'COLLECT' and 
 				 arbol.hijos != []):
 				if arbol.hijos[0].nombre == 'COLLECT_AS':
 					simbolo = arbol.hijos[0].hijos[0].hijos[0]
 					for robot,datos in pointer.tabla.items():
 						datos.tabla.agregar(simbolo,None,tipo)
+
 			elif (arbol.nombre == 'READ_AS' and
 				 arbol.hijos != []):
 				simbolo = arbol.hijos[0].hijos[0]
 				for robot,datos in pointer.tabla.items():
 					datos.tabla.agregar(simbolo,None,tipo)
+					
 		for rama in arbol.hijos:
 			if rama != None and not type(rama) in [defTipo,expresion]: # cambiar para que cicle en expresiones distintas de strings,int,bool,etc
 				if rama == 'incAlcance':
