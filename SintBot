@@ -9,6 +9,7 @@
 #        Samuel Arleo R, 10-10969                             
 #---------------------------------------------------------------------
 
+import sys
 from Parser import *
 from Tabla import *
 from Pila import *
@@ -40,6 +41,11 @@ if len(sys.argv) > 1:
 	# Asumiendo que:
 	# - No se puede usar un robot anteriormente declarado dentro de las instrucciones del mismo robot o de otros
 	# - El tipo del me y las demas variables declaradas con Collect o read sera el mismo que el del robot
+	def esArbol(h):
+		if type(h) in [arbol,expresion,instContr,\
+					instRobot]:
+			return True
+		return False
 
 	tabla = Tabla(None)
 	pointer = tabla
@@ -48,11 +54,13 @@ if len(sys.argv) > 1:
 	p = pila()
 	def crearTabla(arbol,almacenar):
 		global tipo,pointer,p,incAlcance
-		
-		#if es_arbol(arbol):
-		#	print(arbol," ES UN ARBOL")
-		#else:
-		#	print(arbol," NO ES UN ARBOL")
+
+		# PARA DEBUGGING
+		#for var,datos in pointer.tabla.items():
+		#	print("Variable: ",var,end='')
+		#	print(" - Tipo: ",datos.tipo,end='||')
+		#print()
+
 		if arbol.nombre == 'INC_ALCANCE':
 			incAlcance = True
 
@@ -68,62 +76,126 @@ if len(sys.argv) > 1:
 		elif arbol.nombre == 'EXECUTE':
 			almacenar = False
 
-		#print('\n',pointer.tabla)
-		#print(arbol.nombre)
-		#if pointer.tablaExterna:
-			#print('PADRE:',pointer.tablaExterna.tabla,'\n')
+		if esArbol(arbol):
+			if almacenar:
+				if arbol.nombre == 'DECLARACION_ROBOT':
+					tipo = arbol.hijos[0].tipo
+					arbol.hijos[1].tipo = tipo
+					simbolo = arbol.hijos[1].hijos[0]
+					t = Tabla(None) 						# t es la tabla de simbolos para las instrucciones de cada robot
+					t.agregar('me',None,tipo)				# No tiene padre porque la idea es que las instrucciones de robot no 
+					pointer.agregar(simbolo,None,tipo,t)	# usen a los robots declarados.
+															# t no recibe ninguna tabla, por lo que tiene 3 argumentos
+				elif arbol.nombre == 'LISTA':
+					simbolo = arbol.hijos[0].hijos[0]
+					arbol.hijos[0].tipo = tipo # Agregando el tipo a la variable
+					t = Tabla(None)
+					t.agregar('me',None,tipo)
+					pointer.agregar(simbolo,None,tipo,t)
 
-		if almacenar:
-			if arbol.nombre == 'DECLARACION_ROBOT':
-				tipo = arbol.hijos[0].tipo
-				simbolo = arbol.hijos[1].hijos[0]
-				t = Tabla(None) 						# t es la tabla de simbolos para las instrucciones de cada robot
-				t.agregar('me',None,tipo)				# No tiene padre porque la idea es que las instrucciones de robot no 
-				pointer.agregar(simbolo,None,tipo,t)	# usen a los robots declarados.
-														# t no recibe ninguna tabla, por lo que tiene 3 argumentos
-			elif arbol.nombre == 'LISTA':
-				simbolo = arbol.hijos[0].hijos[0]
-				t = Tabla(None)
-				t.agregar('me',None,tipo)
-				pointer.agregar(simbolo,None,tipo,t)
+				elif (arbol.nombre == 'COLLECT' and 
+					 arbol.hijos != []): 
+					if arbol.hijos[0].nombre == 'COLLECT_AS':
+						simbolo = arbol.hijos[0].hijos[0].hijos[0]
+						arbol.hijos[0].hijos[0].tipo = tipo
+						for robot,datos in pointer.tabla.items():
+							datos.tabla.agregar(simbolo,None,tipo)
 
-			elif (arbol.nombre == 'COLLECT' and 
-				 arbol.hijos != []):
-				if arbol.hijos[0].nombre == 'COLLECT_AS':
-					simbolo = arbol.hijos[0].hijos[0].hijos[0]
+				elif (arbol.nombre == 'READ_AS' and
+					 arbol.hijos != []):
+					simbolo = arbol.hijos[0].hijos[0]
+					arbol.hijos[0].tipo = tipo
 					for robot,datos in pointer.tabla.items():
 						datos.tabla.agregar(simbolo,None,tipo)
+						
+			for rama in arbol.hijos:
+				if rama == 'incAlcance': # incAlcance es un hijo de los arboles
+					pointer = p.popTope()# de inc de alcance que permite saber
+				else:					 # si termino la inc de alcance para mover 
+					if esArbol(rama):
+						crearTabla(rama,almacenar) # el apuntador de tablas
+						if type(rama) == expresion:
+							if rama.nombre in ['CONJUNCION','DISYUNCION']:
+								if rama.hijos[0].tipo == rama.hijos[1].tipo:
+									if rama.hijos[0].tipo != 'bool':
+										print("Error de tipos en la linea %d" % (rama.linea))
+										print("No es posible operar elementos del tipo ",\
+																  rama.hijos[0],end=" ")
+										print("con un operador booleano.")
+										sys.exit()
+								else:
+									print("Error de tipos en la linea %d" % (rama.linea))
+									print("No es posible operar un elemento del tipo ",\
+															  rama.hijos[0],end=" ")
+									print("con otro de tipo ",rama.hijos[1])
+									sys.exit()
 
-			elif (arbol.nombre == 'READ_AS' and
-				 arbol.hijos != []):
-				simbolo = arbol.hijos[0].hijos[0]
-				for robot,datos in pointer.tabla.items():
-					datos.tabla.agregar(simbolo,None,tipo)
-					
-		for rama in arbol.hijos:
-			if rama != None and not type(rama) in [defTipo,expresion]: # cambiar para que cicle en expresiones distintas de strings,int,bool,etc
-				if rama == 'incAlcance':
-					pointer = p.popTope()
-				else:
-					crearTabla(rama,almacenar)
-					#if rama.nombre == 'expresion':
-						#if 
+							elif rama.nombre in ['DISTINTO','IGUALDAD']:
+								if rama.hijos[0].tipo != rama.hijos[1].tipo:
+									print("Error de tipos en la linea %d" % (rama.linea))
+									print("No es posible operar un elemento del tipo ",\
+															  rama.hijos[0].tipo,end=" ")
+									print("con otro de tipo ",rama.hijos[1].tipo)
+									sys.exit()
 
+							elif rama.nombre in ['MENOR_QUE','MENOR_IGUAL','MAYOR','MAYOR_IGUAL']:
+								if rama.hijos[0].tipo == rama.hijos[1].tipo:
+									if rama.hijos[0].tipo != 'int':
+										print("Error de tipos en la linea %d" % (rama.linea))
+										print("No es posible operar elementos del tipo ",\
+																  rama.hijos[0].tipo,end=" ")
+										print("con un operador booleano.")
+										sys.exit()
+								else:
+									print("Error de tipos en la linea %d" % (rama.linea))
+									print("No es posible operar un elemento del tipo ",\
+															  rama.hijos[0].tipo,end=" ")
+									print("con otro de tipo ",rama.hijos[1].tipo)
+									sys.exit()
 
-# Usar la tabla en cada nodo del arbol para colocar el tipo actual en los nodos de expresiones
+							elif rama.nombre in ['SUMA','RESTA','MULTIPLICACION','DIVISION','MODULO']:
+								if rama.hijos[0].tipo == rama.hijos[1].tipo:
+									if rama.hijos[0].tipo != 'int':
+										print("Error de tipos en la linea %d" % (rama.linea))
+										print("No es posible operar elementos del tipo ",\
+																  rama.hijos[0].tipo,end=" ")
+										print("con un operador aritmetico.")
+										sys.exit()
+								else:
+									print("Error de tipos en la linea %d" % (rama.linea))
+									print("No es posible operar un elemento del tipo ",\
+															  rama.hijos[0].tipo,end=" ")
+									print("con otro de tipo ",rama.hijos[1].tipo)
+									sys.exit()
+
+							elif rama.nombre == 'NEGACION':
+								if rama.hijos[0].tipo != 'bool':
+									print("Error de tipos en la linea %d:" % (rama.linea))
+									print("Se esperaba una expresion de tipo booleano,",end=' ')
+									print("pero fue dada una de tipo \"%s\"" % (rama.hijos[0].tipo))
+									sys.exit()
+
+							elif rama.nombre == 'NEGATIVO':
+								if rama.hijos[0].tipo != 'int':
+									print("Error de tipos en la linea %d:" % (rama.linea))
+									print("Se esperaba una expresion de tipo entero,",end=' ')
+									print("pero fue dada una de tipo \"%s\"" % (rama.hijos[0].tipo))
+									sys.exit()
+
+							elif rama.nombre == 'PARENTESIS':
+								rama.tipo = rama.hijos[0].tipo
+
+							elif rama.nombre == 'VAR':
+								t = pointer.buscarEnTodos(rama.hijos[0],'getTipo')
+								if t: 				 # Busca el tipo en la tabla de simbolos apuntada 
+									rama.tipo = t	 # actualmente y en las superiores. Si lo encuentra,
+													 # retorna el tipo. Si no, retorna None y no entra
+								else: 				 # en el condicional y debe dar error, porque la 
+									print("Error en la linea %d: La variable \"%s\" no ha sido declarada." \
+																% (rama.linea, rama.hijos[0]))
+									sys.exit()
 
 	crearTabla(result,None)
-	#print("HOLAAAAAAAAAAAAAAAAAAAAAAAAA",pointer.tabla)
-	# print(pointer.tabla['a'].tabla.tabla)
-	#print(pointer.tabla['v'])
-	#print(pointer.tabla['c'].tabla.tabla)
-	"""
-												
-		elif arbol.nombre == 'COMPORTAMIENTO':
-			for robot,datos in pointer.tabla.items():
-				datos.
-		
-	"""
 	#------------------------------------------------------------------------------------------------------------#
 
 	# Si hay un error de sintaxis y el arbol no se logra crear correctamente, result

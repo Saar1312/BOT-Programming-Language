@@ -3,29 +3,16 @@ execute
 	  char bot x,y,z
 	  	on activation:
 	  		store '0'.
+	  		drop ~x \/ z.
+	  		drop 'a'/='b'.
 	  	end
 	  end
-	execute
-		if 'x' = 'b':	
-			advance a,v,b.
-		else:
-			advance j.
-			while a:
-				while b:
-					advance c.
-				end
-			end
-		end
-	end
-	create 
-	  bool bot A,B,C
+	  int bot a,b,c
 	  end
 	execute
-		create 
-		  bool bot H,I,J
-		  end
-		execute
-			advance A,V,B.
+		if ~(a-b%4 >= b) = True:
+			advance x.
 		end
+		advance x,y,z,w.
 	end
 end
