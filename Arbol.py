@@ -249,27 +249,16 @@ class arbol(object):
 				print('\t'*nivel+'-exito: AVANCE')
 				self.Imprimir_variables(nivel)
 
-			# Si es CONDICIONAL:
+			# Si es CONDICIONAL o CICLO:
 			# > imprime el tipo y "- guardia: " esperando que lo proxima iteracion 
 			#   imprima el tipo de guardia		
-			elif self.nombre == 'CONDICIONAL':
+			elif self.nombre in ['CONDICIONAL','CICLO']:
 				secuenciado = self.Verificar_secuenciacion(secuenciado,nivel)
 
 				print('\t'*nivel+self.nombre)
 				print('\t'*(nivel+1)+'- guardia:',end="")
 				
 				expresion_sola = self.condicion_simple()			
-			# Si es CICLO:
-			# > imprime el tipo y "- guardia: " esperando que lo proxima iteracion 
-			#   imprima el tipo de guardia			
-			elif self.nombre == 'CICLO':
-				secuenciado = self.Verificar_secuenciacion(secuenciado,nivel)
-
-				print('\t'*nivel+self.nombre)
-				print('\t'*(nivel+1)+'- guardia:',end="")
-			
-				expresion_sola = self.condicion_simple()
-
 
 			# Si la expresion tiene un operador unario primero imprime el operador
 			elif self.es_unario():
@@ -298,11 +287,15 @@ class arbol(object):
 				nivel = self.Imprimir_operacion(nivel,imprimir)
 
 			# Si es un entero booleano expresion o caracter imprime la variable
-			elif self.nombre in 	["ENTERO", "BOOLEANO", "EXPRESION",\
-									"CARACTER"]\
-			or 	 type(self) == chr:
+			elif self.nombre in 	["ENTERO", "BOOLEANO", "EXPRESION"]:
 				imprimir = False				
 				self.Imprimir_variables(nivel)
+			
+			#Si es un carcater lo imprime entre comillas
+			elif self.nombre == "CARACTER":
+				for i in self.hijos:
+					print('\'',i,'\'')
+
 
 
 		# Para los hijos del nodo verifica si es un arbol y segun sea el 

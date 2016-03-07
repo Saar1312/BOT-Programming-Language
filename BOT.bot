@@ -1,6 +1,6 @@
 execute
 	create 
-	  bool bot x,y,z
+	  char bot x,y,z
 	  	on activation:
 	  		store '0'.
 	  		drop ~x \/ z.

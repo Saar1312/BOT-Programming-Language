@@ -196,7 +196,6 @@ if len(sys.argv) > 1:
 									sys.exit()
 
 	crearTabla(result,None)
-	
 	#------------------------------------------------------------------------------------------------------------#
 
 	# Si hay un error de sintaxis y el arbol no se logra crear correctamente, result

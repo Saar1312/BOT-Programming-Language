@@ -1,0 +1,273 @@
+\documentclass{article} 
+\usepackage{graphicx}
+\usepackage[spanish]{babel}
+\usepackage[autostyle]{csquotes}
+\usepackage{tabto}
+\usepackage{booktabs}
+
+\renewcommand{\contentsname}{Contenido}
+\renewcommand{\figurename}{Im\'agen}
+
+
+% \newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+% \newcommand{\tab}[1]{\hspace{.05\textwidth}\rlap{#1}}
+
+\title{Proyecto 3\\Traductores} 
+\author{Samuel Arleo\and Sergio Ter\'an } 
+\date{06 Marzo, 2016}
+
+\begin{document}
+
+	%Portada
+		\pagenumbering{gobble}
+		\begin{center}
+		 	\pagestyle{headings} \small
+		 	\includegraphics[scale=0.4]{USB.png}\\[0.3cm]
+			Universidad Sim\'on Bolivar\\[0.1cm]
+		 	Departamento de Computaci\'on y Tecnolog\'ia de la Informaci\'on\\[0.1cm]
+		 	CI3725 - Traductores e Interpretadores\\[0.1cm]
+		 	Enero-Marzo 2016\\[0.1cm]
+
+			\vspace{15em}
+			\LARGE Proyecto 3\\
+			\vspace{0.5em}
+			\Large Traductores\\
+			\vspace{0.5em}
+			\large Samuel Arleo \-\hspace{5em}Sergio Ter\'an\\
+			\vspace{0.5em}
+			\large 10-10969 \-\hspace{7em}11-11020\\
+			\vspace{15em}
+			07 de Marzo, 2016
+		\end{center}
+
+	%Seccion sobre la implementacion
+		\newpage
+		\pagenumbering{arabic}
+		\section{Formulaci\'on e Implementaci\'on} 
+
+	%Seccion de respuestas teorico practicas
+		\newpage
+		\section{Revisi\'on Te\'orico-Practica}
+			\begin{enumerate}
+				%Pregunta 1
+				\large \bf \item[] Pregunta 1
+				\normalsize \mdseries
+					\begin{enumerate}
+					%Parte (a)
+					\item[(a)] \
+						\begin{enumerate}
+							\item[(a.1)] 
+								$G_{1}$ = (\{S\},\{a\},\{S $\longrightarrow$ Sa,S $\longrightarrow$ $\lambda$\},S)\\
+								\\
+								Determinemos si la gram\'atica\\
+								\begin{tabbing}
+								\hspace*{2cm} \= \hspace*{0.6cm} \= \hspace*{3cm} \kill
+									%p_inicio
+									\>S \' $\longrightarrow$\> Sa\\
+									\>S \' $\longrightarrow$\> $\lambda$\\
+								\end{tabbing}
+								Es LR(1) y construyamos su analizador sint\'actico. 
+								Comenzamos por aumentar la gramatica con el s\'imbolo $S^{\prime}$ y agregando el s\'imbolo \$ al final de la primera entrega. A dem\'as enumeramos las producciones.
+								\begin{tabbing}
+								\hspace*{1cm} \= \hspace*{1cm} \= \hspace*{1cm} \= \hspace*{0.6cm} \= \hspace*{0.6cm} \= \hspace*{3cm} \kill
+									%item 0
+									\> (i)\>  $S^{\prime}$	\> $\longrightarrow$\> 	S\$ 	\\
+									\> (ii)\>  $S$	\> $\longrightarrow$\> 	Sa 	\\
+									\> (iii)\>  $S$	\> $\longrightarrow$\>  $\lambda$ 	\\
+								\end{tabbing}
+								Construimos los conjuntos FIRST y FOLLOW para los simbolos no terminales:
+								\begin{quotation}
+									FIRST($S^{\prime}$) = \{ $\lambda$ , a \}
+								\end{quotation}
+								\begin{quotation}
+									FIRST($S$) = \{ $\lambda$ , a \}
+								\end{quotation}
+								\begin{quotation}
+									FOLLOW($S^{\prime}$) = \{ \$ \}
+								\end{quotation}
+								\begin{quotation}
+									FOLLOW($S$) = \{ a, \$ \}
+								\end{quotation}
+								El conjunto de clauduras nos queda:\\
+								\begin{tabbing}
+								 \hspace*{1cm} \= \hspace*{1cm} \= \hspace*{0.6cm} \= \hspace*{0.6cm} \= \hspace*{3cm} \kill
+									%item 0
+									\> $I_{0}$	\' : 	\> $S^{\prime}$	\> $\longrightarrow$\> 	$\cdot$S\$ 	\\
+									\>		\'  	\> $S$ 			\> $\longrightarrow$\> 	$\cdot$Sa 	\\
+									\>		\'  	\> $S$ 			\> $\longrightarrow$\> 	$\cdot$ 	\\
+								
+									%item 1
+									\>$I_{1}$	\' : 	\> $S^{\prime}$ \> $\longrightarrow$\> 	S$\cdot$\$	\\
+									\>		\'  	\> $S$ 			\> $\longrightarrow$\> 	S$\cdot$a	\\
+									
+									%item 2
+									\>$I_{2}$	\' : 	\> $S^{\prime}$ \> $\longrightarrow$\> 	S\$$\cdot$	\\
+									
+									%item 3
+									\>$I_{3}$	\' : 	\> $S$ 			\> $\longrightarrow$\> 	Sa$\cdot$	\\
+								\end{tabbing}
+								Construimos el automata de prefijos viables, que nos queda de la forma:\\
+				 				
+							  		\includegraphics[ scale=0.2]{grafo1.png}
+							  	\\Ahora podemos constriur la tabla de parsing $SLR(1)$:
+							  	\\
+				 				\begin{tabular}{l | c c | c c}
+									\toprule
+									&\multicolumn{2}{|c|}{Acciones} &\multicolumn{2}{|c}{Goto}\\
+									\midrule[0.5mm]
+									& a & \$ & $S^{\prime}$ & S \\
+									\midrule[0.5mm]
+										$I_{0}$ & r(iii) & r(iii) &  & 1 \\
+									\hline
+										$I_{1}$ & s(3) & s(2) &  &  \\
+									\hline
+										$I_{2}$ &  & $acc$ &  &  \\
+									\hline
+										$I_{3}$ & r(ii) & r(ii) &  &  \\
+									\bottomrule
+								\end{tabular}
+							\\\\\
+							\item[(a.2)] 
+								$G_{1}$ = (\{S\},\{a\},\{S $\longrightarrow$ aS,S $\longrightarrow$ $\lambda$\},S)\\
+								\\
+								Determinemos si la gram\'atica\\
+								\begin{tabbing}
+								\hspace*{2cm} \= \hspace*{0.6cm} \= \hspace*{3cm} \kill
+									%p_inicio
+									\>S \' $\longrightarrow$\> aS\\
+									\>S \' $\longrightarrow$\> $\lambda$\\
+								\end{tabbing}
+								Es LR(1) y construyamos su analizador sint\'actico. 
+								Comenzamos por aumentar la gramatica con el s\'imbolo $S^{\prime}$ y agregando el s\'imbolo \$ al final de la primera entrega. A dem\'as enumeramos las producciones.
+								\begin{tabbing}
+								\hspace*{1cm} \= \hspace*{1cm} \= \hspace*{1cm} \= \hspace*{0.6cm} \= \hspace*{0.6cm} \= \hspace*{3cm} \kill
+									%item 0
+									\> (i)\>  $S^{\prime}$	\> $\longrightarrow$\> 	S\$ 	\\
+									\> (ii)\>  $S$	\> $\longrightarrow$\> 	aS 	\\
+									\> (iii)\>  $S$	\> $\longrightarrow$\>  $\lambda$ 	\\
+								\end{tabbing}
+								Construimos los conjuntos FIRST y FOLLOW para los simbolos no terminales:
+								\begin{quotation}
+									FIRST($S^{\prime}$) =  FIRST($S$) = \{ $\lambda$ , a \}
+								\end{quotation}
+
+								\begin{quotation}
+									FOLLOW($S^{\prime}$) =  FOLLOW($S$) = \{ \$ \}
+								\end{quotation}
+
+								El conjunto de clauduras nos queda:\\
+								\begin{tabbing}
+								 \hspace*{1cm} \= \hspace*{1cm} \= \hspace*{0.6cm} \= \hspace*{0.6cm} \= \hspace*{3cm} \kill
+									%item 0
+									\> $I_{0}$	\' : 	\> $S^{\prime}$	\> $\longrightarrow$\> 	$\cdot$S\$ 	\\
+									\>		\'  	\> $S$ 			\> $\longrightarrow$\> 	$\cdot$aS 	\\
+									\>		\'  	\> $S$ 			\> $\longrightarrow$\> 	$\cdot$ 	\\
+								
+									%item 1
+									\>$I_{1}$	\' : 	\> $S^{\prime}$ \> $\longrightarrow$\> 	S$\cdot$\$	\\
+									
+									%item 2
+									\>$I_{2}$	\' : 	\> $S$ \> $\longrightarrow$\> 	a$\cdot$S	\\
+									\>			\'  	\> $S$ \> $\longrightarrow$\> 	$\cdot$aS	\\
+									\>			\'  	\> $S$ \> $\longrightarrow$\> 	$\cdot$	\\
+									
+									%item 3
+									\>$I_{3}$	\' : 	\> $S$ 			\> $\longrightarrow$\> 	aS$\cdot$	\\
+
+									%item 4
+									\>$I_{4}$	\' : 	\> $S^{\prime}$	\> $\longrightarrow$\> 	S\$ $\cdot$	\\
+								\end{tabbing}
+								Construimos el automata de prefijos viables, que nos queda de la forma:\\
+				 				
+							  		\includegraphics[ scale=0.2]{grafo2.png}
+							  	\\Ahora podemos constriur la tabla de parsing $SLR(1)$:
+							  	\\
+				 				\begin{tabular}{l | c c | c c}
+									\toprule
+									&\multicolumn{2}{|c|}{Acciones} &\multicolumn{2}{|c}{Goto}\\
+									% &Acciones& &GoTo\\
+									\midrule[0.5mm]
+									& a & \$ & $S^{\prime}$ & S \\
+									\midrule[0.5mm]
+										$I_{0}$ & s(2) & r(iii) &  & 1 \\
+									\hline
+										$I_{1}$ &  & s(4) &  &  \\
+									\hline
+										$I_{2}$ & s(2) & r(iii) &  & 3 \\
+									\hline
+										$I_{3}$ &  & r(ii) &  &  \\
+									\hline
+										$I_{4}$ &  & $acc$ &  &  \\
+									\bottomrule
+								\end{tabular}
+
+
+						\end{enumerate}
+					%Parte (b)
+					\item[(b)] ANALISIS $SERIO$ DE EFICIENCIA
+					
+					\end{enumerate}
+				\large \bf \item[] Pregunta 2
+				\normalsize \mdseries
+					\begin{enumerate}
+					%Parte (a)
+					\item[(a)]								
+					\begin{tabbing}
+								\hspace*{1cm} \= \hspace*{1cm} \= \hspace*{1cm} \= \hspace*{0.6cm} \= \hspace*{0.6cm} \= \hspace*{3cm} \kill
+									\> (i)\>  $S^{\prime}$	\> $\longrightarrow$\> 	$Instr$ 	\\
+									\> (ii)\>  $Instr$	\> $\longrightarrow$\> 	$Instr$ ; $Instr$ 	\\
+									\> (iii)\>  $Instr$	\> $\longrightarrow$\>  IS 	\\
+					\end{tabbing}
+					\begin{quotation}
+						FIRST($S^{\prime}$) =  FIRST($Instr$) = \{ IS \}
+					\end{quotation}		
+					\begin{quotation}
+						FOLLOW($S^{\prime}$) \{ \$ \}
+					\end{quotation}
+					\begin{quotation}
+						FOLLOW($Instr$) \{ ;,\$ , IS \}
+					\end{quotation}						
+					\ \ 
+					\begin{tabbing}
+					 \hspace*{1cm} \= \hspace*{1cm} \= \hspace*{0.8cm} \= \hspace*{0.6cm} \= \hspace*{3cm} \kill
+						%item 0
+						\> $I_{0}$	\' : 	\> $S^{\prime}$		\> $\longrightarrow$\> 	$\cdot Instr$ \$	\\
+						\>			\'  	\> $Instr$ 			\> $\longrightarrow$\> 	$\cdot Insrr$ ; $Instr$	\\
+						\>			\'  	\> $Instr$ 			\> $\longrightarrow$\> 	$\cdot$ IS	\\
+
+
+						%item 1
+						\> $I_{1}$	\' : 	\> $S^{\prime}$		\> $\longrightarrow$\> 	$Instr \cdot$ \$	\\
+						\>			\'  	\> $Instr$ 			\> $\longrightarrow$\> 	$Instr \cdot$ ; $Instr$	\\
+
+						%item 2
+						\>$I_{2}$	\' : 	\> $Instr$ 			\> $\longrightarrow$\> 	IS$\cdot$	\\
+
+						%item 3
+						\>$I_{3}$	\' : 	\> $S^{\prime}$		\> $\longrightarrow$\> 	$Instr$\$$\cdot$	\\
+
+						%item 4
+						\>$I_{4}$	\' : 	\> $Instr$			\> $\longrightarrow$\> 	$Instr$ ; $\cdot$ $Instr$	\\
+						\>			\'  	\> $Instr$ 			\> $\longrightarrow$\> 	$\cdot Instr$ ; $Instr$	\\
+						\>			\'  	\> $Instr$ 			\> $\longrightarrow$\> 	$\cdot$IS	\\
+
+						%item 5
+						\>$I_{5}$	\' : 	\> $Instr$			\> $\longrightarrow$\> 	$Instr$ ; $Instr$ $\cdot$	\\
+						\>			\'  	\> $Instr$ 			\> $\longrightarrow$\> 	$Instr \cdot$ ; $Instr$	\\
+					\end{tabbing}
+
+					En la regla $I_{5}$ vemos que existe un conflicto 
+
+					%Parte (b)
+					\item[(b)]Este conflicto, del tipo $shift/reduce$, se puede solucionar usando el algoritmo de SLR(1), apoyandonos con los FIRST y FOLLOW que ya hemos calculado.
+
+					%Parte (c)
+					\item[(c)]
+
+					%Parte (d)
+					\item[(d)]
+					
+					\end{enumerate}
+									
+			\end{enumerate}
+\end{document}
