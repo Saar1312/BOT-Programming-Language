@@ -41,9 +41,9 @@ class datos:
 	def __init__(self,valor,tipo,tabla):
 		self.valor = valor
 		self.tipo = tipo
+		self.tabla = tabla
 		#self.declarada = False # Para ahorrar tiempo y no buscar una variable en todas las tablas
 		#self.robot = None
-		#self.tabla = tabla
 	def getValor(self):
 		return self.valor
 	def getTipo(self):

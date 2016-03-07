@@ -4,7 +4,7 @@ create
       recieve.
     end
     on deactivation:
-      store v_4 -1.
+      store v_3 -1.
       recieve.
     end
   
@@ -14,6 +14,9 @@ create
       right.
       store 9.
       send.
+      read.
+      read as v_5.
+      collect as v_5.
       drop v_5 - 10.
       store 11.
       store 'H'.

@@ -287,7 +287,7 @@ def p_exp(p):
 	elif len(p) == 2:
 		if type(p[1]) == int:
 			p[0] = expresion('ENTERO',[p[1]],p.lineno(1),'int')
-		elif (p[1] == True) or (p[1] == False):
+		elif (p[1].hijos[0] == 'true') or (p[1].hijos[0] == 'false'):
 			p[0] = expresion('BOOLEANO',[p[1]],p.lineno(1),'bool')
 		else:
 			p[0] = expresion('VAR',[p[1].hijos[0]],p[1].linea)
@@ -300,9 +300,9 @@ def p_literal_bool(p):
 					| TkFalse
 	'''
 	if p[1] == 'true':
-		p[0] = expresion('TRUE',[],p.lineno(1),'bool')
+		p[0] = expresion('TRUE',['true'],p.lineno(1),'bool')
 	elif p[1] == 'false':
-		p[0] = expresion('FALSE',[],p.lineno(1),'bool')
+		p[0] = expresion('FALSE',['false'],p.lineno(1),'bool')
 
 
 #-------------------------------------------------------------------------------
