@@ -44,7 +44,7 @@ execute
 	if v_14:
 
 		activate v_15.
-		if True > v_16*-12:
+		if true > v_3*-12:
 	
   		activate v_17.
 	
