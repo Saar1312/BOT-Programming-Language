@@ -1,13 +1,25 @@
 execute
 	create
 	  char bot x,y,z
+	  	on default:
+	  		collect.
+	  	end
+	  	on default:
+	  		collect.
+	  	end
+	  	on deactivation:
+	  		collect.
+	  	end
 	  	on activation:
 	  		collect as x.
 	  		collect as a.
 	  		read as y.
 	  	end
+	  	on activation:
+	  		collect.
+	  	end
 	  end
 	execute
-		advance x,y,z,w.
+		advance x,y,z.
 	end
 end

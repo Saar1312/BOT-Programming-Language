@@ -103,6 +103,7 @@ if len(sys.argv) > 1:
 						for robot,datos in pointer.tabla.items():
 							datos.tabla.agregar(simbolo,None,tipo)
 						pointer = p.popTope()
+
 				elif (arbol.nombre == 'READ_AS' and
 					 arbol.hijos != []):
 					tope = p.getTope()
@@ -113,6 +114,53 @@ if len(sys.argv) > 1:
 					for robot,datos in pointer.tabla.items():
 						datos.tabla.agregar(simbolo,None,tipo)
 					pointer = p.popTope()
+
+				elif arbol.nombre == 'ACTIVACION':
+					tope = p.getTope()
+					p.addTope(pointer)
+					pointer = tope
+					for robot,datos in pointer.tabla.items():
+						if datos.estado == 'activacion':
+							print("Error en la linea %d:" % (arbol.linea))
+							print("Un robot no puede tener dos comportamientos de activacion.")
+							sys.exit()
+						elif datos.estado == None:
+							datos.estado = 'activacion'
+						elif datos.estado == 'desactivacion':
+							datos.estado = 'desactivacion'
+					pointer = p.popTope()
+
+				elif arbol.nombre == 'DESACTIVACION':
+					tope = p.getTope()
+					p.addTope(pointer)
+					pointer = tope
+					for robot,datos in pointer.tabla.items():
+						if datos.estado == 'activacion':
+							datos.estado = 'desactivacion'
+						elif datos.estado == None:
+							print("Error en la linea %d:" % (arbol.linea))
+							print("No es posible desactivar un robot antes de activarlo.")
+							sys.exit()
+						elif datos.estado == 'desactivacion':
+							print("Error en la linea %d:" % (arbol.linea))
+							print("Un robot no puede tener dos comportamientos de desactivacion.")
+							sys.exit()
+					pointer = p.popTope()
+
+				elif arbol.nombre == 'DEFAULT':
+					tope = p.getTope()
+					p.addTope(pointer)
+					pointer = tope
+					for robot,datos in pointer.tabla.items():
+						if not datos.tieneDefault:
+							datos.tieneDefault = True
+						elif datos.tieneDefault:
+							print("Error en la linea %d:" % (arbol.linea))
+							print("No es posible que un robot posea dos comportamientos default.")
+							sys.exit()
+					pointer = p.popTope()
+				
+				
 			# PARA DEBUGGING
 			#print(arbol.nombre)
 			#print(pointer.tabla)
@@ -139,13 +187,13 @@ if len(sys.argv) > 1:
 										print("No es posible operar elementos del tipo \"%s\""%\
 																  (rama.hijos[0]),end=" ")
 										print("con un operador booleano.")
-										#sys.exit()
+										sys.exit()
 								else:
 									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("No es posible operar un elemento del tipo \"%s\""%\
 															  (rama.hijos[0]),end=" ")
 									print("con otro de tipo \"%s\"."% (rama.hijos[1]))
-									#sys.exit()
+									sys.exit()
 
 							elif rama.nombre in ['DISTINTO','IGUALDAD']:
 								if rama.hijos[0].tipo != rama.hijos[1].tipo:
@@ -153,7 +201,7 @@ if len(sys.argv) > 1:
 									print("No es posible operar un elemento del tipo \"%s\""%\
 															  (rama.hijos[0].tipo),end=" ")
 									print("con otro de tipo \"%s\"."%(rama.hijos[1].tipo))
-									#sys.exit()
+									sys.exit()
 
 							elif rama.nombre in ['MENOR_QUE','MENOR_IGUAL','MAYOR','MAYOR_IGUAL']:
 								if rama.hijos[0].tipo == rama.hijos[1].tipo:
@@ -168,7 +216,7 @@ if len(sys.argv) > 1:
 									print("No es posible operar un elemento del tipo \"%s\""%\
 															  (rama.hijos[0].tipo),end=" ")
 									print("con otro de tipo \"%s\"."% (rama.hijos[1].tipo))
-									#sys.exit()
+									sys.exit()
 
 							elif rama.nombre in ['SUMA','RESTA','MULTIPLICACION','DIVISION','MODULO']:
 								if rama.hijos[0].tipo == rama.hijos[1].tipo:
@@ -183,21 +231,21 @@ if len(sys.argv) > 1:
 									print("No es posible operar un elemento del tipo \"%s\""%\
 															  (rama.hijos[0].tipo),end=" ")
 									print("con otro de tipo \"%s\"."% (rama.hijos[1].tipo))
-									#sys.exit()
+									sys.exit()
 
 							elif rama.nombre == 'NEGACION':
 								if rama.hijos[0].tipo != 'bool':
 									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("Se esperaba una expresion de tipo booleano,",end=' ')
 									print("pero fue dada una de tipo \"%s\"." % (rama.hijos[0].tipo))
-									#sys.exit()
+									sys.exit()
 
 							elif rama.nombre == 'NEGATIVO':
 								if rama.hijos[0].tipo != 'int':
 									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("Se esperaba una expresion de tipo entero,",end=' ')
 									print("pero fue dada una de tipo \"%s\"." % (rama.hijos[0].tipo))
-									#sys.exit()
+									sys.exit()
 
 							elif rama.nombre == 'PARENTESIS':
 								rama.tipo = rama.hijos[0].tipo
@@ -210,11 +258,11 @@ if len(sys.argv) > 1:
 								else: 				 # en el condicional y debe dar error, porque la 
 									print("Error en la linea %d: La variable \"%s\" no ha sido declarada." \
 																% (rama.linea, rama.hijos[0]))
-									#sys.exit()
+									sys.exit()
 							elif rama.nombre == 'ON_CONDICION':
 								if rama.hijos[0].tipo != 'bool':
 									print("Error en la linea %d: La condicion del robot debe evaluar en un booleano.")
-									##sys.exit()
+									sys.exit()
 
 	crearTabla(result,None)
 	#------------------------------------------------------------------------------------------------------------#

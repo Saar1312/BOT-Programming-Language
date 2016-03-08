@@ -54,20 +54,6 @@ class Tabla:
 				else:
 					return None
 
-	#---------------------------------------------------------------------------
-	# tipoRobot()
-	#
-	# Regresa el tipo de robot
-	#--------------------------------------------------------------------------		
-	def tipoRobot(self):
-		for simbolo,datos in self.tabla.items(): 
-			if datos.robot: 			# Si no es none el atributo robot, entonces se esta en una tabla 
-				return datos.tipo		# de inst de robot
-										# Se esta ciclando en el diccionario y despues se esta buscando
-										# en cada iteracion un elemento (O(n^2)). Cambiar si da tiempo
-										# sacando for item()
-
-
 #-------------------------------------------------------------------------------
 #							    DATOS
 #-------------------------------------------------------------------------------
@@ -77,6 +63,7 @@ class datos:
 		self.tipo = tipo
 		self.tabla = tabla
 		self.estado = None
+		self.tieneDefault = False
 
 	#---------------------------------------------------------------------------
 	# getValor()
