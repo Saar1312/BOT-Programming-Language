@@ -127,7 +127,9 @@ if len(sys.argv) > 1:
 						elif datos.estado == None:
 							datos.estado = 'activacion'
 						elif datos.estado == 'desactivacion':
-							datos.estado = 'desactivacion'
+							print("Error en la linea %d:" % (arbol.linea))
+							print("No es posible activar un robot despues de desactivarlo.")
+							sys.exit()
 					pointer = p.popTope()
 
 				elif arbol.nombre == 'DESACTIVACION':
@@ -159,20 +161,6 @@ if len(sys.argv) > 1:
 							print("No es posible que un robot posea dos comportamientos default.")
 							sys.exit()
 					pointer = p.popTope()
-				
-				
-			# PARA DEBUGGING
-			#print(arbol.nombre)
-			#print(pointer.tabla)
-			#if pointer.tablaExterna:
-			#	print(pointer.tablaExterna.tabla)
-			#if arbol.nombre == 'INC_ALCANCE':
-			#	incAlcance = True
-			#for var,datos in pointer.tabla.items():
-			#	if datos.tabla:
-			#		print("VARIABLE:",var)
-			#		print("Tabla",datos.tabla.tabla)
-			#print("-------------------")
 			for rama in arbol.hijos:
 				if rama in ['incAlcance','instRobot']: # incAlcance es un hijo de los arboles
 					pointer = p.popTope()# de inc de alcance que permite saber
