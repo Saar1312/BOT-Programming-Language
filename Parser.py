@@ -172,9 +172,9 @@ def p_comportamiento(p):
 	'''
 	if len(p) > 1:
 		if p[6] != None: # Si no se volvio a encontrar otro identificador
-			p[0] = instRobot('CONDICION',[p[2],p[4],p[6]])
+			p[0] = instRobot('CONDICION',[p[2],p[4],'instRobot',p[6]])
 		else:
-			p[0] = instRobot('CONDICION',[p[2],p[4]])
+			p[0] = instRobot('CONDICION',[p[2],p[4],'instRobot'])
 
 #-------------------------------------------------------------------------------
 # Genera los distintos estados que puede tener un robot

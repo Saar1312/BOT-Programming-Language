@@ -46,5 +46,8 @@ class pila:
 			return None
 		else:	
 			return self.pila[posTope]
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 959ae0751bead85890192df43b1f39a9518a2463
