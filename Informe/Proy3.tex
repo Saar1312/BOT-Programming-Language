@@ -204,7 +204,7 @@
 
 						\end{enumerate}
 					%Parte (b)
-					\item[(b)] ANALISIS $SERIO$ DE EFICIENCIA
+					\item[(b)] Comparando las tablas de $G1_{i}$ y $G1_{d}$ vemos que la tabla de parsing de $G1_{i}$ contiene menos filas que $G1_{d}$. A dem\'as vemos que para reconocer las frases  
 					
 					\end{enumerate}
 				\large \bf \item[] Pregunta 2
@@ -259,14 +259,224 @@
 					En la regla $I_{5}$ vemos que existe un conflicto 
 
 					%Parte (b)
-					\item[(b)]Este conflicto, del tipo $shift/reduce$, se puede solucionar usando el algoritmo de SLR(1), apoyandonos con los FIRST y FOLLOW que ya hemos calculado.
-
+					\item[(b)]Este conflicto, del tipo $shift/reduce$, lo intentaremos solucionar usando el algoritmo de SLR(1), apoyandonos con los FIRST y FOLLOW que ya hemos calculado.
+	 				\\\\\
+	 				\begin{tabular}{l | c c c | c c}
+						\toprule
+						&\multicolumn{3}{|c|}{Acciones} &\multicolumn{2}{|c}{Goto}\\
+						% &Acciones& &GoTo\\
+						\midrule[0.5mm]
+						& ; & IS & \$ & $S^{\prime}$ & $Instr$ \\
+						\midrule[0.5mm]
+							$I_{0}$ &  & s(2) &  &  & 1 \\
+						\hline
+							$I_{1}$ & s(4) &  & s(3) &  \\
+						\hline
+							$I_{2}$ & r(iii) & r(iii) & r(iii) &  \\
+						\hline
+							$I_{3}$ &  &  & $acc$ &  \\
+						\hline
+							$I_{4}$ &  & s(2) &  &  \\
+						\hline
+							$I_{4}$ & \textbf{s(4)/r(ii)} & r(ii) & r(ii) &  \\
+						\bottomrule
+					\end{tabular}
 					%Parte (c)
 					\item[(c)]
+					Secuencia de reconocimiento para la frase IS;IS;IS, dando prioridad al $shift$ en el conflicto $shift/reduce$
 
+					\begin{tabular}{|c|c|c|c|}
+						\hline
+						Pila & Entrada & Acci\'on & Salida\\	
+						\hline
+						$I_{0}$ & IS;IS;IS\$ & s(2) &
+						\\
+						\hline
+						$I_{2}$
+						$I_{0}$ & ;IS;IS\$ & r(iii) &
+						(iii)\\
+						\hline
+						$I_{1}$
+						$I_{0}$ & ;IS;IS\$ & s(4) &
+						(iii)\\
+						\hline
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & IS;IS\$ & s(2) &
+						(iii)\\
+						\hline
+						$I_{2}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & ;IS\$ & r(iii) &
+						(iii),
+						(iii)\\
+						\hline
+						$I_{5}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & ;IS\$ & s(4) &
+						(iii),
+						(iii)\\
+						\hline
+						$I_{4}$
+						$I_{5}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & IS\$ & s(2) &
+						(iii),
+						(iii)\\
+						\hline
+						$I_{2}$
+						$I_{4}$
+						$I_{5}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & \$ & r(iii) &
+						(iii),
+						(iii),
+						(iii)\\
+						\hline
+						$I_{5}$
+						$I_{4}$
+						$I_{5}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & \$ & r(ii) &
+						(ii),
+						(iii),
+						(iii),
+						(iii)\\
+						\hline
+						$I_{5}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & \$ & r(ii) &
+						(ii),
+						(ii),
+						(iii),
+						(iii),
+						(iii),\\
+						\hline
+						$I_{1}$
+						$I_{0}$ & \$ & s(3) &
+						(ii),
+						(ii),
+						(iii),
+						(iii),
+						(iii),\\
+						\hline
+						$I_{3}$
+						$I_{1}$
+						$I_{0}$ & \$ & $acc$ &
+						(ii),
+						(ii),
+						(iii),
+						(iii),
+						(iii),\\
+						\hline
+
+					\end{tabular}
+					% \newpage
+					Secuencia de reconocimiento para la frase IS;IS;IS, dando prioridad al $reduce$ en el conflicto $shift/reduce$\\
+
+					\begin{tabular}{|c|c|c|c|}
+						\hline
+						Pila & Entrada & Acci\'on & Salida\\	
+						\hline
+						$I_{0}$ & IS;IS;IS\$ & s(2) &
+						\\
+						\hline
+						$I_{2}$
+						$I_{0}$ & ;IS;IS\$ & r(iii) & 
+						(iii)\\
+						\hline
+						$I_{1}$
+						$I_{0}$ & ;IS;IS\$ & s(4) & 
+						(iii)\\
+						\hline
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & IS;IS\$ & s(2) & 
+						(iii)\\
+						\hline
+						$I_{2}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & ;IS\$ & r(iii) & 
+						(iii),
+						(iii) \\
+						\hline
+						$I_{5}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & ;IS\$ & r(ii) &
+						(ii),
+						(iii),
+						(iii)\\
+						\hline
+						$I_{1}$
+						$I_{0}$ & ;IS\$ & s(4) &
+						(ii),
+						(iii),
+						(iii)\\
+						\hline
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & IS\$ & s(2) &
+						(ii),
+						(iii),
+						(iii)\\
+						\hline
+						$I_{2}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & \$ & r(iii) &
+						(iii),
+						(ii),
+						(iii),
+						(iii)\\
+						\hline
+						$I_{5}$
+						$I_{4}$
+						$I_{1}$
+						$I_{0}$ & \$ & r(ii) &
+						(ii),
+						(iii),
+						(ii),
+						(iii),
+						(iii)\\
+						\hline
+						$I_{1}$
+						$I_{0}$ & \$ & s(3) &
+						(ii),
+						(iii),
+						(ii),
+						(iii),
+						(iii)\\
+						\hline
+						$I_{3}$
+						$I_{1}$
+						$I_{0}$ & \$ & $acc$ &
+						(ii),
+						(iii),
+						(ii),
+						(iii),
+						(iii)\\
+						\hline
+					\end{tabular}
+
+					Podemos concluir que a pesar de que en ambos casos se genera la misma frase sin asociatividades `explicitas', al priorizar $shift$ nos genera una asociatividad `inplicita' a la izquierda, mientras que al priorizar $reduce$ nos genera una asociatividad `inplicita' a la derecha.
+					
 					%Parte (d)
 					\item[(d)]
-					
+					Para comparar la eficiencia de ambas opciones, reconocimos frase de tamano $IS(;IS)^{2}$, $IS(;IS)^{3}$ , $IS(;IS)^{4}$ y $IS(;IS)^{5}$ para esrudiar sus comportamientos.
+					\\
+					Comparando el comportamiento de las pilas en ambas alternativas, vemos que dando prioridad al $shift$ el tamano maximo de la pila es $2*(n+1)$ para frases de la forma $IS(IS)^{n}$ mientras que para el $reduce$ el tamano maximo de la pila es 4 de manera constante.
+					\\
+					Por otro lado vemos que ambas alternativas en cuestion de tiempo  son de orden $O(n)$.
+					\\
+					Podemos concluir que en cuestion de eficiencia la alternativa de reduce es mas conveniente.
 					\end{enumerate}
 									
 			\end{enumerate}
