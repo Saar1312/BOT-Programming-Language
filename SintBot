@@ -52,6 +52,11 @@ if len(sys.argv) > 1:
 	tipo = None
 	incAlcance = False
 	p = pila()
+
+	def imprimir_error():
+		pass
+
+
 	def crearTabla(arbol,almacenar):
 		global tipo,pointer,p,incAlcance
 

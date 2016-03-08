@@ -139,7 +139,7 @@ def p_tipo(p):
 		p[0] = defTipo('TIPO_ENTERO',[],'int')
 	elif p[1] == 'bool':
 		p[0] = defTipo('TIPO_BOOL',[],'bool')
-	elif p[1] == 'str':
+	elif p[1] == 'char':
 		p[0] = defTipo('TIPO_CHAR',[],'char')
 
 #-------------------------------------------------------------------------------

@@ -15,6 +15,7 @@ class pila:
 	def addTope(self,pointer): 		# Nodo es el nodo del arbol sintactico que permite saber si ya se termino de leer
 		self.pila.append(pointer)	# la incorporacion de alcance, lo que indica que hay que volver el apuntador del
 									# arbol de tablas a la tabla externa.
+
 	#---------------------------------------------------------------------------
 	# popTope()
 	#
@@ -25,6 +26,7 @@ class pila:
 			return self.pila.pop()
 		else:
 			return None
+
 	#---------------------------------------------------------------------------
 	# getPosTope()
 	#
@@ -32,6 +34,7 @@ class pila:
 	#---------------------------------------------------------------------------	
 	def getPosTope(self):
 		return len(self.pila) - 1
+
 	#---------------------------------------------------------------------------
 	# getTope()
 	#
