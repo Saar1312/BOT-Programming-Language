@@ -5,7 +5,7 @@ create
     end
     on deactivation:
       read as v_3.
-      store v_3 -1.
+      store v_3-1.
       recieve.
     end
   
@@ -21,25 +21,22 @@ create
       drop v_5 - 10.
       store 11.
       store 'H'.
+    end
+    on v_5 *4 -9+5>0:
       read.
-      recieve.
-      store true\/false= v_6.
     end
 end
 execute
 
-	while True:
+	while true:
 		
     if true:
 		
-      activate v_7.
-      activate v_8.
-      activate v_9.
-    	activate v_10.
+      activate v_3.
+      
     else:
 		
-    	deactivate v_11.
-      advance v_12,v_13.
+    	deactivate v_3.
 		
     end
 	
@@ -47,7 +44,7 @@ execute
 	if v_14:
 
 		activate v_15.
-		if True > v_16*-12:
+		if true > v_3*-12:
 	
   		activate v_17.
 	

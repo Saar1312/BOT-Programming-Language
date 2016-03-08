@@ -76,12 +76,14 @@ class datos:
 		self.valor = valor
 		self.tipo = tipo
 		self.tabla = tabla
+		self.estado = None
 
 	#---------------------------------------------------------------------------
 	# getValor()
 	#
 	# Regresa el valor del dato
 	#--------------------------------------------------------------------------	
+
 	def getValor(self):
 		return self.valor
 

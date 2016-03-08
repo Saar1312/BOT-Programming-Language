@@ -192,7 +192,7 @@ def p_condicion(p):
 	elif p[1] == 'default':
 		p[0] = instContr('DEFAULT',[])
 	else:
-		p[0] = expresion('EXPRESION',[p[1]])
+		p[0] = expresion('ON_EXPRESION',[p[1]])
 
 #-------------------------------------------------------------------------------
 # EXP genera las expresiones aritmeticas, booleanas, identificadores y constantes
