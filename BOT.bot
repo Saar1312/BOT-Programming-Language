@@ -1,18 +1,13 @@
 execute
-	create 
+	create
 	  char bot x,y,z
 	  	on activation:
-	  		store '0'.
-	  		drop ~x \/ z.
-	  		drop 'a'/='b'.
+	  		collect as x.
+	  		collect as a.
+	  		read as y.
 	  	end
 	  end
-	  int bot a,b,c
-	  end
 	execute
-		if ~(a-b%4 >= b) = True:
-			advance x.
-		end
 		advance x,y,z,w.
 	end
 end

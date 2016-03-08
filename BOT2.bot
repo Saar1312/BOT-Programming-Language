@@ -4,6 +4,7 @@ create
       recieve.
     end
     on deactivation:
+      read as v_3.
       store v_3 -1.
       recieve.
     end
@@ -22,7 +23,7 @@ create
       store 'H'.
       read.
       recieve.
-      store True\/False= v_6.
+      store true\/false= v_6.
     end
 end
 execute

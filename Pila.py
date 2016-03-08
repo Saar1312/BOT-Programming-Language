@@ -18,18 +18,3 @@ class pila:
 			return None
 		else:	
 			return self.pila[posTope]
-"""
-p = pila()
-p.getTope()
-print(p.pila)
-p.popTope()
-print(p.pila)
-p.addTope(1,2)
-print(p.pila)
-p.addTope(3,4)
-print(p.pila)
-
-p.getTope()
-print(p.pila)
-p.popTope()
-print(p.pila)"""

@@ -139,7 +139,7 @@ def p_tipo(p):
 		p[0] = defTipo('TIPO_ENTERO',[],'int')
 	elif p[1] == 'bool':
 		p[0] = defTipo('TIPO_BOOL',[],'bool')
-	elif p[1] == 'str':
+	elif p[1] == 'char':
 		p[0] = defTipo('TIPO_CHAR',[],'char')
 
 #-------------------------------------------------------------------------------
@@ -172,9 +172,9 @@ def p_comportamiento(p):
 	'''
 	if len(p) > 1:
 		if p[6] != None: # Si no se volvio a encontrar otro identificador
-			p[0] = instRobot('CONDICION',[p[2],p[4],p[6]])
+			p[0] = instRobot('CONDICION',[p[2],p[4],'instRobot',p[6]])
 		else:
-			p[0] = instRobot('CONDICION',[p[2],p[4]])
+			p[0] = instRobot('CONDICION',[p[2],p[4],'instRobot'])
 
 #-------------------------------------------------------------------------------
 # Genera los distintos estados que puede tener un robot
