@@ -52,6 +52,11 @@ if len(sys.argv) > 1:
 	tipo = None
 	incAlcance = False
 	p = pila()
+
+	def imprimir_error():
+		pass
+
+
 	def crearTabla(arbol,almacenar):
 		global tipo,pointer,p,incAlcance
 		if arbol.nombre == 'INSTRUCCIONES_ROBOT': # Crea la tabla para la inc de alcance solo si hay una inc de 

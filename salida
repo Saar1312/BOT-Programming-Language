@@ -1,22 +1,2 @@
-				CONDICIONAL
-					- guardia: BIN_RELACIONAL
-						- operacion: 'Igual a'
-						- operador izquierdo: ' x '
-						- operador derecho: ' b '
-						-exito: AVANCE
-							- var: a
-							- var: v
-							- var: b
-					SECUENCIACION
-						-exito: AVANCE
-							- var: j
-								CICLO
-									- guardia: a
-									CICLO
-										- guardia: b
-										-exito: AVANCE
-											- var: c
-									-exito: AVANCE
-										- var: A
-										- var: V
-										- var: B
+Error de tipos en la linea 6:
+Se esperaba una expresion de tipo booleano, pero fue dada una de tipo "char"
