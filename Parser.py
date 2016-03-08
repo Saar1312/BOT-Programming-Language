@@ -186,11 +186,11 @@ def p_condicion(p):
 				 | EXP
 	'''
 	if p[1] == 'activation':
-		p[0] = instContr('ACTIVACION',[])
+		p[0] = instContr('ACTIVACION',[],p.lineno(1))
 	elif p[1] == 'deactivation':
-		p[0] = instContr('DESACTIVACION',[])
+		p[0] = instContr('DESACTIVACION',[],p.lineno(1))
 	elif p[1] == 'default':
-		p[0] = instContr('DEFAULT',[])
+		p[0] = instContr('DEFAULT',[],p.lineno(1))
 	else:
 		p[0] = expresion('ON_EXPRESION',[p[1]])
 

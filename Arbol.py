@@ -326,8 +326,9 @@ class expresion(arbol):
 
 # Instruccion del robot
 class instContr(arbol):
-	def __init__(self,nombre,hijos):
+	def __init__(self,nombre,hijos,linea=None):
 		arbol.__init__(self,nombre,hijos)
+		self.linea = linea
 
 # Controlador
 class instRobot(arbol):
