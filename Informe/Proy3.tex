@@ -44,16 +44,16 @@
 		\newpage
 		\pagenumbering{arabic}
 		\section{Formulaci\'on e Implementaci\'on} 
-Para realizar el análisis semántico del lenguaje BOT se utilizó la noción de gramática de atributos, ya que se empleo una variable global “tabla” (atributo heredado). Fueron necesarios algunos ajustes en la gramática e implementar nuevas estructuras de datos tales como la clase “pila”, “datos” y “tabla”. Algunas de las decisiones de diseño fueron:
+Para realizar el an\'alisis sem\'antico del lenguaje BOT se utiliz\'o la noci\'on de gram\'atica de atributos, ya que se empleo una variable global “tabla” (atributo heredado). Fueron necesarios algunos ajustes en la gram\'atica e implementar nuevas estructuras de datos tales como la clase “pila”, “datos” y “tabla”. Algunas de las decisiones de diseño fueron:
 \\
 \begin{enumerate}
 \item[*] Todas las variables declaradas dentro de la lista de comportamientos de un robot poseen el mismo tipo del robot (incluyendo a la variable asociada al robot “me”)
-\item[*] La variable asociada al robot “me” es distinta para cada robot, así la declaración pudiera haber sido hecha con una lista de robots.
+\item[*] La variable asociada al robot “me” es distinta para cada robot, así la declaraci\'on pudiera haber sido hecha con una lista de robots.
 \item[*] Las el numero de instrucciones de robot “default” puede ser maximo 1 para cada robot.
-\item[*] Una instrucción de robot “activation” / ”deactivation” no puede aparecer dos veces seguidas en una lista de comportamientos.
-\item[*] Una instrucción de robot “activation” no puede ocurrir luego de otro “activation”
-\item[*] Una instrucción de robot “deactivation” no puede ocurrir luego de otro “deactivation”
-\item[*] La aceptación de expresiones de la forma `a' = `b' fue realizada utilizando la gramática, por lo que un error en este tipo de expresiones sera visto como un error sintáctico.
+\item[*] Una instrucci\'on de robot “activation” / ”deactivation” no puede aparecer dos veces seguidas en una lista de comportamientos.
+\item[*] Una instrucci\'on de robot “activation” no puede ocurrir luego de otro “activation”
+\item[*] Una instrucci\'on de robot “deactivation” no puede ocurrir luego de otro “deactivation”
+\item[*] La aceptaci\'on de expresiones de la forma `a' = `b' fue realizada utilizando la gram\'atica, por lo que un error en este tipo de expresiones sera visto como un error sint\'actico.
 * Las incorporaciones de alcance contaran con el acceso a las variables declaradas en los niveles superiores
 \end{enumerate}
 	%Seccion de respuestas teorico practicas

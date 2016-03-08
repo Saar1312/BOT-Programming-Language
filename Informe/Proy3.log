@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.9)  7 MAR 2016 23:58
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.9)  8 MAR 2016 00:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -223,24 +223,12 @@ Package pdftex.def Info: USB.png used on input line 25.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./USB.png>]
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ° in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ° in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ≥ in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ≥ in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ° in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ° in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
@@ -280,30 +268,6 @@ Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
 Missing character: There is no √ in font cmr10!
 Missing character: There is no ≠ in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ≥ in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ú in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ≥ in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ú in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ≥ in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
@@ -316,8 +280,18 @@ Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ≥ in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
@@ -330,12 +304,12 @@ Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ≥ in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ° in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ° in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
 [1]
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 71.
@@ -525,7 +499,7 @@ Here is how much of TeX's memory you used:
  6544 multiletter control sequences out of 15000+600000
  5756 words of font info for 21 fonts, out of 8000000 for 9000
  442 hyphenation exceptions out of 8191
- 38i,8n,26p,812b,440s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,8n,26p,812b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></u
 sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/tex
@@ -537,7 +511,7 @@ public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
 y7.pfb>
-Output written on Proy3.pdf (8 pages, 186474 bytes).
+Output written on Proy3.pdf (8 pages, 186521 bytes).
 PDF statistics:
  82 PDF objects out of 1000 (max. 8388607)
  54 compressed objects within 1 object stream
