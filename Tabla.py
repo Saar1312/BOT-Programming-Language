@@ -42,6 +42,7 @@ class datos:
 		self.valor = valor
 		self.tipo = tipo
 		self.tabla = tabla
+		self.estado = None
 		#self.declarada = False # Para ahorrar tiempo y no buscar una variable en todas las tablas
 		#self.robot = None
 	def getValor(self):

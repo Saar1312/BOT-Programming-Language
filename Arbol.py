@@ -200,9 +200,14 @@ class arbol(object):
 			if str(type(i)) == '<class \'Arbol.expresion\'>':
 				if len(i.hijos) == 1:
 					for j in i.hijos:
-						for k in j.hijos:
-							if not self.es_arbol(k):
-								expresion_sola = str(k)
+						if type(j) == expresion:
+							for k in j.hijos:
+								if not self.es_arbol(k):
+									expresion_sola = str(k)
+									break
+						else:
+							if not self.es_arbol(j):
+								expresion_sola = str(j)
 								break
 		if expresion_sola != '':
 			print(' '+expresion_sola)

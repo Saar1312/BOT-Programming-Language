@@ -89,7 +89,6 @@ if len(sys.argv) > 1:
 
 				elif (arbol.nombre == 'COLLECT' and 
 					 arbol.hijos != []): 
-					print('COLLECT')
 					if arbol.hijos[0].nombre == 'COLLECT_AS':
 						tope = p.getTope()
 						p.addTope(pointer)
@@ -122,8 +121,6 @@ if len(sys.argv) > 1:
 			#		print("Tabla",datos.tabla.tabla)
 			#print("-------------------")
 			for rama in arbol.hijos:
-				if rama == 'instRobot':
-					print("ENTRO")
 				if rama in ['incAlcance','instRobot']: # incAlcance es un hijo de los arboles
 					pointer = p.popTope()# de inc de alcance que permite saber
 				else:					 # si termino la inc de alcance para mover 
@@ -133,69 +130,69 @@ if len(sys.argv) > 1:
 							if rama.nombre in ['CONJUNCION','DISYUNCION']:
 								if rama.hijos[0].tipo == rama.hijos[1].tipo:
 									if rama.hijos[0].tipo != 'bool':
-										print("Error de tipos en la linea %d" % (rama.linea))
+										print("Error de tipos en la linea %d:" % (rama.linea))
 										print("No es posible operar elementos del tipo ",\
 																  rama.hijos[0],end=" ")
 										print("con un operador booleano.")
-										sys.exit()
+										#sys.exit()
 								else:
-									print("Error de tipos en la linea %d" % (rama.linea))
+									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("No es posible operar un elemento del tipo ",\
 															  rama.hijos[0],end=" ")
 									print("con otro de tipo ",rama.hijos[1])
-									sys.exit()
+									#sys.exit()
 
 							elif rama.nombre in ['DISTINTO','IGUALDAD']:
 								if rama.hijos[0].tipo != rama.hijos[1].tipo:
-									print("Error de tipos en la linea %d" % (rama.linea))
+									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("No es posible operar un elemento del tipo ",\
 															  rama.hijos[0].tipo,end=" ")
 									print("con otro de tipo ",rama.hijos[1].tipo)
-									sys.exit()
+									#sys.exit()
 
 							elif rama.nombre in ['MENOR_QUE','MENOR_IGUAL','MAYOR','MAYOR_IGUAL']:
 								if rama.hijos[0].tipo == rama.hijos[1].tipo:
 									if rama.hijos[0].tipo != 'int':
-										print("Error de tipos en la linea %d" % (rama.linea))
+										print("Error de tipos en la linea %d:" % (rama.linea))
 										print("No es posible operar elementos del tipo ",\
 																  rama.hijos[0].tipo,end=" ")
 										print("con un operador booleano.")
 										sys.exit()
 								else:
-									print("Error de tipos en la linea %d" % (rama.linea))
+									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("No es posible operar un elemento del tipo ",\
 															  rama.hijos[0].tipo,end=" ")
 									print("con otro de tipo ",rama.hijos[1].tipo)
-									sys.exit()
+									#sys.exit()
 
 							elif rama.nombre in ['SUMA','RESTA','MULTIPLICACION','DIVISION','MODULO']:
 								if rama.hijos[0].tipo == rama.hijos[1].tipo:
 									if rama.hijos[0].tipo != 'int':
-										print("Error de tipos en la linea %d" % (rama.linea))
+										print("Error de tipos en la linea %d:" % (rama.linea))
 										print("No es posible operar elementos del tipo ",\
 																  rama.hijos[0].tipo,end=" ")
 										print("con un operador aritmetico.")
 										sys.exit()
 								else:
-									print("Error de tipos en la linea %d" % (rama.linea))
+									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("No es posible operar un elemento del tipo ",\
 															  rama.hijos[0].tipo,end=" ")
 									print("con otro de tipo ",rama.hijos[1].tipo)
-									sys.exit()
+									#sys.exit()
 
 							elif rama.nombre == 'NEGACION':
 								if rama.hijos[0].tipo != 'bool':
 									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("Se esperaba una expresion de tipo booleano,",end=' ')
 									print("pero fue dada una de tipo \"%s\"" % (rama.hijos[0].tipo))
-									sys.exit()
+									#sys.exit()
 
 							elif rama.nombre == 'NEGATIVO':
 								if rama.hijos[0].tipo != 'int':
 									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("Se esperaba una expresion de tipo entero,",end=' ')
 									print("pero fue dada una de tipo \"%s\"" % (rama.hijos[0].tipo))
-									sys.exit()
+									#sys.exit()
 
 							elif rama.nombre == 'PARENTESIS':
 								rama.tipo = rama.hijos[0].tipo
@@ -208,7 +205,11 @@ if len(sys.argv) > 1:
 								else: 				 # en el condicional y debe dar error, porque la 
 									print("Error en la linea %d: La variable \"%s\" no ha sido declarada." \
 																% (rama.linea, rama.hijos[0]))
-									sys.exit()
+									#sys.exit()
+							elif rama.nombre == 'ON_CONDICION':
+								if rama.hijos[0].tipo != 'bool':
+									print("Error en la linea %d: La condicion del robot debe evaluar en un booleano.")
+									##sys.exit()
 
 	crearTabla(result,None)
 	#------------------------------------------------------------------------------------------------------------#
