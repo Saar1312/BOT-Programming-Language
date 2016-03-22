@@ -158,7 +158,13 @@ def crearTabla(arbol,almacenar):
 						datos.estado = 'activacion'
 					elif datos.estado == 'desactivacion':
 						print("Error en la linea %d:" % (arbol.linea))
-						print("No es posible activar un robot despues de desactivarlo.")
+						print("Un comportamiento \"activation\" no puede estar precedido por \
+														un \"deactivation\" .")
+						sys.exit()
+					elif datos.tieneDefault:
+						print("Error en la linea %d:" % (arbol.linea))
+						print("Un comportamiento \"activation\" no puede estar precedido por \
+														un \"default\" .")
 						sys.exit()
 				pointer = p.popTope()
 
@@ -172,7 +178,8 @@ def crearTabla(arbol,almacenar):
 						datos.estado = 'desactivacion'
 					elif datos.estado == None:
 						print("Error en la linea %d:" % (arbol.linea))
-						print("No es posible desactivar un robot antes de activarlo.")
+						print("El comportamiento \"deactivation\" debe estar precedido por\
+																un activacion.")
 						sys.exit()
 					elif datos.estado == 'desactivacion':
 						print("Error en la linea %d:" % (arbol.linea))
@@ -190,7 +197,7 @@ def crearTabla(arbol,almacenar):
 						datos.tieneDefault = True
 					elif datos.tieneDefault:
 						print("Error en la linea %d:" % (arbol.linea))
-						print("No es posible que un robot posea dos comportamientos default.")
+						print("Un robot no puede tener dos comportamientos default.")
 						sys.exit()
 					if datos.estado == None:
 						print("Error en la linea %d:" % (arbol.linea))
