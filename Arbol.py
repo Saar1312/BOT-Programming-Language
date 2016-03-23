@@ -167,7 +167,7 @@ class arbol(object):
 	# Verifica si el argumento h es un arbol
 	#---------------------------------------------------------------------------
 	def es_arbol(self,h):
-		if type(h) in [arbol,expresion,instContr,instRobot]:
+		if type(h) in [arbol,expresion,instContr,instRobot,defTipo]:
 			return True
 		return False
 
