@@ -10,6 +10,7 @@ from Arbol import *
 class Tabla:
 	def __init__(self,exterior):
 		self.tablaExterna = exterior
+		self.hijos = []
 		self.tabla = {}
 	#---------------------------------------------------------------------------
 	# agregar()
@@ -61,9 +62,13 @@ class Tabla:
 					return None
 	def fetch(self,simbolo,robot=None): # Busca robots o variables y retorna su valor
 		pass
-	def fetchBot(self,simbolo): 		# Busca solamente robots
-		pass
 
+	def fetchBot(self,simbolo): 		# Busca solamente robots
+		if simbolo in self.tabla: # Si el robot esta en la tabla actual
+			return self.[simbolo] # Retorna los datos del robot que se buscaba
+		else: # Si no esta en la tabla actual se busca en las tablas de niveles inferiores
+			for tabla in self.hijos:
+				tabla.fetchBot(simbolo)
 
 	#---------------------------------------------------------------------------
 	# esArbol()
@@ -98,6 +103,7 @@ def crearTabla(arbol,almacenar):
 		if incAlcance:
 			p.addTope(pointer)
 			t = Tabla(pointer)
+			pointer.hijos += [t]
 			pointer = t
 			incAlcance = False
 	elif arbol.nombre == 'INICIO':

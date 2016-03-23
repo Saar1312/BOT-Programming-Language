@@ -329,14 +329,14 @@ class arbol(object):
 		
 		elif self.nombre in ['ACTIVATE','DEACTIVATE','ADVANCE']:
 			robot = self.hijos[0].hijos[0]
-			datos = fetchBot(robot)
+			datos = tabla.fetchBot(robot)
 			datos.comportamientos.ejecutar(self.nombre) # Pasa por parametro el tipo de comportamiento
-			elif len(self.hijos) >= 2:					# para saber cual ejecutar de la lista de comport.
+			if len(self.hijos) >= 2:					# para saber cual ejecutar de la lista de comport.
 				if self.hijos[1].nombre == 'LISTA':
 					seguir = True
 					robot = self.hijos[1] # Recorre la lista de robots para ir activando cada uno
 					while seguir:
-						datos = fetchBot(robot.hijos[0].hijos[0]) # Busca el simbolo del ident de la lista
+						datos = tabla.fetchBot(robot.hijos[0].hijos[0]) # Busca el simbolo del ident de la lista
 						datos.comportamientos.ejecutar(self.nombre)
 						if len(robot.hijos) == 2:
 							robot = robot.hijos[1]
@@ -385,7 +385,7 @@ class arbol(object):
 			if self.evaluar(self.hijos[0],robot) # Verificar que sea un booleano (retornar None si no lo es)
 				pass # Ejecutar comportamiento
 		
-		elif self.
+		#elif self.
 
 	def evaluar(self): # Tabla es la tabla de simbolos global donde se sacaran valores de variables
 		if self.nombre == 'CONJUNCION':
