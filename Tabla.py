@@ -116,7 +116,8 @@ def crearTabla(arbol,almacenar):
 				simbolo = arbol.hijos[1].hijos[0]
 				comp = arbol.hijos[3]
 				t = Tabla(None) 						# t es la tabla de simbolos para las instrucciones de cada robot
-				t.agregar('me',None,tipo)				# No tiene padre porque la idea es que las instrucciones de robot no 
+				me_tabla = Tabla(None)
+				t.agregar('me',None,tipo,None,me_tabla)				# No tiene padre porque la idea es que las instrucciones de robot no 
 				pointer.agregar(simbolo,None,tipo,comp,t)	# usen a los robots declarados.
 				bots = [simbolo]						# t no recibe ninguna tabla, por lo que tiene 3 argumentos
 				
@@ -124,7 +125,8 @@ def crearTabla(arbol,almacenar):
 				simbolo = arbol.hijos[0].hijos[0]
 				arbol.hijos[0].tipo = tipo # Agregando el tipo a la variable
 				t = Tabla(None)
-				t.agregar('me',None,tipo)
+				me_tabla = Tabla(None)
+				t.agregar('me',None,tipo,None,me_tabla)
 				pointer.agregar(simbolo,None,tipo,comp,t)
 				bots += [simbolo]
 
