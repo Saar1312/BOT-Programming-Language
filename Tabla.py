@@ -16,8 +16,8 @@ class Tabla:
 	#
 	# anade un simbolo a la tabla de simbolos
 	#---------------------------------------------------------------------------	
-	def agregar(self,simbolo,valor,tipo,tabla=None):
-		self.tabla[simbolo] = datos(valor,tipo,tabla) 	# El True es de datos.declarada (quiza no hace falta)
+	def agregar(self,simbolo,valor,tipo,comportamientos=None,tabla=None):
+		self.tabla[simbolo] = datos(valor,tipo,comportamientos,tabla) 	# El True es de datos.declarada (quiza no hace falta)
 
 	#---------------------------------------------------------------------------
 	# agregarTablaRobot()
@@ -78,7 +78,8 @@ tipo = None
 incAlcance = False
 p = pila()
 bots = [] # Almacena la ultima lista de robots declarados juntos (en una misma instruccion, ej: int bot a,b)
-
+		  # Sirve para cambiar el estado de los robots a los que pertenezca un comportamiento
+comp = None # Nodo raiz de los comportamientos de un robot
 	#---------------------------------------------------------------------------
 	# crearTabla()
 	#
@@ -86,7 +87,7 @@ bots = [] # Almacena la ultima lista de robots declarados juntos (en una misma i
 	# errores semanticos (hace toda vaina)
 	#--------------------------------------------------------------------------	
 def crearTabla(arbol,almacenar):
-	global tipo,pointer,p,incAlcance,bots
+	global tipo,pointer,p,incAlcance,bots,comp
 	if arbol.nombre == 'INSTRUCCIONES_ROBOT': # Crea la tabla para la inc de alcance solo si hay una inc de 
 		almacenar = True 					  # alcance y en esta se declaran robots
 		if incAlcance:
@@ -108,17 +109,18 @@ def crearTabla(arbol,almacenar):
 				tipo = arbol.hijos[0].tipo
 				arbol.hijos[1].tipo = tipo
 				simbolo = arbol.hijos[1].hijos[0]
+				comp = arbol.hijos[3]
 				t = Tabla(None) 						# t es la tabla de simbolos para las instrucciones de cada robot
 				t.agregar('me',None,tipo)				# No tiene padre porque la idea es que las instrucciones de robot no 
-				pointer.agregar(simbolo,None,tipo,t)	# usen a los robots declarados.
-				bots = [simbolo]										# t no recibe ninguna tabla, por lo que tiene 3 argumentos
+				pointer.agregar(simbolo,None,tipo,comp,t)	# usen a los robots declarados.
+				bots = [simbolo]						# t no recibe ninguna tabla, por lo que tiene 3 argumentos
 				
 			elif arbol.nombre == 'LISTA':
 				simbolo = arbol.hijos[0].hijos[0]
 				arbol.hijos[0].tipo = tipo # Agregando el tipo a la variable
 				t = Tabla(None)
 				t.agregar('me',None,tipo)
-				pointer.agregar(simbolo,None,tipo,t)
+				pointer.agregar(simbolo,None,tipo,comp,t)
 				bots += [simbolo]
 
 			elif (arbol.nombre == 'COLLECT' and 
@@ -325,12 +327,14 @@ def crearTabla(arbol,almacenar):
 #							    DATOS
 #-------------------------------------------------------------------------------
 class datos:
-	def __init__(self,valor,tipo,tabla):
+	def __init__(self,valor,tipo,comportamientos,tabla):
 		self.valor = valor
 		self.tipo = tipo
 		self.tabla = tabla
 		self.estado = None
-		self.tieneDefault = False
+		self.tieneDefault = False 			   # Determina si un robot ya tiene un comportamiento default
+		self.comportamientos = comportamientos # Almacenara el nodo que tiene como hijos los comportmientos
+											   # del robot
 
 	#---------------------------------------------------------------------------
 	# getValor()
