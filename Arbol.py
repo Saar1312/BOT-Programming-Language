@@ -6,6 +6,7 @@ class arbol(object):
 	robot = None # Variable "global" que guarda el robot actual al que se le esta aplicando
 				 # una activacion, desactivacion, etc.
 	matriz = None
+
 	def __init__(self,nombre,hijos):
 		self.nombre = nombre 				# Almacena el tipo de instruccion en el arbol
 		self.tipo = None
@@ -314,140 +315,6 @@ class arbol(object):
 					hijo.imprimirArbol(nivel+1,imprimir,secuenciado)
 				else:
 					hijo.imprimirArbol(nivel,imprimir,secuenciado)
-	def ejecutar(self,comportamiento=None): # comportamiento es el tipo de comportamiento que se quiere ejecutar
-		if self.nombre in ['INICIO','INSTRUCCIONES_ROBOT']:
-			self.hijos[0].ejecutar()
-		
-		elif self.nombre == 'DECLARACION_ROBOT': # Se va directo al execute (no le interesa la seccion declare)
-			if len(self.hijos) == 5:
-				self.hijos[4].ejecutar()
-			elif len(self.hijos) == 6:
-				self.hijos[5].ejecutar()
-		
-		elif self.nombre == 'EXECUTE':
-			self.hijos[0].ejecutar()
-		
-		elif self.nombre in ['ACTIVATE','DEACTIVATE','ADVANCE']:
-			robot = self.hijos[0].hijos[0]
-			datos = tabla.fetchBot(robot)
-			datos.comportamientos.ejecutar(self.nombre) # Pasa por parametro el tipo de comportamiento
-			if len(self.hijos) >= 2:					# para saber cual ejecutar de la lista de comport.
-				if self.hijos[1].nombre == 'LISTA':
-					seguir = True
-					robot = self.hijos[1] # Recorre la lista de robots para ir activando cada uno
-					while seguir:
-						datos = tabla.fetchBot(robot.hijos[0].hijos[0]) # Busca el simbolo del ident de la lista
-						datos.comportamientos.ejecutar(self.nombre)
-						if len(robot.hijos) == 2:
-							robot = robot.hijos[1]
-						else:
-							seguir = False
-				else:
-					self.hijos[1].ejecutar()
-				if len(self.hijos) == 3:
-					self.hijos[2].ejecutar()
-
-		elif self.nombre == 'CONDICIONAL':
-			condicion = self.hijos[0].evaluar()
-			if type(condicion) == bool: # Verificar si en la entrega anterior se contemplo que la guardia fuera un booleano. Si no se hizo, evaluar() podria retornar un entero y esta linea explota
-				if condicion: # Si se cumple la condicion del if
-					self.hijos[1].hijos[0].ejecutar()
-				else: # Si no se cumple la condicion del if
-					if self.hijos[1].nombre == 'ELSE': # Si hay un else (si no hay, no se hace nada)
-						self.hijos[1].hijos[1].ejecutar()
-				if len(self.hijos) == 3: # Si hay mas instrucciones despues de terminar el if
-					self.hijos[2].ejecutar() # Continua la ejecucion de las instrucciones despues del if	
-			else:
-				print("Error: La condicion del \"if\" debe ser de tipo booleano.")
-				sys.exit()
-
-		elif self.nombre == 'INST_IF':
-			self.hijos[0].ejecutar()
-
-		elif self.nombre == 'ELSE':
-			self.hijos[0].ejecutar()
-
-		elif self.nombre == 'CICLO':
-			while self.hijos[0].evaluar():
-				self.hijos[1].ejecutar()
-			if len(self.hijos) == 3:
-				self.hijos[2].ejecutar()
-
-		elif self.nombre == 'INST_CONT': 
-			self.hijos[0].ejecutar()
-
-		elif self.nombre == 'INC_ALCANCE':
-			self.hijos[0].ejecutar()
-			if len(self.hijos) == 3:
-				self.hijos[2].ejecutar()
-
-		elif self.nombre == 'ON_EXPRESION': # No puede ir aqui porque se va a evaluar la exp sin que el robot haya sido avanzado
-			if self.evaluar(self.hijos[0],robot) # Verificar que sea un booleano (retornar None si no lo es)
-				pass # Ejecutar comportamiento
-		
-		#elif self.
-
-	def evaluar(self): # Tabla es la tabla de simbolos global donde se sacaran valores de variables
-		if self.nombre == 'CONJUNCION':
-			return self.hijos[0].evaluar() and self.hijos[1].evaluar()
-		
-		elif self.nombre == 'DISYUNCION'
-			return self.hijos[0].evaluar() or self.hijos[1].evaluar()
-		
-		elif self.nombre == 'IGUALDAD':
-			return self.hijos[0].evaluar() == self.hijos[1].evaluar()
-		
-		elif self.nombre == 'DISTINTO':
-			return self.hijos[0].evaluar() != self.hijos[1].evaluar()
-		
-		elif self.nombre == 'MENOR_QUE':
-			return self.hijos[0].evaluar() < self.hijos[1].evaluar()
-		
-		elif self.nombre == 'MENOR_IGUAL':
-			return self.hijos[0].evaluar() <= self.hijos[1].evaluar()
-		
-		elif self.nombre == 'MAYOR':
-			return self.hijos[0].evaluar() > self.hijos[1].evaluar()
-		
-		elif self.nombre == 'MENOR_IGUAL':
-			return self.hijos[0].evaluar() >= self.hijos[1].evaluar()
-		
-		elif self.nombre == 'SUMA':
-			return self.hijos[0].evaluar() + self.hijos[1].evaluar()
-		
-		elif self.nombre == 'RESTA':
-			return self.hijos[0].evaluar() - self.hijos[1].evaluar()
-		
-		elif self.nombre == 'MULTIPLICACION':
-			return self.hijos[0].evaluar() * self.hijos[1].evaluar()
-		
-		elif self.nombre == 'DIVISION':
-			return self.hijos[0].evaluar() / self.hijos[1].evaluar()
-		
-		elif self.nombre == 'MODULO':
-			return self.hijos[0].evaluar() % self.hijos[1].evaluar()
-		
-		elif self.nombre == 'NEGACION':
-			return not self.hijos[0].evaluar()
-		
-		elif self.nombre == 'NEGATIVO':
-			return - self.hijos[0].evaluar()
-		
-		elif self.nombre == 'ENTERO': # Los enteros ya vienen casteados del Lexer
-			return self.hijos[0]
-		
-		elif self.nombre == 'CARACTER':
-			return self.hijos[0]
-		
-		elif self.nombre == 'BOOLEANO':
-			if self.hijos[0] == 'true':
-				return True
-			elif self.hijos[0] == 'false':
-				return False
-		
-		elif self.nombre == 'VAR':
-			return tabla.fetch(self.hijos[0],robot)
-
 
 # Expresiones
 class expresion(arbol):
@@ -456,8 +323,10 @@ class expresion(arbol):
 		self.tipo = tipo
 		self.valor = None
 		self.linea = linea
+	
 	def setValor(self,valor):
 		self.valor = valor
+	
 	def setTipo(self,tipo):
 		self.tipo = tipo
 

@@ -14,41 +14,10 @@ from Parser import *
 from Tabla import *
 from Pila import *
 from Arbol import *
+from ejecutar import *
+
 # Creando una instancia de clase Tokenizer
 tokenizer = Tokenizer()
-#--------------------------------------------------------------------------	
-# impr_t_dato()
-# 
-# imprime la lista de los atributos de datos
-#--------------------------------------------------------------------------	
-def impr_t_dato(j,tbl=tabla):
-	if j != None:
-		print('-->\t',j)
-		print("-->valor: \t",tbl.tabla[j].valor)
-		print("-->tipo: \t",tbl.tabla[j].tipo)
-		if tbl.tabla[j].tabla != None:
-			print("-->tabla: \t",end = '')
-			for x in tbl.tabla[j].tabla.tabla:
-			 	print(x,end='')
-			print()			
-			print("-->estado: \t",tbl.tabla[j].estado)
-			print("-->Default: \t",tbl.tabla[j].tieneDefault)
-		if tbl.tabla[j].comportamientos != None:
-			print("-->nombre: \t",tbl.tabla[j].comportamientos.nombre)
-
-			if tbl.tabla[j].tabla.buscarEnTodos('me','buscar'):
-				impr_t_dato('me',tbl.tabla[j].tabla)
-#---------------------------------------------------------------------------
-# ejecutar()
-#
-# Ejecuta el programa
-#--------------------------------------------------------------------------	
-def ejecutar(arbol,exe = False):
-	for hijo in arbol.hijos:
-		if result.es_arbol(hijo):
-			ejecutar(hijo,exe)
-		elif tabla.buscarEnTodos(hijo,'buscar'):
-			impr_t_dato(hijo)
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #<
