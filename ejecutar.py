@@ -1,10 +1,16 @@
-from Tabla import *
+from Tabla import Tabla,tabla,datos
 from Arbol import *
+from Pila import *
+
+pointer = tabla
+p = pila()
+robot = None # Variable "global" que guarda el robot actual al que se le esta aplicando
+				 # una activacion, desactivacion, etc.
 
 def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportamiento que se quiere ejecutar
+	global pointer,p,robot
 	if arb.nombre in ['INICIO','INSTRUCCIONES_ROBOT']:
 		ejecutar(arb.hijos[0])
-	
 	elif arb.nombre == 'DECLARACION_ROBOT': # Se va directo al execute (no le interesa la seccion declare)
 		if len(arb.hijos) == 5:
 			ejecutar(arb.hijos[4])
@@ -15,30 +21,21 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		ejecutar(arb.hijos[0])
 	
 	elif arb.nombre in ['ACTIVATE','DEACTIVATE','ADVANCE']:
-		robot = arb.hijos[0].hijos[0]
-		datos = tabla.fetchBot(robot)
-		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-		# !!!! AGREGE UNA CONDICION DE QUE NO SEA NONE MIENTRAS LA FUNCION ESTA VACIA !!!! #
-		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-		if datos != None:
-			ejecutar(datos.comportamientos,arb.nombre) # Pasa por parametro el tipo de comportamiento
+		robot = arb.hijos[0].hijos[0] # Actualiza la variable global robot con el robot que esta siendo activado
+		datos = pointer.buscarEnTodos(robot,'getDatos') # desactivado o avanzado
+		ejecutar(datos.comportamientos,arb.nombre) # Pasa por parametro el tipo de comportamiento
 		
 		if len(arb.hijos) >= 2:					# para saber cual ejecutar de la lista de comport.
 			if arb.hijos[1].nombre == 'LISTA':
 				seguir = True
 				robot = arb.hijos[1] # Recorre la lista de robots para ir activando cada uno
 				while seguir:
-					datos = tabla.fetchBot(robot.hijos[0].hijos[0]) # Busca el simbolo del ident de la lista
-					#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-					#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-					# !!!! AGREGE UNA CONDICION DE QUE NO SEA NONE MIENTRAS LA FUNCION ESTA VACIA !!!! #
-					#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-					#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-					if datos != None:
-						ejecutar(datos.comportamientos,arb.nombre)
-					
+					datos = pointer.buscarEnTodos(robot.hijos[0].hijos[0],'getDatos') # Busca el simbolo del ident de la lista
+					ejecutar(datos.comportamientos,arb.nombre) # datos.comportamientos es el nodo raiz de los 
+															   # comportamientos del del robot que esta siendo
+															   # desactivado/activado/avanzado
+															   # arb.nombre es el nombre del comportamiento 
+															   # que se va a ejecutar de ese arbol de comportamientos
 					if len(robot.hijos) == 2:
 						robot = robot.hijos[1]
 					else:
@@ -70,8 +67,14 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		ejecutar(arb.hijos[0])
 
 	elif arb.nombre == 'CICLO':
-		while evaluar(arb.hijos[0]):
-			ejecutar(arb.hijos[1])
+		condicion = evaluar(arb.hijos[0])
+		if type(condicion) == bool:
+			while condicion:
+				ejecutar(arb.hijos[1])
+				condicion = evaluar(arb.hijos[0])
+		else:
+			print("Error: La guardia del ciclo debe ser de tipo booleano.")
+			sys.exit()
 		if len(arb.hijos) == 3:
 			ejecutar(arb.hijos[2])
 
@@ -79,21 +82,22 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		ejecutar(arb.hijos[0])
 
 	elif arb.nombre == 'INC_ALCANCE':
+		p.addTope(pointer)
+		pointer = arb.tabla
 		ejecutar(arb.hijos[0])
 		if len(arb.hijos) == 3:
 			ejecutar(arb.hijos[2])
 
-	elif arb.nombre == 'ON_EXPRESION': # No puede ir aqui porque se va a evaluar la exp sin que el robot haya sido avanzado
-		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-		# !!!!!!!!!!!!!!!!! AQUI LE PASAS UN PARAMETRO DE MAS A EVALUAR !!!!!!!!!!!!!!!!!! #
-		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
-		if arb.evaluar(arb.hijos[0],robot): # Verificar que sea un booleano (retornar None si no lo es)
-			pass # Ejecutar comportamiento
-	
+	elif arb.nombre == 'ON_EXPRESION':
+		condicion = evaluar(arb.hijos[0],robot) # Se le pasa el nombre del robot para que evalue el comportamiento 
+		if type(condicion) == bool:				# del robot correcto y no de cualquier robot con el mismo comportamiento
+			if condicion:
+				pass
+		else:
+			print("Error: La condicion del comportamiento debe ser de tipo booleano.")
+			sys.exit()
 
-def evaluar(arb): # Tabla es la tabla de simbolos global donde se sacaran valores de variables
+def evaluar(arb,robot=None): # Tabla es la tabla de simbolos global donde se sacaran valores de variables
 	if arb.nombre == 'CONJUNCION':
 		return arb.hijos[0].evaluar() and arb.hijos[1].evaluar()
 	
@@ -150,6 +154,6 @@ def evaluar(arb): # Tabla es la tabla de simbolos global donde se sacaran valore
 			return True
 		elif arb.hijos[0] == 'false':
 			return False
-	
+
 	elif arb.nombre == 'VAR':
-		return tabla.fetch(arb.hijos[0],robot)
+		return pointer.fetch(arb.hijos[0],robot)

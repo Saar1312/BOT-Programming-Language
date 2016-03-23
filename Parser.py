@@ -86,6 +86,7 @@ def p_inicio(p):
 			  | EXECUTE
 	'''
 	p[0] = arbol('INICIO',[p[1]])
+	p[0].esRaiz = True # NUEVO
 
 #-------------------------------------------------------------------------------
 # Esta produccion genera la seccion de las instrucciones de robot, la cual esta
@@ -161,7 +162,7 @@ def p_identificador(p):
 def p_ident(p):
 	"""IDENT : TkIdent
 			 | TkMe
-	"""
+	""" 	# CON EL TKME ESTA ACEPTANDO COSAS COMO if me = 5, cuando me no se puede usar en el EXECUTE
 	p[0] = expresion('VAR',[p[1]],p.lineno(1))
 
 #-------------------------------------------------------------------------------

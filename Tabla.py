@@ -10,7 +10,6 @@ from Arbol import *
 class Tabla:
 	def __init__(self,exterior):
 		self.tablaExterna = exterior
-		self.hijos = []
 		self.tabla = {}
 	#---------------------------------------------------------------------------
 	# agregar()
@@ -52,6 +51,8 @@ class Tabla:
 				return self.tabla[simbolo].tipo
 			elif opcion == 'getValor':
 				return self.tabla[simbolo].valor
+			elif opcion == 'getDatos':
+				return self.tabla[simbolo]
 		else:
 			if self.tablaExterna:
 				return self.tablaExterna.buscarEnTodos(simbolo,opcion)
@@ -60,15 +61,9 @@ class Tabla:
 					return False
 				else:
 					return None
-	def fetch(self,simbolo,robot=None): # Busca robots o variables y retorna su valor
-		pass
-
-	def fetchBot(self,simbolo): 		# Busca solamente robots
-		if simbolo in self.tabla: # Si el robot esta en la tabla actual
-			return self.[simbolo] # Retorna los datos del robot que se buscaba
-		else: # Si no esta en la tabla actual se busca en las tablas de niveles inferiores
-			for tabla in self.hijos:
-				tabla.fetchBot(simbolo)
+	def fetch(self,simbolo,robot): # Busca robots o variables y retorna su valor
+		datos = buscarEnTodos(robot,'getDatos')
+		return datos.tabla[simbolo]
 
 	#---------------------------------------------------------------------------
 	# esArbol()
@@ -85,7 +80,6 @@ def esArbol(h):
 tabla = Tabla(None)
 pointer = tabla
 tipo = None
-incAlcance = False
 p = pila()
 bots = [] # Almacena la ultima lista de robots declarados juntos (en una misma instruccion, ej: int bot a,b)
 		  # Sirve para cambiar el estado de los robots a los que pertenezca un comportamiento
@@ -99,13 +93,7 @@ comp = None # Nodo raiz de los comportamientos de un robot
 def crearTabla(arbol,almacenar):
 	global tipo,pointer,p,incAlcance,bots,comp
 	if arbol.nombre == 'INSTRUCCIONES_ROBOT': # Crea la tabla para la inc de alcance solo si hay una inc de 
-		almacenar = True 					  # alcance y en esta se declaran robots
-		if incAlcance:
-			p.addTope(pointer)
-			t = Tabla(pointer)
-			pointer.hijos += [t]
-			pointer = t
-			incAlcance = False
+		almacenar = True					  # alcance y en esta se declaran robots
 	elif arbol.nombre == 'INICIO':
 		almacenar = True
 	elif arbol.nombre == 'EXECUTE':
@@ -114,6 +102,11 @@ def crearTabla(arbol,almacenar):
 		p.addTope(pointer)
 		t = list(pointer.tabla.values())[0].tabla # Mueve el apuntador a la tabla de simbolos asociada a cualquiera de las variables
 		pointer = t
+	elif arbol.nombre == 'INC_ALCANCE': # NUEVO Para bajar el apuntador de tablas a un nuevo nivel inferior
+		p.addTope(pointer)
+		t = Tabla(pointer)
+		pointer = t
+		arbol.tabla = t
 	if esArbol(arbol):
 		if almacenar:
 			if arbol.nombre == 'DECLARACION_ROBOT':
@@ -246,10 +239,10 @@ def crearTabla(arbol,almacenar):
 
 		for rama in arbol.hijos:
 			if rama in ['incAlcance','instRobot']: # incAlcance es un hijo de los arboles
-				pointer = p.popTope()# de inc de alcance que permite saber
-			else:					 # si termino la inc de alcance para mover 
+				pointer = p.popTope()# de inc de alcance que permite saber si termino la
+			else:					 # inc. de alcance para mover el apuntador de tablas
 				if esArbol(rama):
-					crearTabla(rama,almacenar) # el apuntador de tablas
+					crearTabla(rama,almacenar)
 					if type(rama) == expresion:
 						if rama.nombre in ['CONJUNCION','DISYUNCION']:
 							if rama.hijos[0].tipo == rama.hijos[1].tipo:
@@ -322,11 +315,15 @@ def crearTabla(arbol,almacenar):
 							rama.tipo = rama.hijos[0].tipo
 
 						elif rama.nombre == 'VAR':
+							if rama.hijos[0] == 'me' and almacenar == False:
+								print("Error en la linea %d: La variable \"me\" no puede ser . \
+															utilizada en la seccion de ejecucion")
+								sys.exit()
 							t = pointer.buscarEnTodos(rama.hijos[0],'getTipo')
 							if t: 				 # Busca el tipo en la tabla de simbolos apuntada 
 								rama.tipo = t	 # actualmente y en las superiores. Si lo encuentra,
 												 # retorna el tipo. Si no, retorna None y no entra
-							else: 				 # en el condicional y debe dar error, porque la 
+							else: 				 # en el condicional y debe dar error
 								print("Error en la linea %d: La variable \"%s\" no ha sido declarada." \
 															% (rama.linea, rama.hijos[0]))
 								sys.exit()

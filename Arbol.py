@@ -3,14 +3,12 @@
 #-------------------------------------------------------------------------------
 
 class arbol(object):
-	robot = None # Variable "global" que guarda el robot actual al que se le esta aplicando
-				 # una activacion, desactivacion, etc.
 	matriz = None
-
 	def __init__(self,nombre,hijos):
 		self.nombre = nombre 				# Almacena el tipo de instruccion en el arbol
 		self.tipo = None
-		if hijos:						
+		self.tabla = None 				# Permite acceder a la tabla de simbolos de un alcance especifico
+		if hijos:
 			self.hijos = hijos			# Almacena la lista de instruccion que 
 										# componen a la expresion/instruccion
 		else:
@@ -143,7 +141,7 @@ class arbol(object):
 					for i in h.hijos:
 						if not h.es_arbol(i): 
 							print(i)
-	
+
 	#---------------------------------------------------------------------------
 	# Imprimir_variables()
 	#
