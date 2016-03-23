@@ -450,7 +450,7 @@ def p_inst_controlador(p):
 						| TkIf EXP TkDosPuntos CONTENIDO TkEnd INST_CONTROLADOR_A
 						| TkWhile EXP TkDosPuntos INST_CONTROLADOR TkEnd INST_CONTROLADOR_A
 						| INICIO INST_CONTROLADOR_A
-	''' # INICIO INST_CONTROLADOR_A ES NUEVO
+	'''
 	if p[1] == 'activate':
 		if p[3] == None:
 			if p[5] == None:

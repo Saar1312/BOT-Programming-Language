@@ -59,6 +59,11 @@ class Tabla:
 					return False
 				else:
 					return None
+	def fetch(self,simbolo,robot=None): # Busca robots o variables y retorna su valor
+		pass
+	def fetchBot(self,simbolo): 		# Busca solamente robots
+		pass
+
 
 	#---------------------------------------------------------------------------
 	# esArbol()
