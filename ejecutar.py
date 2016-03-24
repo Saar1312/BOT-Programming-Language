@@ -8,7 +8,7 @@ bot = None # Variable "global" que guarda el robot actual al que se le esta apli
 				 # una activacion, desactivacion, etc.
 datos = None # Almacena los datos del robot actual
 execute = False # Permite saber si una expresion esta en una seccion de execute o en un create
-
+matriz = None 
 def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportamiento que se quiere ejecutar
 	global pointer,p,bot,datos,execute
 	if arb.nombre in ['INICIO','INSTRUCCIONES_ROBOT']:
@@ -25,26 +25,29 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 	elif arb.nombre in ['ACTIVATE','DEACTIVATE','ADVANCE']:
 		robot = arb.hijos[0].hijos[0] # Actualiza la variable global bot con el robot que esta siendo activado
 		bot = robot
+		print("ROBOT",bot)
 		datos = pointer.buscarEnTodos(robot,'getDatos') # desactivado o avanzado
-		datos.estado = None
+		datos.estado = None	# Reinicia el estado del robot que habia sido usado en Tabla.py
+		print("NOMBRE_COMP",datos.comportamientos.nombre)
 		ejecutar(datos.comportamientos,arb.nombre) # Pasa por parametro el tipo de comportamiento
-		
 		if len(arb.hijos) >= 2:					# para saber cual ejecutar de la lista de comport.
 			if arb.hijos[1].nombre == 'LISTA':
 				seguir = True
 				robot = arb.hijos[1] # Recorre la lista de robots para ir activando cada uno
 				bot = robot.hijos[0].hijos[0]
+				print("ROBOT",bot)
 				while seguir:
 					datos = pointer.buscarEnTodos(robot.hijos[0].hijos[0],'getDatos') # Busca el simbolo del ident de la lista
 					datos.estado = None
-					ejecutar(datos.comportamientos,arb.nombre) # datos.comportamientos es el nodo raiz de los 
-															   # comportamientos del del robot que esta siendo
+					ejecutar(datos.comportamientos,arb.nombre) # - datos.comportamientos es el nodo raiz de los 
+															   # comportamientos del robot que esta siendo
 															   # desactivado/activado/avanzado
-															   # arb.nombre es el nombre del comportamiento 
+															   # - arb.nombre es el nombre del comportamiento 
 															   # que se va a ejecutar de ese arbol de comportamientos
 					if len(robot.hijos) == 2:
 						robot = robot.hijos[1]
 						bot = robot.hijos[0].hijos[0]
+						print("ROBOT",bot)
 					else:
 						seguir = False
 			else:
@@ -98,9 +101,13 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		pointer = arb.tabla
 		ejecutar(arb.hijos[0])
 		if len(arb.hijos) == 3:
+			pointer = p.popTope()
 			ejecutar(arb.hijos[2])
+		else: # Quiza no hace falta porque si no hay mas instrucciones despues de una inc de alcance el programa termina
+			pointer = p.popTope()
 
-	elif arb.nombre == 'CONDICION':
+	elif arb.nombre == 'CONDICION': # Este es el nodo de la instruccion "on activation/deactivation..."
+		print("ESTADO:",datos.estado)
 		if comportamiento == 'ACTIVATE':
 			if datos.estado == 'activo': # PREGUNTAR: un robot puede activarse dos veces seguidas?
 				print("Error: El robot \"%s\" ya fue activado."%(bot))
@@ -118,26 +125,26 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 				print("Error: el robot \"%s\" esta inactivo."%(bot))
 			elif estado == None:
 				print("Error: el robot \"%s\" no ha sido activado."%(bot))
-
+		print("ESTADO:",datos.estado)
+		print("comportamiento",comportamiento)
 		comp = datos.comportamientos # datos.comportamientos es un nodo, no un string como 'ACTIVACION'
 		encontrado = False # Es true si se consigue el comportamiento que se desea ejecutar en el execute
-		while not encontrado:   # del robot en la lista de comportamientos
-			if comp.hijos[0].nombre == 'ACTIVACION' and comportamiento == 'ACTIVATE':
+		while not encontrado:   # del robot en la lista de comportamientos (busca el comportamiento q se quiere ej)
+			if comp.hijos[0].nombre == 'ACTIVACION' and comportamiento == 'ACTIVATE': 
 				encontrado = True
-				ejecutar(comp.hijos[1]) # no hace falta pasarle el robot porque ya los datos son una var global?
 			elif comp.hijos[0].nombre == 'DESACTIVACION' and comportamiento == 'DEACTIVATE':
 				encontrado = True
-				ejecutar(comp.hijos[1])
 			elif (comp.hijos[0].nombre == 'ON_EXPRESION' and comportamiento == 'ADVANCE' and
-					evaluar(comp.hijos[0].hijos[0])):
+															evaluar(comp.hijos[0].hijos[0])):
 				encontrado = True
-				ejecutar(comp.hijos[1])
 			elif comp.hijos[0].nombre == 'DEFAULT' and comportamiento == 'ADVANCE':
 				encontrado = True
-				ejecutar(comp.hijos[1])
 			else:
 				if len(comp.hijos) == 4:
 					comp = comp.hijos[3]
+				else:
+					encontrado = False
+		print(encontrado)
 		if not encontrado:
 			if comportamiento == 'ACTIVACION':
 				print("Error: el robot \"%s\" no posee el comportamiento \"activation\"\
@@ -151,12 +158,30 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			elif comportamiento == 'ON_EXPRESION':
 				print("Error: el robot \"%s\" no posee el comportamiento \"on expresion\"\
 										 en su lista."%(robot.hijos[0].hijos[0]))
-	#elif arb.nombre == 'ACTIVACION':
-	#	pass
-	#elif arb.nombre == 'DESACTIVACION':
-	#	pass
-	#elif arb.nombre == 'DEFAULT':
-	#	pass
+		else: # Si lo encontro, lo ejecuta
+			ejecutar(comp.hijos[1])
+
+	elif arb.nombre == 'STORE':
+		pass
+
+	elif arb.nombre == 'COLLECT':
+		pass
+
+	elif arb.nombre == 'DROP':
+		pass
+
+	elif arb.nombre == 'READ':
+		pass
+
+	elif arb.nombre == 'SEND':
+		pass
+
+	elif arb.nombre == 'RECIEVE':
+		pass
+
+	elif arb.nombre == 'DIRECCION':
+		pass
+	
 	elif arb.nombre == 'ON_EXPRESION':
 		condicion = evaluar(arb.hijos[0],robot) # Se le pasa el nombre del robot para que evalue el comportamiento 
 		if type(condicion) == bool:				# del robot correcto y no de cualquier robot con el mismo comportamiento
