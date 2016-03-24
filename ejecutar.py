@@ -7,9 +7,10 @@ p = pila()
 bot = None # Variable "global" que guarda el robot actual al que se le esta aplicando
 				 # una activacion, desactivacion, etc.
 datos = None # Almacena los datos del robot actual
+execute = False # Permite saber si una expresion esta en una seccion de execute o en un create
 
 def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportamiento que se quiere ejecutar
-	global pointer,p,bot,datos
+	global pointer,p,bot,datos,execute
 	if arb.nombre in ['INICIO','INSTRUCCIONES_ROBOT']:
 		ejecutar(arb.hijos[0])
 	elif arb.nombre == 'DECLARACION_ROBOT': # Se va directo al execute (no le interesa la seccion declare)
@@ -22,7 +23,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		ejecutar(arb.hijos[0])
 	
 	elif arb.nombre in ['ACTIVATE','DEACTIVATE','ADVANCE']:
-		robot = arb.hijos[0].hijos[0] # Actualiza la variable global robot con el robot que esta siendo activado
+		robot = arb.hijos[0].hijos[0] # Actualiza la variable global bot con el robot que esta siendo activado
 		bot = robot
 		datos = pointer.buscarEnTodos(robot,'getDatos') # desactivado o avanzado
 		datos.estado = None
@@ -32,7 +33,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			if arb.hijos[1].nombre == 'LISTA':
 				seguir = True
 				robot = arb.hijos[1] # Recorre la lista de robots para ir activando cada uno
-				bot = robot.hijos[0]
+				bot = robot.hijos[0].hijos[0]
 				while seguir:
 					datos = pointer.buscarEnTodos(robot.hijos[0].hijos[0],'getDatos') # Busca el simbolo del ident de la lista
 					datos.estado = None
@@ -43,7 +44,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 															   # que se va a ejecutar de ese arbol de comportamientos
 					if len(robot.hijos) == 2:
 						robot = robot.hijos[1]
-						bot = robot.hijos[0]
+						bot = robot.hijos[0].hijos[0]
 					else:
 						seguir = False
 			else:
@@ -53,8 +54,10 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 				ejecutar(arb.hijos[2])
 
 	elif arb.nombre == 'CONDICIONAL':
+		execute = True
 		condicion = evaluar(arb.hijos[0])
-		if type(condicion) == bool: 
+		execute = False
+		if type(condicion) == bool:
 			if condicion: # Si se cumple la condicion del if
 				ejecutar(arb.hijos[1].hijos[0])
 			else: # Si no se cumple la condicion del if
@@ -73,7 +76,10 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		ejecutar(arb.hijos[0])
 
 	elif arb.nombre == 'CICLO':
+		execute = True
 		condicion = evaluar(arb.hijos[0])
+		execute = False
+		print("CONDICION",condicion)
 		if type(condicion) == bool:
 			while condicion:
 				ejecutar(arb.hijos[1])
@@ -160,51 +166,55 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			print("Error: La condicion del comportamiento debe ser de tipo booleano.")
 			sys.exit()
 
-def evaluar(arb,robot=None): # Tabla es la tabla de simbolos global donde se sacaran valores de variables
+def evaluar(arb): # Tabla es la tabla de simbolos global donde se sacaran valores de variables
+	global bot,execute
 	if arb.nombre == 'CONJUNCION':
-		return arb.hijos[0].evaluar() and arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) and evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'DISYUNCION':
-		return arb.hijos[0].evaluar() or arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) or evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'IGUALDAD':
-		return arb.hijos[0].evaluar() == arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) == evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'DISTINTO':
-		return arb.hijos[0].evaluar() != arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) != evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'MENOR_QUE':
-		return arb.hijos[0].evaluar() < arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) < evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'MENOR_IGUAL':
-		return arb.hijos[0].evaluar() <= arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) <= evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'MAYOR':
-		return arb.hijos[0].evaluar() > arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) > evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'MENOR_IGUAL':
-		return arb.hijos[0].evaluar() >= arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) >= evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'SUMA':
-		return arb.hijos[0].evaluar() + arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) + evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'RESTA':
-		return arb.hijos[0].evaluar() - arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) - evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'MULTIPLICACION':
-		return arb.hijos[0].evaluar() * arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) * evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'DIVISION':
-		return arb.hijos[0].evaluar() / arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) / evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'MODULO':
-		return arb.hijos[0].evaluar() % arb.hijos[1].evaluar()
+		return evaluar(arb.hijos[0]) % evaluar(arb.hijos[1])
 	
+	elif arb.nombre == 'PARENTESIS':
+		return evaluar(arb.hijos[0])
+
 	elif arb.nombre == 'NEGACION':
-		return not arb.hijos[0].evaluar()
+		return not evaluar(arb.hijos[0])
 	
 	elif arb.nombre == 'NEGATIVO':
-		return - arb.hijos[0].evaluar()
+		return - evaluar(arb.hijos[0])
 	
 	elif arb.nombre == 'ENTERO': # Los enteros ya vienen casteados del Lexer
 		return arb.hijos[0]
@@ -213,10 +223,14 @@ def evaluar(arb,robot=None): # Tabla es la tabla de simbolos global donde se sac
 		return arb.hijos[0]
 	
 	elif arb.nombre == 'BOOLEANO':
-		if arb.hijos[0] == 'true':
+		if arb.hijos[0].hijos[0] == 'true':
 			return True
-		elif arb.hijos[0] == 'false':
+		elif arb.hijos[0].hijos[0] == 'false':
 			return False
 
 	elif arb.nombre == 'VAR':
-		return pointer.fetch(arb.hijos[0],robot)
+		print("POINTER",pointer.tabla)
+		print("BOT",bot)
+		#print(pointer[bot])
+		datos = pointer.fetch(arb.hijos[0],bot,execute)
+		return datos.tabla['me'].datos.valor

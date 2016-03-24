@@ -61,9 +61,14 @@ class Tabla:
 					return False
 				else:
 					return None
-	def fetch(self,simbolo,robot): # Busca robots o variables y retorna su valor
-		datos = buscarEnTodos(robot,'getDatos')
-		return datos.tabla[simbolo]
+	def fetch(self,simbolo,robot,execute): # Busca robots o variables y retorna su valor
+		# acomodar: cuando se busca un robot, no busca el robot bien?
+		datos = self.buscarEnTodos(robot,'getDatos')
+		if execute:
+			return datos
+		else:
+			return datos.tabla[simbolo]
+		print("datos",simbolo)
 
 	#---------------------------------------------------------------------------
 	# esArbol()
