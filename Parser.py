@@ -160,9 +160,8 @@ def p_identificador(p):
 # Permite generar identificadores (nombres de robots o variables)
 #-------------------------------------------------------------------------------
 def p_ident(p):
-	"""IDENT : TkIdent
-			 | TkMe
-	""" 	# CON EL TKME ESTA ACEPTANDO COSAS COMO if me = 5, cuando me no se puede usar en el EXECUTE
+	'''IDENT : TkIdent'''
+	 	# CON EL TKME ESTA ACEPTANDO COSAS COMO if me = 5, cuando me no se puede usar en el EXECUTE
 	p[0] = expresion('VAR',[p[1]],p.lineno(1))
 
 #-------------------------------------------------------------------------------
@@ -223,6 +222,7 @@ def p_exp(p):
 		   | EXP TkDiv EXP
 		   | EXP TkMod EXP
 		   | TkNum
+		   | ME
 	'''
 	# len(p) == 4 indica que se leyo una operacion binaria (2 operandos, 1 
 	# operador, p[0] = 4 elementos en el arreglo)
@@ -293,7 +293,7 @@ def p_exp(p):
 		elif (p[1].hijos[0] == 'true') or (p[1].hijos[0] == 'false'):
 			p[0] = expresion('BOOLEANO',[p[1]],p.lineno(1),'bool')
 		else:
-			p[0] = expresion('VAR',[p[1].hijos[0]],p[1].linea)
+			p[0] = expresion('VAR',[p[1].hijos[0]],p.lineno(1))
 
 #-------------------------------------------------------------------------------
 # Genera los booleanos True y False
@@ -307,6 +307,12 @@ def p_literal_bool(p):
 	elif p[1] == 'false':
 		p[0] = expresion('FALSE',['false'],p.lineno(1),'bool')
 
+#-------------------------------------------------------------------------------
+# Genera los booleanos True y False
+#-------------------------------------------------------------------------------
+def p_me(p):
+	'ME : TkMe'
+	p[0] = expresion('VAR',['me'],p.lineno(1))
 
 #-------------------------------------------------------------------------------
 # Genera las instrucciones del robot "store", "collect", "drop", "read", "send",
@@ -460,6 +466,7 @@ def p_inst_controlador(p):
 				p[0] = instRobot('ACTIVATE',[p[2],p[5]])
 		else:
 			if p[5] == None:
+				print("holaaaa")
 				p[0] = instRobot('ACTIVATE',[p[2],p[3]])
 			else:
 				p[0] = instRobot('ACTIVATE',[p[2],p[3],p[5]])
@@ -528,6 +535,10 @@ def p_inst_controlador_a(p):
 #-------------------------------------------------------------------------------
 # Regla para errores de sintaxis
 #-------------------------------------------------------------------------------
-def p_error(p):
-	print("Error de sintaxis en la linea %d del archivo %s"%(p.lineno,sys.argv[1]))
+def p_error(p): # Ojo arreglar para que imprima la linea siempre
+	if p:
+		print("Error de sintaxis en la linea %d del archivo %s"%(p.lineno,sys.argv[1]))
+		
+	else:
+		print("Error de sintaxis en el archivo ",sys.argv[1])
 	exit()

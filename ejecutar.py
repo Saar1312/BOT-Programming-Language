@@ -1,7 +1,7 @@
 from Tabla import Tabla,tabla,datos
 from Arbol import *
 from Pila import *
-
+import sys
 pointer = tabla
 p = pila()
 robot = None # Variable "global" que guarda el robot actual al que se le esta aplicando

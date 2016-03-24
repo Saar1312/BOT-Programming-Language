@@ -249,14 +249,14 @@ def crearTabla(arbol,almacenar):
 								if rama.hijos[0].tipo != 'bool':
 									print("Error de tipos en la linea %d:" % (rama.linea))
 									print("No es posible operar elementos del tipo \"%s\""%\
-															  (rama.hijos[0]),end=" ")
+															  (rama.hijos[0].tipo),end=" ")
 									print("con un operador booleano.")
 									sys.exit()
 							else:
 								print("Error de tipos en la linea %d:" % (rama.linea))
 								print("No es posible operar un elemento del tipo \"%s\""%\
-														  (rama.hijos[0]),end=" ")
-								print("con otro de tipo \"%s\"."% (rama.hijos[1]))
+														  (rama.hijos[0].tipo),end=" ")
+								print("con otro de tipo \"%s\"."% (rama.hijos[1].tipo))
 								sys.exit()
 
 						elif rama.nombre in ['DISTINTO','IGUALDAD']:
