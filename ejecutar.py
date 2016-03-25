@@ -34,7 +34,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 				bot = robot.hijos[0].hijos[0]
 				while seguir:
 					datos = pointer.buscarEnTodos(robot.hijos[0].hijos[0],'getDatos') # Busca el simbolo del ident de la lista
-					datos.estado = None
 					ejecutar(datos.comportamientos,arb.nombre) # - datos.comportamientos es el nodo raiz de los 
 															   # comportamientos del robot que esta siendo
 															   # desactivado/activado/avanzado
@@ -80,7 +79,9 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		if type(condicion) == bool:
 			while condicion:
 				ejecutar(arb.hijos[1])
+				execute = True
 				condicion = evaluar(arb.hijos[0])
+				execute = False
 		else:
 			print("Error: La guardia del ciclo debe ser de tipo booleano.")
 			sys.exit()
@@ -107,7 +108,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			elif datos.estado == 'inactivo': # PREGUNTAR: un robot puede volverse a activar luego de ser desactivado?
 				print("Error: El robot \"%s\" ya fue desactivado."%(bot))
 			datos.estado = 'activo'
-			print("HOLAAAAAX",pointer.tabla[bot] == datos)
 
 		elif comportamiento == 'DEACTIVATE':
 			if datos.estado == 'inactivo':
@@ -117,7 +117,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			datos.estado = 'inactivo'
 
 		elif comportamiento == 'ADVANCE':
-			print("EDO",bot,datos.estado)
 			if datos.estado == 'inactivo':
 				print("Error: el robot \"%s\" esta inactivo."%(bot))
 			elif datos.estado in [None,'activacion','desactivacion']:
@@ -180,12 +179,12 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			(type(objeto) == str and datos.tipo == 'char')):
 			print("Error: El tipo del elemento recolectado es distinto al tipo de %s."%(bot))
 		if len(arb.hijos) == 0:
-			datos.tabla.tabla['me'] = objeto
+			datos.tabla.tabla['me'].valor = objeto
 		elif len(arb.hijos) == 1:
 			if arb.hijos[0].nombre == 'COLLECT_AS':
 				datos.tabla.tabla[arb.hijos[0].hijos[0].hijos[0]].valor = objeto
 			else:
-				datos.tabla.tabla['me'] = objeto
+				datos.tabla.tabla['me'].valor = objeto
 				ejecutar(arb.hijos[0])
 		else:
 			datos.tabla.tabla[arb.hijos[0].hijos[0].hijos[0]].valor = objeto
@@ -236,7 +235,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 	elif arb.nombre == 'SEND':
 		print(datos.tabla.tabla['me'].valor) # No borrar
 		if len(arb.hijos) == 2:
-			ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
+			ejecutar(arb.hijos[1]) 
 	
 	elif arb.nombre == 'DIRECCION':
 		x,y = datos.posicion

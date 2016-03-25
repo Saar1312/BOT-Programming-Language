@@ -63,8 +63,6 @@ class Tabla:
 					return None
 	def fetch(self,simbolo,robot,execute): # Busca robots o variables y retorna su valor
 		# acomodar: cuando se busca un robot, no busca el robot bien?
-		print(simbolo,robot,execute)
-		print("EXEC",execute)
 		datos = self.buscarEnTodos(robot,'getDatos')
 		if execute:
 			return datos
