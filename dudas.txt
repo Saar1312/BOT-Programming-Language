@@ -6,4 +6,5 @@
 * Cuando se hace collect hay que borrar lo que tiene la matriz en ese lugar?
 * Cuando se hace drop sobre una posicion que ya tenia un valor, se borra el valor viejo?
 * En el drop, el tipo de la expresion que se evalua puede ser cualquiera, actualmente da error si no es del mismo tipo del robot. Arreglar
-* Que hace el recieve?
+* Que hace el recieve? (Parace q es un error de Monascal, puse que haga lo mismo que read, hacerle pruebas)
+* Cambiar en el read, que de error si el usuario mete algo de un tipo distinto al del robot o pedirle q lo vuelva a intentar
