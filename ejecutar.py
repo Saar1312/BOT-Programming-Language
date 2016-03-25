@@ -26,14 +26,17 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		robot = arb.hijos[0].hijos[0] # Actualiza la variable global bot con el robot que esta siendo activado
 		bot = robot
 		datos = pointer.buscarEnTodos(robot,'getDatos') # desactivado o avanzado
+		print("BOT %s nombre_rama %s"%(bot,arb.nombre))
 		ejecutar(datos.comportamientos,arb.nombre) # Pasa por parametro el tipo de comportamiento
 		if len(arb.hijos) >= 2:					# para saber cual ejecutar de la lista de comport.
 			if arb.hijos[1].nombre == 'LISTA':
 				seguir = True
 				robot = arb.hijos[1] # Recorre la lista de robots para ir activando cada uno
 				bot = robot.hijos[0].hijos[0]
+				print("BOT LISTA %s nombre_rama %s"%(bot,arb.nombre))
 				while seguir:
 					datos = pointer.buscarEnTodos(robot.hijos[0].hijos[0],'getDatos') # Busca el simbolo del ident de la lista
+					print("Raiz comportamientos",datos.comportamientos.nombre)
 					ejecutar(datos.comportamientos,arb.nombre) # - datos.comportamientos es el nodo raiz de los 
 															   # comportamientos del robot que esta siendo
 															   # desactivado/activado/avanzado
@@ -74,6 +77,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 
 	elif arb.nombre == 'CICLO':
 		execute = True
+		print("CICLO",arb.hijos[0].nombre)
 		condicion = evaluar(arb.hijos[0])
 		execute = False
 		if type(condicion) == bool:
@@ -151,11 +155,13 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			elif comportamiento == 'ADVANCE':
 				print("Error: el robot \"%s\" no posee un comportamiento que permita avanzarlo."%(bot))
 		else: # Si lo encontro, lo ejecuta
+			print("COMP",comp.hijos[1].nombre)
 			ejecutar(comp.hijos[1])
 
 	elif arb.nombre == 'STORE':
 		if arb.hijos[0].nombre == 'CARACTER':
-			resultado = evaluar(arb.hijos[0].hijos[0])
+			print(arb.hijos[0].nombre)
+			resultado = evaluar(arb.hijos[0])
 		else:
 			resultado = evaluar(arb.hijos[0].hijos[0])
 		if ((type(resultado) == bool and datos.tipo == 'bool') or # Estos tipos podrian mejorarse cambiando el parser.py y Tabla.py
@@ -328,6 +334,9 @@ def evaluar(arb): # Tabla es la tabla de simbolos global donde se sacaran valore
 		return evaluar(arb.hijos[0]) <= evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'MAYOR':
+		print(pointer.tabla['endl'].tabla.tabla['me'].valor)
+		print("VAR",arb.hijos[0].hijos[0])
+		print(arb.hijos[0].hijos[0],'>',arb.hijos[1].hijos[0])
 		return evaluar(arb.hijos[0]) > evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'MENOR_IGUAL':
@@ -370,7 +379,9 @@ def evaluar(arb): # Tabla es la tabla de simbolos global donde se sacaran valore
 			return False
 
 	elif arb.nombre == 'VAR':
+		print("ROBOT",bot,execute)
 		datos = pointer.fetch(arb.hijos[0],bot,execute)
+		print("char",str(datos.tabla.tabla['me'].valor))
 		if execute:
 			return datos.tabla.tabla['me'].valor  # tabla.tabla la primera tabla es una clase tabla, la segunda
 												  # es un atributo de la clase tabla (un diccionario)
