@@ -7,4 +7,4 @@
 * Cuando se hace drop sobre una posicion que ya tenia un valor, se borra el valor viejo?
 * En el drop, el tipo de la expresion que se evalua puede ser cualquiera, actualmente da error si no es del mismo tipo del robot. Arreglar
 * Que hace el recieve? (Parace q es un error de Monascal, puse que haga lo mismo que read, hacerle pruebas)
-* Cambiar en el read, que de error si el usuario mete algo de un tipo distinto al del robot o pedirle q lo vuelva a intentar
+* Cambiar en el read, que de error si el usuario mete algo de un tipo distinto al del robot o pedirle q lo vuelva a intentar* Correr el sort.bot y ver por q da error: Me sale que cuando compare se activa el compare en el while de la línea 97, compare trata de agarrar algo del piso en la línea 78, pero como se movió antes hacía arriba (en la línea 78) no hay nada que agarrar (supuestamene deberia correr).
