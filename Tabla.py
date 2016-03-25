@@ -67,8 +67,7 @@ class Tabla:
 		if execute:
 			return datos
 		else:
-			return datos.tabla[simbolo]
-		print("datos",simbolo)
+			return datos.tabla.tabla[simbolo] # Revisar si es datos.tabla.tabla o datos.tabla
 
 	#---------------------------------------------------------------------------
 	# esArbol()

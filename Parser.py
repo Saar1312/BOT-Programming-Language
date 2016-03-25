@@ -347,11 +347,6 @@ def p_inst_robot(p):
 			p[0] = instContr('DROP',[p[2]])
 		else:
 			p[0] = instContr('DROP',[p[2],p[4]])
-	elif p[1] == 'read':
-		if p[3] == None:
-			p[0] = instContr('READ',[p[1]])
-		else:
-			p[0] = instContr('READ',[p[1],p[3]])
 	elif p[1] == 'send':
 		if p[3] == None:
 			p[0] = instContr('SEND',[p[1]])
@@ -363,16 +358,22 @@ def p_inst_robot(p):
 		else:
 			p[0] = instContr('RECIEVE',[p[1],p[3]])
 	else: 
-		if p[2] == '.':
+		if p[1].nombre == 'READ_AS':
 			if p[3] == None:
-				p[0] = instContr('DIRECCION',[p[1]])
+				p[0] = instContr('READ',[p[1]])
 			else:
-				p[0] = instContr('DIRECCION',[p[1],p[3]])
+				p[0] = instContr('READ',[p[1],p[3]])
 		else:
-			if p[4] == None:
-				p[0] = instContr('DIRECCION',[p[1],p[2]])
+			if p[2] == '.':
+				if p[3] == None:
+					p[0] = instContr('DIRECCION',[p[1]])
+				else:
+					p[0] = instContr('DIRECCION',[p[1],p[3]])
 			else:
-				p[0] = instContr('DIRECCION',[p[1],p[2],p[4]])
+				if p[4] == None:
+					p[0] = instContr('DIRECCION',[p[1],p[2]])
+				else:
+					p[0] = instContr('DIRECCION',[p[1],p[2],p[4]])
 
 #-------------------------------------------------------------------------------
 # INST_ROBOT_A permite generar mas de una instruccion de robot seguida
@@ -392,7 +393,7 @@ def p_expresion(p):
 	'''EXPRESION : EXP
 				 | TkCaracter
 	'''
-	if type(p[1]) == chr:
+	if type(p[1]) == str:
 		p[0] = expresion('CARACTER',[p[1]],p.lineno(1),'char') # Nuevo
 	else:
 		p[0] = expresion('EXPRESION',[p[1]],p.lineno(1))
@@ -466,7 +467,6 @@ def p_inst_controlador(p):
 				p[0] = instRobot('ACTIVATE',[p[2],p[5]])
 		else:
 			if p[5] == None:
-				print("holaaaa")
 				p[0] = instRobot('ACTIVATE',[p[2],p[3]])
 			else:
 				p[0] = instRobot('ACTIVATE',[p[2],p[3],p[5]])
