@@ -346,6 +346,7 @@ class datos:
 		self.tipo = tipo
 		self.tabla = tabla
 		self.estado = None
+		self.posicion = '00' # Corrdenadas del robot inicialmente
 		self.tieneDefault = False 			   # Determina si un robot ya tiene un comportamiento default
 		self.comportamientos = comportamientos # Almacenara el nodo que tiene como hijos los comportmientos
 											   # del robot

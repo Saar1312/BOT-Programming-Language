@@ -8,7 +8,7 @@ bot = None # Variable "global" que guarda el robot actual al que se le esta apli
 				 # una activacion, desactivacion, etc.
 datos = None # Almacena los datos del robot actual
 execute = False # Permite saber si una expresion esta en una seccion de execute o en un create
-matriz = None 
+matriz = {} 
 def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportamiento que se quiere ejecutar
 	global pointer,p,bot,datos,execute
 	if arb.nombre in ['INICIO','INSTRUCCIONES_ROBOT']:
@@ -179,13 +179,38 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		print("POINTER_b",pointer.tabla['b'].tabla.tabla['me'].valor)
 
 	elif arb.nombre == 'COLLECT':
-		pass
-		#ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
+		objeto = None
+		if datos.posicion in matriz:
+			objeto = matriz[datos.posicion]
+		else:
+			print("Error: No existen elementos en la posicion [%s,%s] de la matriz."%(datos.posicion[0],datos.posicion[1]))
+		if not ((type(objeto) == bool and datos.tipo == 'bool') or 
+			(type(objeto) == int and datos.tipo == 'int') or
+			(type(objeto) == str and datos.tipo == 'char')):
+			print("Error: El tipo del elemento recolectado es distinto al tipo de %s."%(bot))
+		if len(arb.hijos) == 0:
+			datos.tabla.tabla['me'] = objeto
+		elif len(arb.hijos) == 1:
+			if arb.hijos[0].nombre == 'COLLECT_AS':
+				datos.tabla.tabla[arb.hijos[0].hijos[0].hijos[0]].valor = objeto
+			else:
+				datos.tabla.tabla['me'] = objeto
+				ejecutar(arb.hijos[0])
+		else:
+			datos.tabla.tabla[arb.hijos[0].hijos[0].hijos[0]].valor = objeto
+			ejecutar(arb.hijos[1])
+		print("ME",datos.tabla.tabla['me'].valor)
 	
 	elif arb.nombre == 'DROP':
-		pass
-		#ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
-	
+		if arb.hijos[0].nombre == 'CARACTER':
+			matriz[datos.posicion] = arb.hijos[0].hijos[0]
+		else:
+			resultado = evaluar(arb.hijos[0].hijos[0])
+			matriz[datos.posicion] = resultado
+		if len(arb.hijos) == 2:
+			ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
+		print("matriz",matriz)
+
 	elif arb.nombre == 'READ':
 		entrada = input("Introduzca un valor: ")
 		opcion = None
@@ -223,16 +248,72 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		print(pointer.tabla[bot].tabla.tabla['me'].valor)
 		if len(arb.hijos) == 2:
 			ejecutar(arb.hijos[1]) 
+
 	elif arb.nombre == 'SEND':
-		pass
-		#ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
+		print(bot)
+		if len(arb.hijos) == 2:
+			ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
 	
 	elif arb.nombre == 'RECIEVE':
 		pass
 		#ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
 	
 	elif arb.nombre == 'DIRECCION':
-		pass
+		x,y = datos.posicion
+		if len(arb.hijos) == 1:
+			if arb.hijos[0].nombre == 'UP':
+				datos.posicion = x+str(int(y)+1)
+			elif arb.hijos[0].nombre == 'DOWN':
+				datos.posicion = x+str(int(y)-1)
+			elif arb.hijos[0].nombre == 'RIGHT':
+				datos.posicion = str(int(x)+1)+y
+			elif arb.hijos[0].nombre == 'LEFT':
+				datos.posicion = str(int(x)-1)+y
+		elif len(arb.hijos) == 2:
+			if arb.hijos[1].nombre == 'INST_ROBOT':
+				if arb.hijos[0].nombre == 'UP':
+					datos.posicion = x+str(int(y)+1)
+				elif arb.hijos[0].nombre == 'DOWN':
+					datos.posicion = x+str(int(y)-1)
+				elif arb.hijos[0].nombre == 'RIGHT':
+					datos.posicion = str(int(x)+1)+y
+				elif arb.hijos[0].nombre == 'LEFT':
+					datos.posicion = str(int(x)-1)+y
+				ejecutar(arb.hijos[1])
+			else:
+				resultado = evaluar(arb.hijos[1])
+				if type(resultado) == int:
+					if resultado >= 0:
+						if arb.hijos[0].nombre == 'UP':
+							datos.posicion = x+str(int(y)+resultado)
+						elif arb.hijos[0].nombre == 'DOWN':
+							datos.posicion = x+str(int(y)-resultado)
+						elif arb.hijos[0].nombre == 'RIGHT':
+							datos.posicion = str(int(x)+resultado)+y
+						elif arb.hijos[0].nombre == 'LEFT':
+							datos.posicion = str(int(x)-resultado)+y
+					else:
+						print("Error: No se puede mover el robot %s un numero negativo de espacios."%(bot))
+				else:
+					print("Error: El numero de espacios debe ser un entero para mover a %s."%(bot))
+		else:
+			resultado = evaluar(arb.hijos[1])
+			if type(resultado) == int:
+				if resultado >= 0:
+					if arb.hijos[0].nombre == 'UP':
+						datos.posicion = x+str(int(y)+resultado)
+					elif arb.hijos[0].nombre == 'DOWN':
+						datos.posicion = x+str(int(y)-resultado)
+					elif arb.hijos[0].nombre == 'RIGHT':
+						datos.posicion = str(int(x)+resultado)+y
+					elif arb.hijos[0].nombre == 'LEFT':
+						datos.posicion = str(int(x)-resultado)+y
+				else:
+					print("Error: No se puede mover el robot %s un numero negativo de espacios."%(bot))
+			else:
+				print("Error: El numero de espacios debe ser un entero para mover a %s."%(bot)
+			ejecutar(arb.hijos[2])
+
 		#ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
 
 	elif arb.nombre == 'ON_EXPRESION':

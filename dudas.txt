@@ -1,0 +1,9 @@
+* Ninguno de los errores de esta entrega habla de la linea
+* Los tipos de los robots podrian cambiarse de ser los strings 'int', 'bool', 'char' a int,bool,chr y ser compatibles con los tipos de python
+* Las funciones en Tabla.py que estan afuera podrian pasarse a un archivo separado igual a ejecutar.py
+* En la instruccion read, como saber el tipo que el usuario desea que tenga el valor que se ingresa? (en el caso en que la inst es read as a, por ejemplo, el tipo de a podria ser otro distinto al del robot?)
+* El lenguaje acepta strings? o solo strings de largo 1 (caracteres)?
+* Cuando se hace collect hay que borrar lo que tiene la matriz en ese lugar?
+* Cuando se hace drop sobre una posicion que ya tenia un valor, se borra el valor viejo?
+* En el drop, el tipo de la expresion que se evalua puede ser cualquiera, actualmente da error si no es del mismo tipo del robot. Arreglar
+* Que hace el recieve?
