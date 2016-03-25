@@ -63,10 +63,10 @@ class Tabla:
 					return None
 	def fetch(self,simbolo,robot,execute): # Busca robots o variables y retorna su valor
 		# acomodar: cuando se busca un robot, no busca el robot bien?
-		datos = self.buscarEnTodos(robot,'getDatos')
-		if execute:
-			return datos
-		else:
+		if execute: # Si se esta en un execute, se busca el robot con nombre "simbolo"
+			return self.buscarEnTodos(simbolo,'getDatos')
+		else:		# Si se esta ejecutando una instruccion de create, se busca la variable "simbolo" en la tabla
+			datos = self.buscarEnTodos(robot,'getDatos') # del robot actual
 			return datos.tabla.tabla[simbolo] # Revisar si es datos.tabla.tabla o datos.tabla
 
 	#---------------------------------------------------------------------------

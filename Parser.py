@@ -388,7 +388,6 @@ def p_expresion(p):
 				 | TkCaracter
 	'''
 	if type(p[1]) == str:
-		print('caracter',p[1])
 		p[0] = expresion('CARACTER',[p[1]],p.lineno(1),'char') # Nuevo
 	else:
 		p[0] = expresion('EXPRESION',[p[1]],p.lineno(1))
