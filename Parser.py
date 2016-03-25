@@ -326,7 +326,6 @@ def p_inst_robot(p):
 				  | DIRECCION EXP TkPunto INST_ROBOT_A
 				  | READ TkPunto INST_ROBOT_A
 				  | TkSend TkPunto INST_ROBOT_A
-				  | TkRecieve TkPunto INST_ROBOT_A
 	'''
 	if p[1] == 'store':
 		if p[4] == None:
@@ -352,11 +351,6 @@ def p_inst_robot(p):
 			p[0] = instContr('SEND',[p[1]])
 		else:
 			p[0] = instContr('SEND',[p[1],p[3]])
-	elif p[1] == 'recieve':
-		if p[3] == None:
-			p[0] = instContr('RECIEVE',[p[1]])
-		else:
-			p[0] = instContr('RECIEVE',[p[1],p[3]])
 	else: 
 		if p[1].nombre == 'READ_AS':
 			if p[3] == None:
@@ -433,6 +427,7 @@ def p_collect(p):
 #-------------------------------------------------------------------------------
 def p_read(p):
 	'''READ : TkRead
+			| TkRecieve
 		    | TkRead TkAs IDENT
 	'''
 	if len(p)>2:

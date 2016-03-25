@@ -25,8 +25,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 	elif arb.nombre in ['ACTIVATE','DEACTIVATE','ADVANCE']:
 		robot = arb.hijos[0].hijos[0] # Actualiza la variable global bot con el robot que esta siendo activado
 		bot = robot
-		#print("NOMBRE",arb.nombre)
-		#print("ROBOT",bot)
 		datos = pointer.buscarEnTodos(robot,'getDatos') # desactivado o avanzado
 		ejecutar(datos.comportamientos,arb.nombre) # Pasa por parametro el tipo de comportamiento
 		if len(arb.hijos) >= 2:					# para saber cual ejecutar de la lista de comport.
@@ -34,7 +32,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 				seguir = True
 				robot = arb.hijos[1] # Recorre la lista de robots para ir activando cada uno
 				bot = robot.hijos[0].hijos[0]
-				#print("ROBOT",bot)
 				while seguir:
 					datos = pointer.buscarEnTodos(robot.hijos[0].hijos[0],'getDatos') # Busca el simbolo del ident de la lista
 					datos.estado = None
@@ -46,7 +43,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 					if len(robot.hijos) == 2:
 						robot = robot.hijos[1]
 						bot = robot.hijos[0].hijos[0]
-						#print("ROBOT",bot)
 					else:
 						seguir = False
 			else:
@@ -111,6 +107,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			elif datos.estado == 'inactivo': # PREGUNTAR: un robot puede volverse a activar luego de ser desactivado?
 				print("Error: El robot \"%s\" ya fue desactivado."%(bot))
 			datos.estado = 'activo'
+			print("HOLAAAAAX",pointer.tabla[bot] == datos)
 
 		elif comportamiento == 'DEACTIVATE':
 			if datos.estado == 'inactivo':
@@ -120,18 +117,15 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			datos.estado = 'inactivo'
 
 		elif comportamiento == 'ADVANCE':
+			print("EDO",bot,datos.estado)
 			if datos.estado == 'inactivo':
 				print("Error: el robot \"%s\" esta inactivo."%(bot))
 			elif datos.estado in [None,'activacion','desactivacion']:
 				print("Error: el robot \"%s\" no ha sido activado."%(bot))
 
 		comp = datos.comportamientos # datos.comportamientos es un nodo, no un string como 'ACTIVACION'
-		print(comportamiento)
 		encontrado = False # Es true si se consigue el comportamiento que se desea ejecutar en el execute
 		while not encontrado:   # del robot en la lista de comportamientos (busca el comportamiento q se quiere ej)
-			if (comp.hijos[0].nombre == 'ON_EXPRESION' and comportamiento == 'ADVANCE'):
-				print(evaluar(comp.hijos[0].hijos[0]))
-
 			if comp.hijos[0].nombre == 'ACTIVACION' and comportamiento == 'ACTIVATE': 
 				encontrado = True
 
@@ -174,9 +168,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			sys.exit()
 		if len(arb.hijos) == 2:
 			ejecutar(arb.hijos[1])
-		print("POINTER_a",pointer.tabla['a'].tabla.tabla['me'].valor)
-		print("POINTER_v",pointer.tabla['v'].tabla.tabla['me'].valor)
-		print("POINTER_b",pointer.tabla['b'].tabla.tabla['me'].valor)
 
 	elif arb.nombre == 'COLLECT':
 		objeto = None
@@ -199,7 +190,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		else:
 			datos.tabla.tabla[arb.hijos[0].hijos[0].hijos[0]].valor = objeto
 			ejecutar(arb.hijos[1])
-		print("ME",datos.tabla.tabla['me'].valor)
 	
 	elif arb.nombre == 'DROP':
 		if arb.hijos[0].nombre == 'CARACTER':
@@ -212,51 +202,41 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		print("matriz",matriz)
 
 	elif arb.nombre == 'READ':
-		entrada = input("Introduzca un valor: ")
-		opcion = None
 		while True:
-			print()
-			print("Por favor seleccione el tipo del valor que introdujo anteriormente:")
-			opcion = input("1: Entero \n2: Caracter \n3: Booleano\n--> ")
-			if opcion in ['1','2','3']:
-				break
-			else:
-				print("Error: Por favor introduzca una opcion correcta")
-		try:
-			if opcion == '1':
-				entrada = int(entrada)
-			elif opcion == '2':
-				pass # No se cambia el tipo, ya que por defecto es string
-			elif opcion == '3':
-				if entrada in ['True','TRUE','true']:
-					entrada = True
-				elif entrada in ['False','FALSE','false']:
-					entrada = False
-		except:
-			print("Error: El tipo ingresado no se corresponde con el del valor dado.")
-			sys.exit()
-		if not((type(entrada) == bool and datos.tipo == 'bool') or # Estos tipos podrian mejorarse cambiando el parser.py y Tabla.py
-			(type(entrada) == int and datos.tipo == 'int') or
-			(type(entrada) == str and datos.tipo == 'char')):
-			print("El valor introducido no coincide con el tipo del robot.")
-			sys.exit()
+			entrada = input("Introduzca un valor: ") # Esto se puede quitar, porque los lenguajes no ponen mensajes
+													 # por defecto en los inputs
+			try:
+				if datos.tipo == 'int':
+					entrada = int(entrada)
+				elif datos.tipo == 'char':
+					pass # No se cambia el tipo, ya que por defecto es string
+				elif datos.tipo == 'bool':
+					if entrada in ['True','TRUE','true']:
+						entrada = True
+					elif entrada in ['False','FALSE','false']:
+						entrada = False
+				if not((type(entrada) == bool and datos.tipo == 'bool') or # Estos tipos podrian mejorarse cambiando el parser.py y Tabla.py
+					(type(entrada) == int and datos.tipo == 'int') or
+					(type(entrada) == str and datos.tipo == 'char')):
+					print("Error: Conflicto entre el tipo del robot y el valor ingresado.")
+					print()
+				else:
+					break
+			except:
+				print("Error: Conflicto entre el tipo del robot y el valor ingresado.")
+				print()
 		if len(arb.hijos[0].hijos) == 1:
 			datos.tabla.tabla[arb.hijos[0].hijos[0].hijos[0]].valor = entrada
 		else:
 			datos.tabla.tabla['me'].valor = entrada
 		
-		print(pointer.tabla[bot].tabla.tabla['me'].valor)
 		if len(arb.hijos) == 2:
 			ejecutar(arb.hijos[1]) 
 
 	elif arb.nombre == 'SEND':
-		print(bot)
+		print(datos.tabla.tabla['me'].valor) # No borrar
 		if len(arb.hijos) == 2:
 			ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
-	
-	elif arb.nombre == 'RECIEVE':
-		pass
-		#ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
 	
 	elif arb.nombre == 'DIRECCION':
 		x,y = datos.posicion
@@ -311,7 +291,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 				else:
 					print("Error: No se puede mover el robot %s un numero negativo de espacios."%(bot))
 			else:
-				print("Error: El numero de espacios debe ser un entero para mover a %s."%(bot)
+				print("Error: El numero de espacios debe ser un entero para mover a %s."%(bot))
 			ejecutar(arb.hijos[2])
 
 		#ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
@@ -391,12 +371,9 @@ def evaluar(arb): # Tabla es la tabla de simbolos global donde se sacaran valore
 			return False
 
 	elif arb.nombre == 'VAR':
-		#print("POINTER",pointer.tabla)
-		#print("BOT",bot)
-		#print(pointer[bot])
 		datos = pointer.fetch(arb.hijos[0],bot,execute)
 		if execute:
-			return datos.tabla.tabla['me'].datos.valor  # tabla.tabla la primera tabla es una clase tabla, la segunda
-														# es un atributo de la clase tabla (un diccionario)
+			return datos.tabla.tabla['me'].valor  # tabla.tabla la primera tabla es una clase tabla, la segunda
+												  # es un atributo de la clase tabla (un diccionario)
 		else:
 			return datos.valor # Revisar
