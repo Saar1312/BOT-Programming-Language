@@ -10,6 +10,21 @@ bot = None # Variable "global" que guarda el robot actual al que se le esta apli
 datos = None # Almacena los datos del robot actual
 execute = False # Permite saber si una expresion esta en una seccion de execute o en un create
 matriz = {} 
+
+def mover_en_direccion(arb,datos):		
+	if arb.hijos[0].nombre == 'UP':
+		datos.posicion = x+str(int(y)+1)
+	
+	elif arb.hijos[0].nombre == 'DOWN':
+		datos.posicion = x+str(int(y)-1)
+	
+	elif arb.hijos[0].nombre == 'RIGHT':
+		datos.posicion = str(int(x)+1)+y
+	
+	elif arb.hijos[0].nombre == 'LEFT':
+		datos.posicion = str(int(x)-1)+y
+	return datos.posicion
+
 def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportamiento que se quiere ejecutar
 	global pointer,p,bot,datos,execute
 	if arb.nombre in ['INICIO','INSTRUCCIONES_ROBOT']:
@@ -56,13 +71,13 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		condicion = evaluar(arb.hijos[0])
 		execute = False
 		if type(condicion) == bool:
-			if condicion: # Si se cumple la condicion del if
+			if condicion: 										# Si se cumple la condicion del if
 				ejecutar(arb.hijos[1].hijos[0])
-			else: # Si no se cumple la condicion del if
-				if arb.hijos[1].nombre == 'ELSE': # Si hay un else (si no hay, no se hace nada)
+			else: 												# Si no se cumple la condicion del if
+				if arb.hijos[1].nombre == 'ELSE': 				# Si hay un else (si no hay, no se hace nada)
 					ejecutar(arb.hijos[1].hijos[1])
-			if len(arb.hijos) == 3: # Si hay mas instrucciones despues de terminar el if
-				ejecutar(arb.hijos[2]) # Continua la ejecucion de las instrucciones despues del if	
+			if len(arb.hijos) == 3: 							# Si hay mas instrucciones despues de terminar el if
+				ejecutar(arb.hijos[2]) 							# Continua la ejecucion de las instrucciones despues del if	
 		else:
 			error_ejecucion(1)
 
@@ -104,7 +119,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			pointer = p.popTope()
 
 	elif arb.nombre == 'CONDICION': # Este es el nodo de la instruccion "on activation/deactivation..."
-		print("BOT",bot,datos.estado,comportamiento)
+		# print("BOT",bot,datos.estado,comportamiento)
 		if comportamiento == 'ACTIVATE':
 			if datos.estado == 'activo': # PREGUNTAR: un robot puede activarse dos veces seguidas?
 				error_ejecucion(3,bot)
@@ -128,9 +143,9 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 				error_ejecucion(6,bot)
 
 			elif datos.estado in [None,'activacion','desactivacion']:
-				error_ejecucion(7,bot)
+				error_ejecucion(5,bot)
 
-		print("BOT",bot,datos.estado)
+		# print("BOT",bot,datos.estado)
 		comp = datos.comportamientos # datos.comportamientos es un nodo, no un string como 'ACTIVACION'
 		encontrado = False # Es true si se consigue el comportamiento que se desea ejecutar en el execute
 		while not encontrado:   # del robot en la lista de comportamientos (busca el comportamiento q se quiere ej)
@@ -212,7 +227,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			matriz[datos.posicion] = resultado
 		if len(arb.hijos) == 2:
 			ejecutar(arb.hijos[1]) 		# Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
-		print("matriz",matriz)
+		# print("matriz",matriz)
 
 	elif arb.nombre == 'READ':
 		while True:
@@ -248,67 +263,40 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			ejecutar(arb.hijos[1]) 
 
 	elif arb.nombre == 'SEND':
-		print(datos.tabla.tabla['me'].valor) # No borrar
+		print(datos.tabla.tabla['me'].valor,end ='') # No borrar
 		if len(arb.hijos) == 2:
 			ejecutar(arb.hijos[1]) 
 	
 	elif arb.nombre == 'DIRECCION':
 		x,y = datos.posicion
+		
 		if len(arb.hijos) == 1:
-			if arb.hijos[0].nombre == 'UP':
-				datos.posicion = x+str(int(y)+1)
-			elif arb.hijos[0].nombre == 'DOWN':
-				datos.posicion = x+str(int(y)-1)
-			elif arb.hijos[0].nombre == 'RIGHT':
-				datos.posicion = str(int(x)+1)+y
-			elif arb.hijos[0].nombre == 'LEFT':
-				datos.posicion = str(int(x)-1)+y
+			datos.posicion = mover_en_direccion(arb,datos)
+		
 		elif len(arb.hijos) == 2:
 			if arb.hijos[1].nombre == 'INST_ROBOT':
-				if arb.hijos[0].nombre == 'UP':
-					datos.posicion = x+str(int(y)+1)
-				elif arb.hijos[0].nombre == 'DOWN':
-					datos.posicion = x+str(int(y)-1)
-				elif arb.hijos[0].nombre == 'RIGHT':
-					datos.posicion = str(int(x)+1)+y
-				elif arb.hijos[0].nombre == 'LEFT':
-					datos.posicion = str(int(x)-1)+y
+				datos.posicion = mover_en_direccion(arb,datos)
 				ejecutar(arb.hijos[1])
 			else:
 				resultado = evaluar(arb.hijos[1])
 				if type(resultado) == int:
 					if resultado >= 0:
-						if arb.hijos[0].nombre == 'UP':
-							datos.posicion = x+str(int(y)+resultado)
-						elif arb.hijos[0].nombre == 'DOWN':
-							datos.posicion = x+str(int(y)-resultado)
-						elif arb.hijos[0].nombre == 'RIGHT':
-							datos.posicion = str(int(x)+resultado)+y
-						elif arb.hijos[0].nombre == 'LEFT':
-							datos.posicion = str(int(x)-resultado)+y
+						datos.posicion = mover_en_direccion(arb,datos)
 					else:
 						error_ejecucion(14,bot)
-
 				else:
-					error_ejecucion(15,bot)
+					error_ejecucion(7,bot)
 
 		else:
 			resultado = evaluar(arb.hijos[1])
 			if type(resultado) == int:
 				if resultado >= 0:
-					if arb.hijos[0].nombre == 'UP':
-						datos.posicion = x+str(int(y)+resultado)
-					elif arb.hijos[0].nombre == 'DOWN':
-						datos.posicion = x+str(int(y)-resultado)
-					elif arb.hijos[0].nombre == 'RIGHT':
-						datos.posicion = str(int(x)+resultado)+y
-					elif arb.hijos[0].nombre == 'LEFT':
-						datos.posicion = str(int(x)-resultado)+y
+					datos.posicion = mover_en_direccion(arb,datos)
 				else:
-					error_ejecucion(16,bot)
+					error_ejecucion(14,bot)
 
 			else:
-				error_ejecucion(16,bot)
+				error_ejecucion(14,bot)
 
 			ejecutar(arb.hijos[2])
 
@@ -320,8 +308,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			if condicion:
 				pass
 		else:
-			print("Error: La condicion del comportamiento debe ser de tipo booleano.")
-			sys.exit()
+			error_ejecucion(6)
 
 	elif arb.nombre == 'INST_ROBOT': # Para seguir ejecutando el arbol cuando hay varias instrucciones de robot seguidas
 		ejecutar(arb.hijos[0])
