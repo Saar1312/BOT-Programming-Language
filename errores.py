@@ -65,3 +65,57 @@ def error_otros(id, rama = None):
     elif id == 3:
         print("Error en la linea %d: La condicion del robot debe evaluar en un booleano.")
     sys.exit()
+
+def error_ejecucion(id,bot = None,datos = None):
+
+    print ('Error: ',end='')
+
+    if id in [3,4,5,6,7,8,9,10]:
+        print(' El robot \"%s\" '%(bot),end='')
+
+    if id in [8,9,10]:
+        print('no posee un comportamiento ',end='')
+
+    
+    if id == 1:
+        print("La condicion del \"if\" debe ser de tipo booleano.")
+    elif id == 2:
+        print("La guardia del ciclo debe ser de tipo booleano.")
+    
+    elif id == 3:
+        print("ya fue activado."%(bot))
+    elif id == 4:
+        print("ya ha sido desactivado."%(bot))
+    elif id == 5:
+        print("no ha sido activado."%(bot)) 
+    elif id == 6:
+        print("esta inactivo."%(bot))
+    # elif id == 7:
+    #     print("no ha sido activado."%(bot))
+    elif id == 8:
+        print("\"activation\" en su lista para poder ser activado."%(bot))
+    elif id == 9:
+        print("\"deactivation\" en su lista para poder ser desactivado."%(bot))
+    elif id == 10:
+        print("que permita avanzarlo."%(bot))
+    
+    elif id == 11:
+        print("El tipo de la expresion evaluada es distinto al tipo de \"%s\"."%(bot))
+    elif id == 12:
+        print("No existen elementos en la posicion [%s,%s] de la matriz."%(datos.posicion[0],datos.posicion[1]))
+    elif id == 13:
+        print("El tipo del elemento recolectado es distinto al tipo de \"%s\"."%(bot))
+    elif id == 14:
+        print("No se puede mover el robot %s un numero negativo de espacios."%(bot))
+    elif id == 15:
+        print("El numero de espacios debe ser un entero para mover a %s."%(bot))
+    elif id == 16:
+        print("No se puede mover el robot %s un numero negativo de espacios."%(bot))
+    elif id == 17:
+        print("La condicion del comportamiento debe ser de tipo booleano.")
+    sys.exit()
+
+def error_conflicto(id):
+    if id == 1:
+        print("Error: Conflicto entre el tipo del robot y el valor ingresado.")
+        print()
