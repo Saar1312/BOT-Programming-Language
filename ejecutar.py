@@ -1,6 +1,7 @@
 from Tabla import Tabla,tabla,datos
 from Arbol import *
 from Pila import *
+from errores import *
 import sys
 pointer = tabla
 p = pila()
@@ -63,8 +64,8 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			if len(arb.hijos) == 3: # Si hay mas instrucciones despues de terminar el if
 				ejecutar(arb.hijos[2]) # Continua la ejecucion de las instrucciones despues del if	
 		else:
-			print("Error: La condicion del \"if\" debe ser de tipo booleano.")
-			sys.exit()
+			error_ejecucion(1)
+
 
 	elif arb.nombre == 'INST_IF':
 		ejecutar(arb.hijos[0])
@@ -76,6 +77,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		execute = True
 		condicion = evaluar(arb.hijos[0])
 		execute = False
+		
 		if type(condicion) == bool:
 			while condicion:
 				ejecutar(arb.hijos[1])
@@ -83,8 +85,8 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 				condicion = evaluar(arb.hijos[0])
 				execute = False
 		else:
-			print("Error: La guardia del ciclo debe ser de tipo booleano.")
-			sys.exit()
+			error_ejecucion(2)
+
 		if len(arb.hijos) == 3:
 			ejecutar(arb.hijos[2])
 
@@ -105,8 +107,8 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		print("BOT",bot,datos.estado,comportamiento)
 		if comportamiento == 'ACTIVATE':
 			if datos.estado == 'activo': # PREGUNTAR: un robot puede activarse dos veces seguidas?
-				print("Error: El robot \"%s\" ya fue activado."%(bot))
-				sys.exit()
+				error_ejecucion(3,bot)
+
 			#elif datos.estado == 'inactivo': # PREGUNTAR: un robot puede volverse a activar luego de ser desactivado?
 			#	print("Error: El robot \"%s\" ya fue desactivado."%(bot))
 			#	sys.exit()
@@ -114,20 +116,20 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 
 		elif comportamiento == 'DEACTIVATE':
 			if datos.estado == 'inactivo':
-				print("Error: el robot \"%s\" ya ha sido desactivado."%(bot))
-				sys.exit()
-			elif datos.estado in [None,'activacion','desactivacion']: # Se esta reusando datos.estado (activacion y
-				print("Error: el robot \"%s\" no ha sido activado."%(bot)) # desactivacion son valores asignados en Tabla
-				sys.exit()
+				error_ejecucion(4,bot)
+
+			elif datos.estado in [None,'activacion','desactivacion']: 	# Se esta reusando datos.estado (activacion y
+				error_ejecucion(5,bot)									# desactivacion son valores asignados en Tabla
+
 			datos.estado = 'inactivo'
 
 		elif comportamiento == 'ADVANCE':
 			if datos.estado == 'inactivo':
-				print("Error: el robot \"%s\" esta inactivo."%(bot))
-				sys.exit()
+				error_ejecucion(6,bot)
+
 			elif datos.estado in [None,'activacion','desactivacion']:
-				print("Error: el robot \"%s\" no ha sido activado."%(bot))
-				sys.exit()
+				error_ejecucion(7,bot)
+
 		print("BOT",bot,datos.estado)
 		comp = datos.comportamientos # datos.comportamientos es un nodo, no un string como 'ACTIVACION'
 		encontrado = False # Es true si se consigue el comportamiento que se desea ejecutar en el execute
@@ -152,14 +154,14 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 					break
 		if not encontrado:
 			if comportamiento == 'ACTIVATE':
-				print("Error: el robot \"%s\" no posee un comportamiento \"activation\" en su lista para poder ser activado."%(bot))
-				sys.exit()
+				error_ejecucion(8,bot)
+
 			elif comportamiento == 'DEACTIVATE':
-				print("Error: el robot \"%s\" no posee el comportamiento \"deactivation\" en su lista para poder ser desactivado."%(bot))
-				sys.exit()
+				error_ejecucion(9,bot)
+
 			elif comportamiento == 'ADVANCE':
-				print("Error: el robot \"%s\" no posee un comportamiento que permita avanzarlo."%(bot))
-				sys.exit()
+				error_ejecucion(10,bot)
+
 		else: # Si lo encontro, lo ejecuta
 			ejecutar(comp.hijos[1])
 
@@ -173,8 +175,8 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			(type(resultado) == str and datos.tipo == 'char')):
 			datos.tabla.tabla['me'].valor = resultado
 		else:
-			print("Error: El tipo de la expresion evaluada es distinto al tipo de \"%s\"."%(robot))
-			sys.exit()
+			error_ejecucion(11,bot)
+
 		if len(arb.hijos) == 2:
 			ejecutar(arb.hijos[1])
 
@@ -183,13 +185,13 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		if datos.posicion in matriz:
 			objeto = matriz[datos.posicion]
 		else:
-			print("Error: No existen elementos en la posicion [%s,%s] de la matriz."%(datos.posicion[0],datos.posicion[1]))
-			sys.exit()
+			error_ejecucion(12,None,datos)
+
 		if not ((type(objeto) == bool and datos.tipo == 'bool') or 
 			(type(objeto) == int and datos.tipo == 'int') or
 			(type(objeto) == str and datos.tipo == 'char')):
-			print("Error: El tipo del elemento recolectado es distinto al tipo de \"%s\"."%(bot))
-			sys.exit()
+			error_ejecucion(13,bot)
+
 		if len(arb.hijos) == 0:
 			datos.tabla.tabla['me'].valor = objeto
 		elif len(arb.hijos) == 1:
@@ -209,33 +211,34 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			resultado = evaluar(arb.hijos[0].hijos[0])
 			matriz[datos.posicion] = resultado
 		if len(arb.hijos) == 2:
-			ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
+			ejecutar(arb.hijos[1]) 		# Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
 		print("matriz",matriz)
 
 	elif arb.nombre == 'READ':
 		while True:
-			entrada = input("Introduzca un valor: ") # Esto se puede quitar, porque los lenguajes no ponen mensajes
-													 # por defecto en los inputs
+			entrada = input() 			# Esto se puede quitar, porque los lenguajes no ponen mensajes
+										# por defecto en los inputs
 			try:
 				if datos.tipo == 'int':
 					entrada = int(entrada)
 				elif datos.tipo == 'char':
 					pass # No se cambia el tipo, ya que por defecto es string
+				
 				elif datos.tipo == 'bool':
 					if entrada in ['True','TRUE','true']:
 						entrada = True
 					elif entrada in ['False','FALSE','false']:
 						entrada = False
+				
 				if not((type(entrada) == bool and datos.tipo == 'bool') or # Estos tipos podrian mejorarse cambiando el parser.py y Tabla.py
 					(type(entrada) == int and datos.tipo == 'int') or
 					(type(entrada) == str and datos.tipo == 'char')):
-					print("Error: Conflicto entre el tipo del robot y el valor ingresado.")
-					print()
+					error_conflicto(1)
 				else:
 					break
 			except:
-				print("Error: Conflicto entre el tipo del robot y el valor ingresado.")
-				print()
+				error_conflicto(1)
+
 		if len(arb.hijos[0].hijos) == 1:
 			datos.tabla.tabla[arb.hijos[0].hijos[0].hijos[0]].valor = entrada
 		else:
@@ -284,11 +287,11 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 						elif arb.hijos[0].nombre == 'LEFT':
 							datos.posicion = str(int(x)-resultado)+y
 					else:
-						print("Error: No se puede mover el robot %s un numero negativo de espacios."%(bot))
-						sys.exit()
+						error_ejecucion(14,bot)
+
 				else:
-					print("Error: El numero de espacios debe ser un entero para mover a %s."%(bot))
-					sys.exit()
+					error_ejecucion(15,bot)
+
 		else:
 			resultado = evaluar(arb.hijos[1])
 			if type(resultado) == int:
@@ -302,11 +305,11 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 					elif arb.hijos[0].nombre == 'LEFT':
 						datos.posicion = str(int(x)-resultado)+y
 				else:
-					print("Error: No se puede mover el robot %s un numero negativo de espacios."%(bot))
-					sys.exit()
+					error_ejecucion(16,bot)
+
 			else:
-				print("Error: El numero de espacios debe ser un entero para mover a %s."%(bot))
-				sys.exit()
+				error_ejecucion(16,bot)
+
 			ejecutar(arb.hijos[2])
 
 		#ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
