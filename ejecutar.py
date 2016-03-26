@@ -3,15 +3,17 @@ from Arbol import *
 from Pila import *
 from errores import *
 import sys
+
 pointer = tabla
 p = pila()
-bot = None # Variable "global" que guarda el robot actual al que se le esta aplicando
-				 # una activacion, desactivacion, etc.
-datos = None # Almacena los datos del robot actual
-execute = False # Permite saber si una expresion esta en una seccion de execute o en un create
+bot = None 			# Variable "global" que guarda el robot actual al que se le esta aplicando
+					# una activacion, desactivacion, etc.
+datos = None 		# Almacena los datos del robot actual
+execute = False 	# Permite saber si una expresion esta en una seccion de execute o en un create
 matriz = {} 
 
 def mover_en_direccion(arb,datos):		
+	x,y = datos.posicion
 	if arb.hijos[0].nombre == 'UP':
 		datos.posicion = x+str(int(y)+1)
 	
@@ -25,11 +27,23 @@ def mover_en_direccion(arb,datos):
 		datos.posicion = str(int(x)-1)+y
 	return datos.posicion
 
-def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportamiento que se quiere ejecutar
+def send(dato):
+	if dato == '\\n':
+		print()
+	elif dato == '\\t':
+		print('\t',end='')
+	else:
+		print(dato,end ='') # No borrar
+
+def ejecutar(arb,comportamiento=None): 							# comportamiento es el tipo de comportamiento que se quiere ejecutar
 	global pointer,p,bot,datos,execute
+	
+	if arb == None:
+		error_ejecucion(0)
+
 	if arb.nombre in ['INICIO','INSTRUCCIONES_ROBOT']:
 		ejecutar(arb.hijos[0])
-	elif arb.nombre == 'DECLARACION_ROBOT': # Se va directo al execute (no le interesa la seccion declare)
+	elif arb.nombre == 'DECLARACION_ROBOT': 					# Se va directo al execute (no le interesa la seccion declare)
 		if len(arb.hijos) == 5:
 			ejecutar(arb.hijos[4])
 		elif len(arb.hijos) == 6:
@@ -39,14 +53,14 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		ejecutar(arb.hijos[0])
 	
 	elif arb.nombre in ['ACTIVATE','DEACTIVATE','ADVANCE']:
-		robot = arb.hijos[0].hijos[0] # Actualiza la variable global bot con el robot que esta siendo activado
+		robot = arb.hijos[0].hijos[0] 							# Actualiza la variable global bot con el robot que esta siendo activado
 		bot = robot
-		datos = pointer.buscarEnTodos(robot,'getDatos') # desactivado o avanzado
-		ejecutar(datos.comportamientos,arb.nombre) # Pasa por parametro el tipo de comportamiento
-		if len(arb.hijos) >= 2:					# para saber cual ejecutar de la lista de comport.
+		datos = pointer.buscarEnTodos(robot,'getDatos') 		# desactivado o avanzado
+		ejecutar(datos.comportamientos,arb.nombre) 				# Pasa por parametro el tipo de comportamiento
+		if len(arb.hijos) >= 2:									# para saber cual ejecutar de la lista de comport.
 			if arb.hijos[1].nombre == 'LISTA':
 				seguir = True
-				robot = arb.hijos[1] # Recorre la lista de robots para ir activando cada uno
+				robot = arb.hijos[1] 							# Recorre la lista de robots para ir activando cada uno
 				bot = robot.hijos[0].hijos[0]
 				while seguir:
 					datos = pointer.buscarEnTodos(robot.hijos[0].hijos[0],'getDatos') # Busca el simbolo del ident de la lista
@@ -231,7 +245,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 
 	elif arb.nombre == 'READ':
 		while True:
-			entrada = input() 			# Esto se puede quitar, porque los lenguajes no ponen mensajes
+			entrada = input('>') 			# Esto se puede quitar, porque los lenguajes no ponen mensajes
 										# por defecto en los inputs
 			try:
 				if datos.tipo == 'int':
@@ -263,13 +277,12 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			ejecutar(arb.hijos[1]) 
 
 	elif arb.nombre == 'SEND':
-		print(datos.tabla.tabla['me'].valor,end ='') # No borrar
+		send(datos.tabla.tabla['me'].valor)
+
 		if len(arb.hijos) == 2:
 			ejecutar(arb.hijos[1]) 
 	
 	elif arb.nombre == 'DIRECCION':
-		x,y = datos.posicion
-		
 		if len(arb.hijos) == 1:
 			datos.posicion = mover_en_direccion(arb,datos)
 		
@@ -381,4 +394,4 @@ def evaluar(arb): # Tabla es la tabla de simbolos global donde se sacaran valore
 			return datos.tabla.tabla['me'].valor  # tabla.tabla la primera tabla es una clase tabla, la segunda
 												  # es un atributo de la clase tabla (un diccionario)
 		else:
-			return datos.valor # Revisar
+			return datos.valor 						# Revisar
