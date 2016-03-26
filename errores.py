@@ -68,18 +68,20 @@ def error_otros(id, rama = None):
 
 def error_ejecucion(id,bot = None,datos = None):
 
-    print ('Error: ',end='')
+    if not (id in [8,9,10]):
+        print ('Error: ',end='')
 
-    if id in [3,4,6,8,9,10]:
+    if id in [3,4,6]:
         print(' El robot \"%s\" '%(bot),end='')
 
-    if id in [8,9,10]:
-        print('no posee un comportamiento ',end='')
+    # if id in [8,9,10]:
+    #     print('no posee un comportamiento ',end='')
 
     if id in [11,13]:
         print('El tipo de',end='')
         
-    
+    if id == 0:
+        print('Null')
 
     if id == 1:
         print("La condicion del \"if\" debe ser de tipo booleano.")
@@ -95,13 +97,15 @@ def error_ejecucion(id,bot = None,datos = None):
 
     elif id == 6:
         print("La condicion del comportamiento debe ser de tipo booleano.")
+    elif id == 7:
+        print("El numero de espacios debe ser un entero para mover a %s."%(bot))
 
-    elif id == 8:
-        print("\"activation\" en su lista para poder ser activado.")
-    elif id == 9:
-        print("\"deactivation\" en su lista para poder ser desactivado.")
-    elif id == 10:
-        print("que permita avanzarlo.")
+    # elif id == 8:
+    #     print("\"activation\" en su lista para poder ser activado.")
+    # elif id == 9:
+    #     print("\"deactivation\" en su lista para poder ser desactivado.")
+    # elif id == 10:
+    #     print("que permita avanzarlo.")
     
     elif id == 12:
         print("No existen elementos en la posicion [%s,%s] de la matriz."%(datos.posicion[0],datos.posicion[1]))
@@ -114,11 +118,10 @@ def error_ejecucion(id,bot = None,datos = None):
     elif id == 14:
         print("No se puede mover el robot %s un numero negativo de espacios."%(bot))
     
-    elif id == 15:
-        print("El numero de espacios debe ser un entero para mover a %s."%(bot))
     
+    if not (id in [8,9,10]):
+        sys.exit()
 
-    sys.exit()
 
 def error_conflicto(id):
     if id == 1:
