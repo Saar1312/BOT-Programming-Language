@@ -136,6 +136,7 @@ def crearTabla(arbol,almacenar):
 				bots = [simbolo]						# t no recibe ninguna tabla, por lo que tiene 3 argumentos
 				
 			elif arbol.nombre == 'LISTA':
+				
 				simbolo = arbol.hijos[0].hijos[0]
 				arbol.hijos[0].tipo = tipo # Agregando el tipo a la variable
 				t = Tabla(None)
@@ -147,9 +148,11 @@ def crearTabla(arbol,almacenar):
 			elif (arbol.nombre == 'COLLECT' and 
 				 arbol.hijos != []): 
 				if arbol.hijos[0].nombre == 'COLLECT_AS':
+					
 					pointer = cambiar_tope(p,pointer)
 					simbolo = arbol.hijos[0].hijos[0].hijos[0]
 					arbol.hijos[0].hijos[0].tipo = tipo
+					
 					for robot,datos in pointer.tabla.items():
 						datos.tabla.agregar(simbolo,None,tipo)
 					pointer = p.popTope()
@@ -159,6 +162,7 @@ def crearTabla(arbol,almacenar):
 				pointer = cambiar_tope(p,pointer)			
 				simbolo = arbol.hijos[0].hijos[0]
 				arbol.hijos[0].tipo = tipo
+				
 				for robot,datos in pointer.tabla.items():
 					datos.tabla.agregar(simbolo,None,tipo)
 				pointer = p.popTope()
@@ -224,12 +228,14 @@ def crearTabla(arbol,almacenar):
 				pointer = p.popTope()
 
 		for rama in arbol.hijos:
-			if rama in ['incAlcance','instRobot']: # incAlcance es un hijo de los arboles
-				pointer = p.popTope()# de inc de alcance que permite saber si termino la
-			else:					 # inc. de alcance para mover el apuntador de tablas
+			
+			if rama in ['incAlcance','instRobot']: 	# incAlcance es un hijo de los arboles
+				pointer = p.popTope()				# de inc de alcance que permite saber si termino la
+			else:					 				# inc. de alcance para mover el apuntador de tablas
 				if esArbol(rama):
 					crearTabla(rama,almacenar)
 					if type(rama) == expresion:
+						
 						if rama.nombre in ['CONJUNCION','DISYUNCION']:
 							if rama.hijos[0].tipo == rama.hijos[1].tipo:
 								if rama.hijos[0].tipo != 'bool':
@@ -247,57 +253,42 @@ def crearTabla(arbol,almacenar):
 								if rama.hijos[0].tipo != 'int':
 									error_tipo(1,rama)
 							else:
-								error_tipo(3,rama)
+								error_tipo(2,rama)
 
 						elif rama.nombre in ['SUMA','RESTA','MULTIPLICACION','DIVISION','MODULO']:
 							if rama.hijos[0].tipo == rama.hijos[1].tipo:
 								if rama.hijos[0].tipo != 'int':
-									print("Error de tipos en la linea %d:" % (rama.linea))
-									print("No es posible operar elementos del tipo \"%s\""%\
-															  (rama.hijos[0].tipo),end=" ")
-									print("con un operador aritmetico.")
-									sys.exit()
+									error_tipo(3,rama)
+
 							else:
-								print("Error de tipos en la linea %d:" % (rama.linea))
-								print("No es posible operar un elemento del tipo \"%s\""%\
-														  (rama.hijos[0].tipo),end=" ")
-								print("con otro de tipo \"%s\"."% (rama.hijos[1].tipo))
-								sys.exit()
+								error_tipo(2,rama)
 
 						elif rama.nombre == 'NEGACION':
 							if rama.hijos[0].tipo != 'bool':
-								print("Error de tipos en la linea %d:" % (rama.linea))
-								print("Se esperaba una expresion de tipo booleano,",end=' ')
-								print("pero fue dada una de tipo \"%s\"." % (rama.hijos[0].tipo))
-								sys.exit()
+								error_tipo(4,rama)
+
 
 						elif rama.nombre == 'NEGATIVO':
 							if rama.hijos[0].tipo != 'int':
-								print("Error de tipos en la linea %d:" % (rama.linea))
-								print("Se esperaba una expresion de tipo entero,",end=' ')
-								print("pero fue dada una de tipo \"%s\"." % (rama.hijos[0].tipo))
-								sys.exit()
+								error_tipo(4,rama)
 
 						elif rama.nombre == 'PARENTESIS':
 							rama.tipo = rama.hijos[0].tipo
 
 						elif rama.nombre == 'VAR':
 							if rama.hijos[0] == 'me' and almacenar == False:
-								print("Error en la linea %d: La variable \"me\" no puede ser . \
-															utilizada en la seccion de ejecucion")
-								sys.exit()
+								error_otros(1)
+
 							t = pointer.buscarEnTodos(rama.hijos[0],'getTipo')
 							if t: 				 # Busca el tipo en la tabla de simbolos apuntada 
 								rama.tipo = t	 # actualmente y en las superiores. Si lo encuentra,
 												 # retorna el tipo. Si no, retorna None y no entra
 							else: 				 # en el condicional y debe dar error
-								print("Error en la linea %d: La variable \"%s\" no ha sido declarada." \
-															% (rama.linea, rama.hijos[0]))
-								sys.exit()
+								error_otros(2,rama)
+
 						elif rama.nombre == 'ON_CONDICION':
 							if rama.hijos[0].tipo != 'bool':
-								print("Error en la linea %d: La condicion del robot debe evaluar en un booleano.")
-								sys.exit()
+								error_otros(3)
 
 
 #-------------------------------------------------------------------------------
