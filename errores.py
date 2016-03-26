@@ -70,49 +70,54 @@ def error_ejecucion(id,bot = None,datos = None):
 
     print ('Error: ',end='')
 
-    if id in [3,4,5,6,7,8,9,10]:
+    if id in [3,4,6,8,9,10]:
         print(' El robot \"%s\" '%(bot),end='')
 
     if id in [8,9,10]:
         print('no posee un comportamiento ',end='')
 
+    if id in [11,13]:
+        print('El tipo de',end='')
+        
     
+
     if id == 1:
         print("La condicion del \"if\" debe ser de tipo booleano.")
     elif id == 2:
         print("La guardia del ciclo debe ser de tipo booleano.")
     
     elif id == 3:
-        print("ya fue activado."%(bot))
+        print("ya fue activado.")
     elif id == 4:
-        print("ya ha sido desactivado."%(bot))
+        print("ya ha sido desactivado.")
     elif id == 5:
-        print("no ha sido activado."%(bot)) 
+        print("esta inactivo.")
+
     elif id == 6:
-        print("esta inactivo."%(bot))
-    # elif id == 7:
-    #     print("no ha sido activado."%(bot))
+        print("La condicion del comportamiento debe ser de tipo booleano.")
+
     elif id == 8:
-        print("\"activation\" en su lista para poder ser activado."%(bot))
+        print("\"activation\" en su lista para poder ser activado.")
     elif id == 9:
-        print("\"deactivation\" en su lista para poder ser desactivado."%(bot))
+        print("\"deactivation\" en su lista para poder ser desactivado.")
     elif id == 10:
-        print("que permita avanzarlo."%(bot))
+        print("que permita avanzarlo.")
     
-    elif id == 11:
-        print("El tipo de la expresion evaluada es distinto al tipo de \"%s\"."%(bot))
     elif id == 12:
         print("No existen elementos en la posicion [%s,%s] de la matriz."%(datos.posicion[0],datos.posicion[1]))
+
+    elif id == 11:
+        print(" la expresion evaluada es distinto al tipo de \"%s\"."%(bot))
     elif id == 13:
-        print("El tipo del elemento recolectado es distinto al tipo de \"%s\"."%(bot))
+        print("l elemento recolectado es distinto al tipo de \"%s\"."%(bot))
+
     elif id == 14:
         print("No se puede mover el robot %s un numero negativo de espacios."%(bot))
+    
     elif id == 15:
         print("El numero de espacios debe ser un entero para mover a %s."%(bot))
-    elif id == 16:
-        print("No se puede mover el robot %s un numero negativo de espacios."%(bot))
-    elif id == 17:
-        print("La condicion del comportamiento debe ser de tipo booleano.")
+    
+
     sys.exit()
 
 def error_conflicto(id):
