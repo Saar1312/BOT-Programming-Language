@@ -1,10 +1,20 @@
-* Ninguno de los errores de esta entrega habla de la linea
-* Los tipos de los robots podrian cambiarse de ser los strings 'int', 'bool', 'char' a int,bool,chr y ser compatibles con los tipos de python
+* Ninguno de los errores de esta entrega habla de la linea (hacer que se mencione la linea)
+* Los tipos de los robots podrian cambiarse de ser los strings 'int', 'bool', 'char' a int,bool,chr y ser compatibles con los tipos de python (habria que modificar en el Parser.py los arboles que tienen un argumento tipo 'char','int',etc. Si se hace, habria que cambiar la verificacion de ripos en Tabla.py tambien )
 * Las funciones en Tabla.py que estan afuera podrian pasarse a un archivo separado igual a ejecutar.py
-* En la instruccion read, como saber el tipo que el usuario desea que tenga el valor que se ingresa? (en el caso en que la inst es read as a, por ejemplo, el tipo de a podria ser otro distinto al del robot?)
+* En la instruccion read, como saber el tipo que el usuario desea que tenga el valor que se ingresa? (en el caso en que la inst es read as a, por ejemplo, el tipo de a podria ser otro distinto al del robot?). Hice que vuelva a pedir el valor si el usuario mete un valor de tipo incorrecto
 * El lenguaje acepta strings? o solo strings de largo 1 (caracteres)?
-* Cuando se hace collect hay que borrar lo que tiene la matriz en ese lugar?
-* Cuando se hace drop sobre una posicion que ya tenia un valor, se borra el valor viejo?
-* En el drop, el tipo de la expresion que se evalua puede ser cualquiera, actualmente da error si no es del mismo tipo del robot. Arreglar
-* Que hace el recieve? (Parace q es un error de Monascal, puse que haga lo mismo que read, hacerle pruebas)
-* Cambiar en el read, que de error si el usuario mete algo de un tipo distinto al del robot o pedirle q lo vuelva a intentar* Correr el sort.bot y ver por q da error: Me sale que cuando compare se activa el compare en el while de la línea 97, compare trata de agarrar algo del piso en la línea 78, pero como se movió antes hacía arriba (en la línea 78) no hay nada que agarrar (supuestamene deberia correr).
+* Cuando se hace collect hay que borrar lo que tiene la matriz en ese lugar?Hasta ahora no hice que borrara nada,quiza no afecte.
+* Cuando se hace drop sobre una posicion que ya tenia un valor, se borra el valor viejo?Supuse que si.
+* Que hace el recieve? (Parace q es un error de Monascal, puse que haga lo mismo que read)
+* Cambiar en el read, que de error si el usuario mete algo de un tipo distinto al del robot o pedirle q lo vuelva a intentar
+* Correr el sort.bot y ver por q da error: Me sale que cuando compare se activa el compare en el while de la línea 97, compare trata de agarrar algo del piso en la línea 78, pero como se movió antes hacía arriba (en la línea 78) no hay nada que agarrar (supuestamene deberia correr).
+* Hacer pruebas
+* En cada incorporacion de alcance hay que reiniciar las posiciones a 0 0 y los me a None?
+
+
+Nuevas
+* Probar activar/desactivar robot q no tenga comportmaientos de activacion/desactivacion (skip)
+* Resolver dudas de la aclaratoria 1 y 3.a (esta se conteadice con la linea 23 del sort.bot?)
+* Imprimir lineas
+* Hacer informe
+* Revisar lo q se agrego en el ejecutar.py linea 402 en adelante

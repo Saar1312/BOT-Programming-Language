@@ -69,12 +69,18 @@ class Tabla:
 			datos = self.buscarEnTodos(robot,'getDatos') # del robot actual
 			return datos.tabla.tabla[simbolo] # Revisar si es datos.tabla.tabla o datos.tabla
 
-	#---------------------------------------------------------------------------
-	# esArbol()
-	#
-	# Permite saber si un objeto es un arbol
-	#--------------------------------------------------------------------------	
+	def reiniciar(self):
+		for robot,datos in self.tabla.items():
+			datos.tabla.tabla['me'].valor = None
+			datos.posicion = (0,0)
+			datos.tieneDefault = False
+			datos.estado = None
 
+#---------------------------------------------------------------------------
+# esArbol()
+#
+# Permite saber si un objeto es un arbol
+#--------------------------------------------------------------------------	
 def esArbol(h):
 	if type(h) in [arbol,expresion,instContr,\
 				instRobot]:
@@ -89,12 +95,6 @@ p = pila()
 bots = [] # Almacena la ultima lista de robots declarados juntos (en una misma instruccion, ej: int bot a,b)
 		  # Sirve para cambiar el estado de los robots a los que pertenezca un comportamiento
 comp = None # Nodo raiz de los comportamientos de un robot
-	#---------------------------------------------------------------------------
-	# crearTabla()
-	#
-	# Crea la tabla de simbolos, realiza la verificacion de tipos e imprime 
-	# errores semanticos (hace toda vaina)
-	#--------------------------------------------------------------------------	
 
 def cambiar_tope(p,pointer):
 	tope = p.getTope()
@@ -102,6 +102,12 @@ def cambiar_tope(p,pointer):
 	pointer = tope
 	return pointer
 
+#---------------------------------------------------------------------------
+# crearTabla()
+#
+# Crea la tabla de simbolos, realiza la verificacion de tipos e imprime 
+# errores semanticos (hace toda vaina)
+#--------------------------------------------------------------------------	
 def crearTabla(arbol,almacenar):
 	global tipo,pointer,p,incAlcance,bots,comp
 	
@@ -300,7 +306,7 @@ class datos:
 		self.tipo = tipo
 		self.tabla = tabla
 		self.estado = None
-		self.posicion = '00' # Corrdenadas del robot inicialmente
+		self.posicion = (0,0) # Corrdenadas del robot inicialmente
 		self.tieneDefault = False 			   # Determina si un robot ya tiene un comportamiento default
 		self.comportamientos = comportamientos # Almacenara el nodo que tiene como hijos los comportmientos
 											   # del robot
