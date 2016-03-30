@@ -91,53 +91,36 @@ def error_otros(id, rama = None):
 #
 # Imprime errores que pueden surgir durante la ejecucion del programa
 #---------------------------------------------------------------------------
-def error_ejecucion(id,bot = None,datos = None):
+def error_ejecucion(id,bot = None,datos = None,linea = 0):
 
-    print ('Error: ',end='')
-
-    if id in [3,4,6,8,9,10]:
-        print(' El robot \"%s\" '%(bot),end='')
-
-
-    if id in [11,13]:
-        print('El tipo de',end='')
+    print ('Error en la linea %d: '%(linea),end='')
 
     if id == 1:
         print("La condicion del \"if\" debe ser de tipo booleano.")
     elif id == 2:
         print("La guardia del ciclo debe ser de tipo booleano.")
-    
     elif id == 3:
-        print("ya fue activado.")
+        print("El robot \"%s\" ya fue activado."%(bot))
     elif id == 4:
-        print("ya ha sido desactivado.")
+        print("El robot \"%s\" ya ha sido desactivado."%(bot))
     elif id == 5:
-        print("esta inactivo.")
-
+        print("El robot \"%s\" esta inactivo."%(bot))
     elif id == 6:
         print("La condicion del comportamiento debe ser de tipo booleano.")
     elif id == 7:
         print("El numero de espacios debe ser un entero para mover a %s."%(bot))
-    
     elif id == 8:
-        print(" no ha sido activado.")
-
+        print("El robot \"%s\" no ha sido activado."%(bot))
     elif id == 9:    
-        print(" no ha sido inicializado.")
-
-
+        print("El robot \"%s\" no ha sido inicializado."%(bot))
     elif id == 10:
-        print(" \"%s\" no posee un comportamiento que permita avanzarlo."%(bot))
-
-
+        print("El robot \"%s\" no posee un comportamiento que permita avanzarlo."%(bot))
     elif id == 11:
         print("No existen elementos en la posicion [%s,%s] de la matriz."%(datos.posicion[0],datos.posicion[1]))
-
     elif id == 12:
-        print(" la expresion evaluada es distinto al tipo de \"%s\"."%(bot))
+        print("El tipo de la expresion evaluada es distinto al tipo de \"%s\"."%(bot))
     elif id == 13:
-        print("l elemento recolectado es distinto al tipo de \"%s\"."%(bot))
-
+        print("El tipo del elemento recolectado es distinto al tipo de \"%s\"."%(bot))
     elif id == 14:
         print("No se puede mover el robot %s un numero negativo de espacios."%(bot))
     

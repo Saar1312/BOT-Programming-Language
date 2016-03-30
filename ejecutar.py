@@ -121,7 +121,7 @@ def ejecutar(arb,comportamiento=None): 							# comportamiento es el tipo de com
 			if len(arb.hijos) == 3: 							# Si hay mas instrucciones despues de terminar el if
 				ejecutar(arb.hijos[2]) 							# Continua la ejecucion de las instrucciones despues del if	
 		else:
-			error_ejecucion(1)
+			error_ejecucion(1,None,None,arb.hijos[0].linea)
 	#---------------------------------------------------------------------------
 	#  Comportamiento de la instruccion CICLO
 	#---------------------------------------------------------------------------
@@ -138,7 +138,7 @@ def ejecutar(arb,comportamiento=None): 							# comportamiento es el tipo de com
 				execute = False
 				ciclo = False
 		else:
-			error_ejecucion(2)
+			error_ejecucion(2,None,None,arb.hijos[0].linea)
 
 		if len(arb.hijos) == 3:
 			ejecutar(arb.hijos[2])
@@ -173,10 +173,10 @@ def ejecutar(arb,comportamiento=None): 							# comportamiento es el tipo de com
 		#---------------------------------------------------------------------------
 		elif comportamiento == 'DEACTIVATE':
 			if datos.estado == 'inactivo':
-				error_ejecucion(4,bot)
+				error_ejecucion(4,bot,None,arb.hijos[0].linea)
 
 			elif datos.estado in [None,'activacion','desactivacion']: 	# Se esta reusando datos.estado (activacion y
-				error_ejecucion(5,bot)									# desactivacion son valores asignados en Tabla)
+				error_ejecucion(5,bot,None,arb.hijos[0].linea)									# desactivacion son valores asignados en Tabla)
 
 			datos.estado = 'inactivo'
 		#---------------------------------------------------------------------------
@@ -184,10 +184,10 @@ def ejecutar(arb,comportamiento=None): 							# comportamiento es el tipo de com
 		#---------------------------------------------------------------------------
 		elif comportamiento == 'ADVANCE':
 			if datos.estado == 'inactivo':
-				error_ejecucion(5,bot)
+				error_ejecucion(5,bot,None,arb.hijos[0].linea)
 
 			elif datos.estado in [None,'activacion','desactivacion']:
-				error_ejecucion(8,bot)
+				error_ejecucion(8,bot,None,arb.hijos[0].linea)
 
 		comp = datos.comportamientos 	# datos.comportamientos es un nodo, no un string como 'ACTIVACION'
 		encontrado = False 				# Es true si se consigue el comportamiento que se desea ejecutar en el execute
@@ -216,7 +216,7 @@ def ejecutar(arb,comportamiento=None): 							# comportamiento es el tipo de com
 		
 		if not encontrado:
 			if comportamiento == 'ADVANCE':
-				error_ejecucion(10,bot)
+				error_ejecucion(10,bot,None,arb.hijos[0].linea)
 
 		else: 							# Si lo encontro, lo ejecuta
 			ejecutar(comp.hijos[1])
@@ -245,6 +245,7 @@ def ejecutar(arb,comportamiento=None): 							# comportamiento es el tipo de com
 		if datos.posicion in matriz:
 			objeto = matriz[datos.posicion]
 		else:
+			print('~',arb.hijos[0].linea,'~')
 			error_ejecucion(11,None,datos)
 
 		if not ((type(objeto) == bool and datos.tipo == 'bool') or 
@@ -396,6 +397,7 @@ def evaluar(arb):
 	elif arb.nombre == 'RESTA':
 		return evaluar(arb.hijos[0]) - evaluar(arb.hijos[1])
 	elif arb.nombre == 'MULTIPLICACION':
+		print('~',arb.hijos[0].linea,'~')
 		return evaluar(arb.hijos[0]) * evaluar(arb.hijos[1])
 	elif arb.nombre == 'DIVISION':
 		a = evaluar(arb.hijos[0])
