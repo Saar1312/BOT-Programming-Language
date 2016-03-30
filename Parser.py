@@ -45,19 +45,6 @@ import sys
 
 # Declarando tabla de simbolos globalmente
 
-# HACER QUE CUANDO SE CREE UN ARBOL PADRE, ASIGNARLE A LA TABLA PADRE EL HIJO QUE LA ESTA CREANDO
-# QUE PASA SI SE DECLARA me COMO UN ROBOT?
-# Hay que dar error cuando se use un robot sin que tenga un valor asociado? (dentro de las inst. 
-# de robot debe haner un store de primero para poder usar el robot)
-# Como saber de que robot es cada subtabla de simbolos de inst de robot?
-# Hay que modificar el arbol para que sirva en la ultima entrega?
-# Alfajores: 1 T harina trigo 2 Maizina 2 Huevos 1 Azucar 
-
-#---- Se tomo la decision de que algo como ('a') no forme parte del lenguaje
-#---- Igualdad de caracteres
-#---- Verificar tipos del me Ej, me - 1
-#---- Agregar token me 
-#---- Un solo activate/deactivate
 errorSint = True
 
 precedence = (
@@ -105,13 +92,20 @@ def p_inicio(p):
 #-------------------------------------------------------------------------------
 def p_create(p):
 	'CREATE : TkCreate TYPE TkBot IDENT LISTA_IDENT COMPORTAMIENTO TkEnd DECLARE EXECUTE'
-	if p[8] != None: # Si la produccion DECLARE se volvio lambda, deberia haber
+	if p[8] != None and p[6] != None: # Si la produccion DECLARE se volvio lambda, deberia haber
 					 # almacenado
 		p[0] = instContr('INSTRUCCIONES_ROBOT',\
 			   [instContr('DECLARACION_ROBOT',[p[2],p[4],p[5],p[6],p[8],p[9]])])
-	else:
+	elif p[8] == None and p[6] != None:
 		p[0] = instContr('INSTRUCCIONES_ROBOT',\
 			   [instContr('DECLARACION_ROBOT',[p[2],p[4],p[5],p[6],p[9]])])
+	elif p[8] != None and p[6] == None:
+		p[0] = instContr('INSTRUCCIONES_ROBOT',\
+			   [instContr('DECLARACION_ROBOT',[p[2],p[4],p[5],p[8],p[9]])])
+	elif p[8] == None and p[6] == None:
+		p[0] = instContr('INSTRUCCIONES_ROBOT',\
+			   [instContr('DECLARACION_ROBOT',[p[2],p[4],p[5],p[9]])])
+
 #-------------------------------------------------------------------------------
 # Define las instrucciones de declaracion de robots. Notese que podria ser lambda
 # ya que el simbolo no terminal DECLARE ha sido definido para general mas de
@@ -123,10 +117,14 @@ def p_declaracion(p):
 			   |
 	'''
 	if len(p) > 1:
-		if p[7] == None: # Si NO se fue otra vez a DECLARE
+		if p[7] == None and p[5] != None: # Si NO se fue otra vez a DECLARE
 			p[0] = instContr('DECLARACION_ROBOT',[p[1],p[3],p[4],p[5]])
-		else:			 # Si se fue otra vez a DECLARE
+		elif p[7] != None and p[5] != None: # Si se fue otra vez a DECLARE
 			p[0] = instContr('DECLARACION_ROBOT',[p[1],p[3],p[4],p[5],p[7]])
+		elif p[7] != None and p[5] == None:
+			p[0] = instContr('DECLARACION_ROBOT',[p[1],p[3],p[4],p[7]])
+		elif p[7] == None and p[5] == None:
+			p[0] = instContr('DECLARACION_ROBOT',[p[1],p[3],p[4]])
 
 #-------------------------------------------------------------------------------
 # Genera los posibles tipos de un robot en BOT.

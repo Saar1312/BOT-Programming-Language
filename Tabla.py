@@ -69,6 +69,13 @@ class Tabla:
 			datos = self.buscarEnTodos(robot,'getDatos') # del robot actual
 			return datos.tabla.tabla[simbolo] # Revisar si es datos.tabla.tabla o datos.tabla
 
+	def reiniciar(self):
+		for robot,datos in self.tabla.items():
+			datos.tabla.tabla['me'].valor = None
+			datos.posicion = (0,0)
+			datos.tieneDefault = False
+			datos.estado = None
+
 	#---------------------------------------------------------------------------
 	# esArbol()
 	#
@@ -346,7 +353,7 @@ class datos:
 		self.tipo = tipo
 		self.tabla = tabla
 		self.estado = None
-		self.posicion = '00' # Corrdenadas del robot inicialmente
+		self.posicion = (0,0) # Corrdenadas del robot inicialmente
 		self.tieneDefault = False 			   # Determina si un robot ya tiene un comportamiento default
 		self.comportamientos = comportamientos # Almacenara el nodo que tiene como hijos los comportmientos
 											   # del robot

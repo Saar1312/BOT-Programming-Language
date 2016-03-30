@@ -8,16 +8,20 @@ bot = None # Variable "global" que guarda el robot actual al que se le esta apli
 				 # una activacion, desactivacion, etc.
 datos = None # Almacena los datos del robot actual
 execute = False # Permite saber si una expresion esta en una seccion de execute o en un create
-matriz = {} 
+matriz = {}
+ciclo = False
 def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportamiento que se quiere ejecutar
-	global pointer,p,bot,datos,execute
+	global pointer,p,bot,datos,execute,ciclo
 	if arb.nombre in ['INICIO','INSTRUCCIONES_ROBOT']:
 		ejecutar(arb.hijos[0])
+
 	elif arb.nombre == 'DECLARACION_ROBOT': # Se va directo al execute (no le interesa la seccion declare)
 		if len(arb.hijos) == 5:
 			ejecutar(arb.hijos[4])
 		elif len(arb.hijos) == 6:
 			ejecutar(arb.hijos[5])
+		elif len(arb.hijos) == 4:
+			ejecutar(arb.hijos[3])
 	
 	elif arb.nombre == 'EXECUTE':
 		ejecutar(arb.hijos[0])
@@ -78,31 +82,37 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 		execute = False
 		if type(condicion) == bool:
 			while condicion:
+				ciclo = True
 				ejecutar(arb.hijos[1])
 				execute = True
 				condicion = evaluar(arb.hijos[0])
 				execute = False
+				ciclo = False
 		else:
 			print("Error: La guardia del ciclo debe ser de tipo booleano.")
 			sys.exit()
 		if len(arb.hijos) == 3:
 			ejecutar(arb.hijos[2])
 
+
 	elif arb.nombre == 'INST_CONT': # No borrar
 		ejecutar(arb.hijos[0])
 
 	elif arb.nombre == 'INC_ALCANCE':
+		#if ciclo:
+		#	pointer.reiniciar()
 		p.addTope(pointer)
 		pointer = arb.tabla
 		ejecutar(arb.hijos[0])
 		if len(arb.hijos) == 3:
+			pointer.reiniciar()
 			pointer = p.popTope()
 			ejecutar(arb.hijos[2])
 		else: # Quiza no hace falta porque si no hay mas instrucciones despues de una inc de alcance el programa termina
+			pointer.reiniciar()
 			pointer = p.popTope()
 
 	elif arb.nombre == 'CONDICION': # Este es el nodo de la instruccion "on activation/deactivation..."
-		print("BOT",bot,datos.estado,comportamiento)
 		if comportamiento == 'ACTIVATE':
 			if datos.estado == 'activo': # PREGUNTAR: un robot puede activarse dos veces seguidas?
 				print("Error: El robot \"%s\" ya fue activado."%(bot))
@@ -128,7 +138,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			elif datos.estado in [None,'activacion','desactivacion']:
 				print("Error: el robot \"%s\" no ha sido activado."%(bot))
 				sys.exit()
-		print("BOT",bot,datos.estado)
 		comp = datos.comportamientos # datos.comportamientos es un nodo, no un string como 'ACTIVACION'
 		encontrado = False # Es true si se consigue el comportamiento que se desea ejecutar en el execute
 		while not encontrado:   # del robot en la lista de comportamientos (busca el comportamiento q se quiere ej)
@@ -151,13 +160,13 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 					encontrado = False
 					break
 		if not encontrado:
-			if comportamiento == 'ACTIVATE':
-				print("Error: el robot \"%s\" no posee un comportamiento \"activation\" en su lista para poder ser activado."%(bot))
-				sys.exit()
-			elif comportamiento == 'DEACTIVATE':
-				print("Error: el robot \"%s\" no posee el comportamiento \"deactivation\" en su lista para poder ser desactivado."%(bot))
-				sys.exit()
-			elif comportamiento == 'ADVANCE':
+			#if comportamiento == 'ACTIVATE':
+			#	print("Error: el robot \"%s\" no posee un comportamiento \"activation\" en su lista para poder ser activado."%(bot))
+			#	sys.exit()
+			#elif comportamiento == 'DEACTIVATE':
+			#	print("Error: el robot \"%s\" no posee el comportamiento \"deactivation\" en su lista para poder ser desactivado."%(bot))
+			#	sys.exit()
+			if comportamiento == 'ADVANCE': # era un elif
 				print("Error: el robot \"%s\" no posee un comportamiento que permita avanzarlo."%(bot))
 				sys.exit()
 		else: # Si lo encontro, lo ejecuta
@@ -209,8 +218,7 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			resultado = evaluar(arb.hijos[0].hijos[0])
 			matriz[datos.posicion] = resultado
 		if len(arb.hijos) == 2:
-			ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
-		print("matriz",matriz)
+			ejecutar(arb.hijos[1])
 
 	elif arb.nombre == 'READ':
 		while True:
@@ -250,39 +258,39 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			ejecutar(arb.hijos[1]) 
 	
 	elif arb.nombre == 'DIRECCION':
-		x,y = datos.posicion
+		(x,y) = datos.posicion
 		if len(arb.hijos) == 1:
 			if arb.hijos[0].nombre == 'UP':
-				datos.posicion = x+str(int(y)+1)
+				datos.posicion = (x,y+1)
 			elif arb.hijos[0].nombre == 'DOWN':
-				datos.posicion = x+str(int(y)-1)
+				datos.posicion = (x,y-1)
 			elif arb.hijos[0].nombre == 'RIGHT':
-				datos.posicion = str(int(x)+1)+y
+				datos.posicion = (x+1,y)
 			elif arb.hijos[0].nombre == 'LEFT':
-				datos.posicion = str(int(x)-1)+y
+				datos.posicion = (x-1,y)
 		elif len(arb.hijos) == 2:
 			if arb.hijos[1].nombre == 'INST_ROBOT':
 				if arb.hijos[0].nombre == 'UP':
-					datos.posicion = x+str(int(y)+1)
+					datos.posicion = (x,y+1)
 				elif arb.hijos[0].nombre == 'DOWN':
-					datos.posicion = x+str(int(y)-1)
+					datos.posicion = (x,y-1)
 				elif arb.hijos[0].nombre == 'RIGHT':
-					datos.posicion = str(int(x)+1)+y
+					datos.posicion = (x+1,y)
 				elif arb.hijos[0].nombre == 'LEFT':
-					datos.posicion = str(int(x)-1)+y
+					datos.posicion = (x-1,y)
 				ejecutar(arb.hijos[1])
 			else:
 				resultado = evaluar(arb.hijos[1])
 				if type(resultado) == int:
 					if resultado >= 0:
 						if arb.hijos[0].nombre == 'UP':
-							datos.posicion = x+str(int(y)+resultado)
+							datos.posicion = (x,y+resultado)
 						elif arb.hijos[0].nombre == 'DOWN':
-							datos.posicion = x+str(int(y)-resultado)
+							datos.posicion = (x,y-resultado)
 						elif arb.hijos[0].nombre == 'RIGHT':
-							datos.posicion = str(int(x)+resultado)+y
+							datos.posicion = (x+resultado,y)
 						elif arb.hijos[0].nombre == 'LEFT':
-							datos.posicion = str(int(x)-resultado)+y
+							datos.posicion = (x-resultado,y)
 					else:
 						print("Error: No se puede mover el robot %s un numero negativo de espacios."%(bot))
 						sys.exit()
@@ -294,13 +302,13 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 			if type(resultado) == int:
 				if resultado >= 0:
 					if arb.hijos[0].nombre == 'UP':
-						datos.posicion = x+str(int(y)+resultado)
+						datos.posicion = (x,y+resultado)
 					elif arb.hijos[0].nombre == 'DOWN':
-						datos.posicion = x+str(int(y)-resultado)
+						datos.posicion = (x,y-resultado)
 					elif arb.hijos[0].nombre == 'RIGHT':
-						datos.posicion = str(int(x)+resultado)+y
+						datos.posicion = (x+resultado,y)
 					elif arb.hijos[0].nombre == 'LEFT':
-						datos.posicion = str(int(x)-resultado)+y
+						datos.posicion = (x-resultado,y)
 				else:
 					print("Error: No se puede mover el robot %s un numero negativo de espacios."%(bot))
 					sys.exit()
@@ -308,8 +316,6 @@ def ejecutar(arb,comportamiento=None): # comportamiento es el tipo de comportami
 				print("Error: El numero de espacios debe ser un entero para mover a %s."%(bot))
 				sys.exit()
 			ejecutar(arb.hijos[2])
-
-		#ejecutar(arb.hijos[1]) # Acordarse de poner esto para seguir ejecutanto las siguientes instrucciones del robot
 
 	elif arb.nombre == 'ON_EXPRESION':
 		condicion = evaluar(arb.hijos[0],robot) # Se le pasa el nombre del robot para que evalue el comportamiento 
@@ -359,11 +365,21 @@ def evaluar(arb): # Tabla es la tabla de simbolos global donde se sacaran valore
 		return evaluar(arb.hijos[0]) * evaluar(arb.hijos[1])
 	
 	elif arb.nombre == 'DIVISION':
-		return evaluar(arb.hijos[0]) / evaluar(arb.hijos[1])
-	
+		a = evaluar(arb.hijos[0])
+		b = evaluar(arb.hijos[1])
+		if b!=0:
+			return evaluar(arb.hijos[0]) / evaluar(arb.hijos[1])
+		else:
+			print("Error: No es posible dividir por cero.")
+
 	elif arb.nombre == 'MODULO':
-		return evaluar(arb.hijos[0]) % evaluar(arb.hijos[1])
-	
+		a = evaluar(arb.hijos[0])
+		b = evaluar(arb.hijos[1])
+		if b!=0:
+			return evaluar(arb.hijos[0]) % evaluar(arb.hijos[1])
+		else:
+			print("Error: No es posible obtener el modulo por cero.")
+			
 	elif arb.nombre == 'PARENTESIS':
 		return evaluar(arb.hijos[0])
 
@@ -388,7 +404,17 @@ def evaluar(arb): # Tabla es la tabla de simbolos global donde se sacaran valore
 	elif arb.nombre == 'VAR':
 		datos = pointer.fetch(arb.hijos[0],bot,execute)
 		if execute:
-			return datos.tabla.tabla['me'].valor  # tabla.tabla la primera tabla es una clase tabla, la segunda
-												  # es un atributo de la clase tabla (un diccionario)
+			val = datos.tabla.tabla['me'].valor
+			if val != None:
+				return val  # tabla.tabla la primera tabla es una clase tabla, la segunda
+							# es un atributo de la clase tabla (un diccionario)
+			else: # Si el robot no tenia un valor (no estaba inicializado) se da error
+				print("Error: El robot %s no ha sido inicializado."%(bot))
+				sys.exit()
 		else:
-			return datos.valor # Revisar
+			val = datos.valor
+			if val != None:
+				return val
+			else: # Si la variable no tenia un valor (no estaba inicializada) se da error
+				print("Error: La variable %s no ha sido inicializada."%(arb.hijos[0]))
+				sys.exit()
